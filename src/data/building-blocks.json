@@ -1,0 +1,278 @@
+[
+  {
+    "id": "power-line",
+    "images": "/assets/buildings/utilities/power-line.png",
+    "category": "utilities"
+  },
+  {
+    "id": "reinforced-power-line",
+    "images": "/assets/buildings/utilities/reinforced-power-line.png",
+    "category": "utilities"
+  },
+  {
+    "id": "pipe",
+    "images": "/assets/buildings/utilities/pipe.png",
+    "category": "utilities"
+  },
+  {
+    "id": "reinforced-pipe",
+    "images": "/assets/buildings/utilities/reinforced-pipe.png",
+    "category": "utilities"
+  },
+  {
+    "id": "tunnel",
+    "images": "/assets/buildings/utilities/tunnel.png",
+    "category": "utilities"
+  },
+  {
+    "id": "wind-turbine",
+    "images": "/assets/buildings/energy/wind-turbine.png",
+    "category": "energy",
+    "only": "ground"
+  },
+  {
+    "id": "solar-panel",
+    "images": "/assets/buildings/energy/solar-panel.png",
+    "category": "energy",
+    "only": "ground"
+  },
+  {
+    "id": "capacitor",
+    "images": "/assets/buildings/energy/capacitor.png",
+    "category": "energy"
+  },
+  {
+    "id": "geothermal-power-plant",
+    "images": "/assets/buildings/energy/geothermal-power-plant.png",
+    "category": "energy"
+  },
+  {
+    "id": "water-condenser",
+    "images": "/assets/buildings/water-agriculture/water-condenser.png",
+    "category": "water-agriculture",
+    "only": "ground"
+  },
+  {
+    "id": "water-pump",
+    "images": "/assets/buildings/water-agriculture/water-pump.png",
+    "category": "water-agriculture"
+  },
+  {
+    "id": "water-tank",
+    "images": "/assets/buildings/water-agriculture/water-tank.png",
+    "category": "water-agriculture"
+  },
+  {
+    "id": "greenhouse",
+    "images": "/assets/buildings/water-agriculture/greenhouse.png",
+    "category": "water-agriculture",
+    "only": "ground"
+  },
+  {
+    "id": "food-silo",
+    "images": "/assets/buildings/water-agriculture/food-silo.png",
+    "category": "water-agriculture"
+  },
+  {
+    "id": "spice-greenhouse",
+    "images": "/assets/buildings/water-agriculture/spice-greenhouse.png",
+    "category": "water-agriculture",
+    "only": "ground"
+  },
+  {
+    "id": "ground-hydrator",
+    "images": "/assets/buildings/water-agriculture/ground-hydrator.png",
+    "category": "water-agriculture",
+    "only": "ground"
+  },
+  {
+    "id": "water-dispenser",
+    "images": "/assets/buildings/water-agriculture/water-dispenser.png",
+    "category": "water-agriculture",
+    "only": "ground"
+  },
+  {
+    "id": "hydroponic-farm",
+    "images": "/assets/buildings/water-agriculture/hydroponic-farm.png",
+    "category": "water-agriculture",
+    "only": "underground"
+  },
+  {
+    "id": "hydro-fertilizer",
+    "images": "/assets/buildings/water-agriculture/hydro-fertilizer.png",
+    "category": "water-agriculture",
+    "only": "underground"
+  },
+  {
+    "id": "basic-house",
+    "images": "/assets/buildings/habitats/basic-house.png",
+    "category": "habitats",
+    "only": "ground"
+  },
+  {
+    "id": "house",
+    "images": "/assets/buildings/habitats/house.png",
+    "category": "habitats",
+    "only": "ground"
+  },
+  {
+    "id": "luxury-house",
+    "images": "/assets/buildings/habitats/luxury-house.png",
+    "category": "habitats",
+    "only": "ground"
+  },
+  {
+    "id": "underground-house",
+    "images": "/assets/buildings/habitats/underground-house.png",
+    "category": "habitats",
+    "only": "underground"
+  },
+  {
+    "id": "lantern",
+    "images": "/assets/buildings/habitats/lantern.png",
+    "category": "habitats",
+    "only": "underground"
+  },
+  {
+    "id": "community-center",
+    "images": "/assets/buildings/habitats/community-center.png",
+    "category": "habitats"
+  },
+  {
+    "id": "restaurant",
+    "images": "/assets/buildings/habitats/restaurant.png",
+    "category": "habitats"
+  },
+  {
+    "id": "park",
+    "images": "/assets/buildings/habitats/park.png",
+    "category": "habitats",
+    "only": "ground"
+  },
+  {
+    "id": "statue",
+    "images": "/assets/buildings/habitats/statue.png",
+    "category": "habitats",
+    "only": "ground"
+  },
+  {
+    "id": "swimming-pool",
+    "images": "/assets/buildings/habitats/swimming-pool.png",
+    "category": "habitats"
+  },
+  {
+    "id": "robotics-gallery",
+    "images": "/assets/buildings/habitats/robotics-gallery.png",
+    "category": "habitats",
+    "only": "underground"
+  },
+  {
+    "id": "factory",
+    "images": "/assets/buildings/production/factory.png",
+    "category": "production"
+  },
+  {
+    "id": "mineral-deposit",
+    "images": "/assets/buildings/production/mineral-deposit.png",
+    "category": "production"
+  },
+  {
+    "id": "glass-refinery",
+    "images": "/assets/buildings/production/scanner.png",
+    "category": "production"
+  },
+  {
+    "id": "glass-deposit",
+    "images": "/assets/buildings/production/glass-deposit.png",
+    "category": "production"
+  },
+  {
+    "id": "electronics-fabricator",
+    "images": "/assets/buildings/production/electronics-fabricator.png",
+    "category": "production"
+  },
+  {
+    "id": "landing-platform",
+    "images": "/assets/buildings/expansion/landing-platform.png",
+    "category": "expansion",
+    "only": "ground"
+  },
+  {
+    "id": "scanner",
+    "images": "/assets/buildings/expansion/scanner.png",
+    "category": "expansion"
+  },
+  {
+    "id": "anomaly-research-camp",
+    "images": "/assets/buildings/expansion/anomaly-research-camp.png",
+    "category": "expansion"
+  },
+  {
+    "id": "spaceport",
+    "images": "/assets/buildings/expansion/spaceport.png",
+    "category": "expansion",
+    "only": "ground"
+  },
+  {
+    "id": "elevator",
+    "images": "/assets/buildings/expansion/elevator.png",
+    "category": "expansion"
+  },
+  {
+    "id": "ground-stabilizer",
+    "images": "/assets/buildings/terraformation/ground-stabilizer.png",
+    "category": "terraformation",
+    "only": "ground"
+  },
+  {
+    "id": "ice-drill",
+    "images": "/assets/buildings/terraformation/ice-drill.png",
+    "category": "terraformation"
+  },
+  {
+    "id": "explosives",
+    "images": "/assets/buildings/terraformation/explosives.png",
+    "category": "terraformation"
+  },
+  {
+    "id": "drill",
+    "images": "/assets/buildings/terraformation/drill.png",
+    "category": "terraformation",
+    "only": "underground"
+  },
+  {
+    "id": "bio-storehouse",
+    "images": "/assets/buildings/biomatter/bio-storehouse.png",
+    "category": "biomatter"
+  },
+  {
+    "id": "bacteria",
+    "images": "/assets/buildings/biomatter/bacteria.png",
+    "category": "biomatter",
+    "only": "ground"
+  },
+  {
+    "id": "moss",
+    "images": "/assets/buildings/biomatter/moss.png",
+    "category": "biomatter",
+    "only": "ground"
+  },
+  {
+    "id": "grass",
+    "images": "/assets/buildings/biomatter/grass.png",
+    "category": "biomatter",
+    "only": "ground"
+  },
+  {
+    "id": "aquatic-ecosystem",
+    "images": "/assets/buildings/biomatter/aquatic-ecosystem.png",
+    "category": "biomatter",
+    "only": "ground"
+  },
+  {
+    "id": "fungi",
+    "images": "/assets/buildings/biomatter/fungi.png",
+    "category": "biomatter",
+    "only": "underground"
+  }
+]

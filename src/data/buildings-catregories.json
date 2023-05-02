@@ -1,0 +1,34 @@
+[
+  {
+    "id": "utilities",
+    "title": "Utilities"
+  },
+  {
+    "id": "energy",
+    "title": "Energy"
+  },
+  {
+    "id": "water-agriculture",
+    "title": "Water and agriculture"
+  },
+  {
+    "id": "habitats",
+    "title": "Habitats"
+  },
+  {
+    "id": "production",
+    "title": "Production"
+  },
+  {
+    "id": "expansion",
+    "title": "Expansion"
+  },
+  {
+    "id": "terraforming",
+    "title": "Terraforming"
+  },
+  {
+    "id": "biomatter",
+    "title": "Biomatter"
+  }
+]
