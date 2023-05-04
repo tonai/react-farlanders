@@ -1,4 +1,9 @@
-import { PointerEvent as ReactPointerEvent, useEffect, useRef } from "react";
+import {
+  PointerEvent as ReactPointerEvent,
+  TouchEvent,
+  useEffect,
+  useRef,
+} from "react";
 
 import Board, { IBoardProps } from "../Board/Board";
 
@@ -14,8 +19,6 @@ const minZoom = 0;
 const maxZoom = zooms.length - 1;
 const defaultZoom = zooms.indexOf(1);
 
-// export interface IBoardControlsProps extends IBoardProps {}
-
 function CameraControls(props: IBoardProps) {
   const rootEl = useRef<HTMLDivElement>(null);
   const boardEl = useRef<HTMLDivElement>(null);
@@ -23,30 +26,37 @@ function CameraControls(props: IBoardProps) {
   const zoom = useRef(defaultZoom);
 
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
-    if (boardEl.current) {
+    if (boardEl.current && event.button === 0 && !dragPoint.current) {
       dragPoint.current = {
         x: event.clientX,
         y: event.clientY,
       };
-      boardEl.current.addEventListener("pointermove", handlePointerMove);
+      boardEl.current.addEventListener("mousemove", handleMove);
     }
   }
 
-  function handlePointerMove(event: PointerEvent) {
+  function handleMove(event: MouseEvent | TouchEvent) {
     if (rootEl.current && dragPoint.current) {
-      rootEl.current.scrollLeft += dragPoint.current.x - event.clientX;
-      rootEl.current.scrollTop += dragPoint.current.y - event.clientY;
-      dragPoint.current = {
-        x: event.clientX,
-        y: event.clientY,
-      };
+      const point =
+        event instanceof MouseEvent
+          ? {
+              x: event.clientX,
+              y: event.clientY,
+            }
+          : {
+              x: event.changedTouches[0].clientX,
+              y: event.changedTouches[0].clientY,
+            };
+      rootEl.current.scrollLeft += dragPoint.current.x - point.x;
+      rootEl.current.scrollTop += dragPoint.current.y - point.y;
+      dragPoint.current = point;
     }
   }
 
   function handlePointerUp() {
     if (boardEl.current) {
       dragPoint.current = undefined;
-      boardEl.current.removeEventListener("pointermove", handlePointerMove);
+      boardEl.current.removeEventListener("mousemove", handleMove);
     }
   }
 
@@ -64,11 +74,13 @@ function CameraControls(props: IBoardProps) {
       }
       const nextZoom = zooms[zoom.current];
       if (prevZoom !== nextZoom) {
-        const { scrollLeft, scrollTop } = rootEl.current
+        const { scrollLeft, scrollTop } = rootEl.current;
         boardEl.current.style.transform = `scale(${nextZoom})`;
         const factor = nextZoom / prevZoom;
-        rootEl.current.scrollLeft = (event.clientX + scrollLeft) * factor - event.clientX;
-        rootEl.current.scrollTop = (event.clientY + scrollTop) * factor - event.clientY;
+        rootEl.current.scrollLeft =
+          (event.clientX + scrollLeft) * factor - event.clientX;
+        rootEl.current.scrollTop =
+          (event.clientY + scrollTop) * factor - event.clientY;
       }
     }
   }
@@ -92,6 +104,7 @@ function CameraControls(props: IBoardProps) {
         className="CameraControls__area"
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
+        onTouchMove={handleMove}
         ref={boardEl}
       >
         <Board {...props} />
