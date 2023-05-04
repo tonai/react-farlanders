@@ -6,12 +6,14 @@ import { IBlock, IBlocks } from "../../types/block";
 import { IImage } from "../../types/image";
 import { IMap } from "../../types/map";
 
-interface IProps {
+import './Board.css';
+
+export interface IBoardProps {
   imageMap: Map<IBlock, IImage>;
-  level: number;
+  level?: number;
 }
 
-function Board(props: IProps) {
+function Board(props: IBoardProps) {
   const { imageMap, level } = props;
   const mapLevel = (map as IMap)[level];
   const height = mapLevel.land.length;
@@ -30,7 +32,7 @@ function Board(props: IProps) {
     background,
   };
 
-  return <div style={style}></div>;
+  return <div className="Board" style={style}></div>;
 }
 
 Board.defaultProps = {

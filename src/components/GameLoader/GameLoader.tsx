@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import landBlocks from "../../data/land-blocks.json";
 
-import Game from "../Game/Game";
 import { loadImage } from "../../constants/image";
+import landBlocks from "../../data/land-blocks.json";
 import { IImage } from "../../types/image";
 import { IBlock } from "../../types/block";
+
+import Game from "../Game/Game";
 
 function GameLoader() {
   const [loaded, setLoaded] = useState(false);
