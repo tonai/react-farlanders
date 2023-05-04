@@ -8,6 +8,7 @@ import {
 import Board, { IBoardProps } from "../Board/Board";
 
 import "./CameraControls.css";
+import { SCROLL_SPEED } from "../../constants/camera";
 
 export interface IPoint {
   x: number;
@@ -20,6 +21,7 @@ const maxZoom = zooms.length - 1;
 const defaultZoom = zooms.indexOf(1);
 
 function CameraControls(props: IBoardProps) {
+  const isMoving = useRef(false);
   const rootEl = useRef<HTMLDivElement>(null);
   const boardEl = useRef<HTMLDivElement>(null);
   const dragPoint = useRef<IPoint>();
@@ -85,6 +87,25 @@ function CameraControls(props: IBoardProps) {
     }
   }
 
+  function handleEnter(axis: "x" | "y", dir: 1 | -1) {
+    isMoving.current = true;
+    function move() {
+      if (isMoving.current && rootEl.current) {
+        if (axis === "x") {
+          rootEl.current.scrollLeft += SCROLL_SPEED * dir;
+        } else if (axis === "y") {
+          rootEl.current.scrollTop += SCROLL_SPEED * dir;
+        }
+        requestAnimationFrame(move);
+      }
+    }
+    requestAnimationFrame(move);
+  }
+
+  function handleLeave() {
+    isMoving.current = false;
+  }
+
   useEffect(() => {
     if (rootEl.current) {
       const { height, width } = rootEl.current.getBoundingClientRect();
@@ -99,16 +120,38 @@ function CameraControls(props: IBoardProps) {
   }, []);
 
   return (
-    <div className="CameraControls" ref={rootEl}>
-      <div
-        className="CameraControls__area"
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onTouchMove={handleMove}
-        ref={boardEl}
-      >
-        <Board {...props} />
+    <div className="CameraControls">
+      <div className="CameraControls__scroll" ref={rootEl}>
+        <div
+          className="CameraControls__area"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onTouchMove={handleMove}
+          ref={boardEl}
+        >
+          <Board {...props} />
+        </div>
       </div>
+      <div
+        className="CameraControls__top"
+        onMouseEnter={() => handleEnter("y", -1)}
+        onMouseLeave={handleLeave}
+      ></div>
+      <div
+        className="CameraControls__bottom"
+        onMouseEnter={() => handleEnter("y", 1)}
+        onMouseLeave={handleLeave}
+      ></div>
+      <div
+        className="CameraControls__left"
+        onMouseEnter={() => handleEnter("x", -1)}
+        onMouseLeave={handleLeave}
+      ></div>
+      <div
+        className="CameraControls__right"
+        onMouseEnter={() => handleEnter("x", 1)}
+        onMouseLeave={handleLeave}
+      ></div>
     </div>
   );
 }
