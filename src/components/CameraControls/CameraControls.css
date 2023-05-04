@@ -1,10 +1,12 @@
-.CameraControls,
-.CameraControls__scroll {
+.CameraControls {
   position: absolute;
   inset: 0;
+  --camera-controls-edge-size: 20px;
 }
 
 .CameraControls__scroll {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
 }
 
@@ -23,31 +25,63 @@
 .CameraControls__top {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 20px;
+  left: var(--camera-controls-edge-size);
+  right: var(--camera-controls-edge-size);
+  height: var(--camera-controls-edge-size);
 }
 
 .CameraControls__bottom {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 20px;
+  left: var(--camera-controls-edge-size);
+  right: var(--camera-controls-edge-size);
+  height: var(--camera-controls-edge-size);
 }
 
 .CameraControls__left {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: var(--camera-controls-edge-size);
+  bottom: var(--camera-controls-edge-size);
   left: 0;
-  width: 20px;
+  width: var(--camera-controls-edge-size);
 }
 
 .CameraControls__right {
   position: absolute;
+  top: var(--camera-controls-edge-size);
+  bottom: var(--camera-controls-edge-size);
+  right: 0;
+  width: var(--camera-controls-edge-size);
+}
+
+.CameraControls__topLeft {
+  position: absolute;
   top: 0;
+  left: 0;
+  height: var(--camera-controls-edge-size);
+  width: var(--camera-controls-edge-size);
+}
+
+.CameraControls__topRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: var(--camera-controls-edge-size);
+  width: var(--camera-controls-edge-size);
+}
+
+.CameraControls__bottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: var(--camera-controls-edge-size);
+  width: var(--camera-controls-edge-size);
+}
+
+.CameraControls__bottomRight {
+  position: absolute;
   bottom: 0;
   right: 0;
-  width: 20px;
+  height: var(--camera-controls-edge-size);
+  width: var(--camera-controls-edge-size);
 }
