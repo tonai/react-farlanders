@@ -1,17 +1,29 @@
-import { PointerEvent, RefObject, TouchEvent, useRef } from "react";
+import { MouseEvent as ReactMouseEvent, PointerEvent, RefObject, TouchEvent, useRef } from "react";
 
 import { IPoint } from "../CameraControls/CameraControls";
 
-export function useCameraDrag(rootEl: RefObject<HTMLDivElement>, boardEl: RefObject<HTMLDivElement>) {
+export function useCameraDrag(
+  rootEl: RefObject<HTMLDivElement>,
+  boardEl: RefObject<HTMLDivElement>
+) {
   const dragPoint = useRef<IPoint>();
 
-  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+  function handleMouseDown(event: ReactMouseEvent<HTMLDivElement>) {
     if (boardEl.current && event.button === 0 && !dragPoint.current) {
       dragPoint.current = {
         x: event.clientX,
         y: event.clientY,
       };
       boardEl.current.addEventListener("mousemove", handleMove);
+    }
+  }
+
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    if (boardEl.current && !dragPoint.current) {
+      dragPoint.current = {
+        x: event.changedTouches[0].clientX,
+        y: event.changedTouches[0].clientY,
+      };
     }
   }
 
@@ -33,16 +45,20 @@ export function useCameraDrag(rootEl: RefObject<HTMLDivElement>, boardEl: RefObj
     }
   }
 
-  function handlePointerUp() {
+  function handleDragEnd(event: PointerEvent<HTMLDivElement>) {
     if (boardEl.current) {
       dragPoint.current = undefined;
-      boardEl.current.removeEventListener("mousemove", handleMove);
+      if (event.pointerType !== "touch") {
+        boardEl.current.removeEventListener("mousemove", handleMove);
+      }
     }
   }
 
   return {
-    onPointerDown: handlePointerDown,
-    onPointerUp: handlePointerUp,
+    onMouseDown: handleMouseDown,
+    onMouseUp: handleDragEnd,
+    onTouchStart: handleTouchStart,
     onTouchMove: handleMove,
-  }
+    onTouchEnd: handleDragEnd,
+  };
 }
