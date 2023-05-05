@@ -1,25 +1,22 @@
 import { useEffect, useRef } from "react";
 
+import { useCameraDrag } from "../../hooks/useCameraDrag";
+import { useCameraMove } from "../../hooks/useCameraMove";
+import { useCameraWheel } from "../../hooks/useCameraWheel";
+import { DEFAULT_ZOOM } from "../../constants/camera";
 import { Axis } from "../../types/camera";
 
 import Board, { IBoardProps } from "../Board/Board";
-import { useCameraDrag } from "../hooks/useCameraDrag";
-import { useCameraWheel } from "../hooks/useCameraWheel";
 
 import "./CameraControls.css";
-import { useCameraMove } from "../hooks/useCameraMove";
-
-export interface IPoint {
-  x: number;
-  y: number;
-}
 
 function CameraControls(props: IBoardProps) {
   const rootEl = useRef<HTMLDivElement>(null);
   const boardEl = useRef<HTMLDivElement>(null);
+  const zoom = useRef(DEFAULT_ZOOM);
 
-  useCameraWheel(rootEl, boardEl);
-  const boardCameraProps = useCameraDrag(rootEl, boardEl);
+  useCameraWheel(rootEl, boardEl, zoom);
+  const boardCameraProps = useCameraDrag(rootEl, boardEl, zoom);
   const { handleMouseEnter, handleMouseLeave } = useCameraMove(rootEl);
 
   // Center camera

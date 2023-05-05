@@ -6,8 +6,8 @@ import {
   KEY_RIGHT,
   KEY_UP,
   SCROLL_SPEED,
-} from "../../constants/camera";
-import { Axis, ICameraMoves } from "../../types/camera";
+} from "../constants/camera";
+import { Axis, ICameraMoves } from "../types/camera";
 
 export function useCameraMove(rootEl: RefObject<HTMLDivElement>) {
   const animating = useRef(false);
