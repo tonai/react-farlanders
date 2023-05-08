@@ -1,4 +1,4 @@
-import { BLOCK_SIZE } from "../constants/blocks";
+import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
 import { IBlock, IBlockMap } from "../types/block";
 import { IImage } from "../types/image";
 
@@ -21,7 +21,7 @@ function getBackground(
   if (!image) {
     return null;
   }
-  return `${x * BLOCK_SIZE}px ${(y + 2) * BLOCK_SIZE - 6 - image.height}px no-repeat url(${
+  return `${x * BLOCK_SIZE}px ${(y + 2) * BLOCK_SIZE - BLOCK_OFFSET - image.height}px no-repeat url(${
     block.images
   })`;
 }

@@ -22,9 +22,11 @@ export function useCameraDrag(
 ) {
   const dragPoint = useRef<IPoint>();
   const touchPoints = useRef<Map<number, IPoint>>(new Map());
+  const cancelClick = useRef(false);
 
   function handleMouseDown(event: ReactMouseEvent<HTMLDivElement>) {
     if (boardEl.current && event.button === 0 && !dragPoint.current) {
+      cancelClick.current = false;
       dragPoint.current = {
         x: event.clientX,
         y: event.clientY,
@@ -35,6 +37,7 @@ export function useCameraDrag(
 
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
     if (boardEl.current) {
+      cancelClick.current = false;
       const point = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
@@ -49,6 +52,7 @@ export function useCameraDrag(
   function handleMove(event: MouseEvent | TouchEvent<HTMLDivElement>) {
     if (rootEl.current && dragPoint.current && touchPoints.current.size < 2) {
       // Drag (move)
+      cancelClick.current = true;
       const point =
         event instanceof MouseEvent
           ? {
@@ -68,6 +72,7 @@ export function useCameraDrag(
       event.targetTouches.length === 2
     ) {
       // Pich (zoom)
+      cancelClick.current = true;
       const startPoints = [...touchPoints.current.values()];
       const startDistance = getDistance(
         startPoints[0].x,
@@ -126,7 +131,14 @@ export function useCameraDrag(
     }
   }
 
+  function handleClick(event: ReactMouseEvent<HTMLDivElement>) {
+    if (cancelClick.current) {
+      event.stopPropagation();
+    }
+  }
+
   return {
+    onClickCapture: handleClick,
     onMouseDown: handleMouseDown,
     onMouseUp: handleMouseUp,
     onTouchStart: handleTouchStart,
