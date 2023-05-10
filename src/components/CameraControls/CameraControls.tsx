@@ -5,12 +5,15 @@ import { useCameraMove } from "../../hooks/useCameraMove";
 import { useCameraWheel } from "../../hooks/useCameraWheel";
 import { DEFAULT_ZOOM } from "../../constants/camera";
 import { Axis } from "../../types/camera";
+import { PickPartial } from "../../types/utils";
 
 import Board, { IBoardProps } from "../Board/Board";
 
 import "./CameraControls.css";
 
-function CameraControls(props: IBoardProps) {
+export type ICameraControlsProps = PickPartial<IBoardProps, "level">;
+
+function CameraControls(props: ICameraControlsProps) {
   const rootEl = useRef<HTMLDivElement>(null);
   const boardEl = useRef<HTMLDivElement>(null);
   const zoom = useRef(DEFAULT_ZOOM);

@@ -9,11 +9,7 @@ import {
 import { MAX_ZOOM, MIN_ZOOM, ZOOMS, ZOOM_DISTANCE } from "../constants/camera";
 import { getDistance } from "../services/math";
 import { isTouchEvent, zoomCamera } from "../services/camera";
-
-export interface IPoint {
-  x: number;
-  y: number;
-}
+import { IPoint } from "../types/game";
 
 export function useCameraDrag(
   rootEl: RefObject<HTMLDivElement>,

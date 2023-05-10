@@ -1,12 +1,22 @@
-import { MouseEvent as ReactMouseEvent, RefObject, useEffect } from "react";
+import { MouseEvent as ReactMouseEvent, RefObject, useContext, useEffect } from "react";
+
 import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
+import { gameContext } from "../contexts/game";
 
 export function useBoardCursor(
   rootEl: RefObject<HTMLDivElement>,
   cursorEl: RefObject<HTMLDivElement>,
   selectEl: RefObject<HTMLDivElement>
 ) {
+  const { setSelectedTile } = useContext(gameContext)
+
   useEffect(() => {
+    function handleUnselect() {
+      if (selectEl.current) {
+        selectEl.current.style.display = "none";
+      }
+    }
+    
     window.addEventListener('click', handleUnselect);
     return () => window.removeEventListener('click', handleUnselect);
   });
@@ -20,6 +30,7 @@ export function useBoardCursor(
           y * BLOCK_SIZE - BLOCK_OFFSET
         }px)`;
         el.current.style.display = "block";
+        return { x, y };
       } else {
         el.current.style.display = "none";
       }
@@ -48,12 +59,9 @@ export function useBoardCursor(
 
   function handleClick(event: ReactMouseEvent<HTMLDivElement>) {
     event.stopPropagation();
-    showHideElement(selectEl, event.nativeEvent);
-  }
-
-  function handleUnselect() {
-    if (selectEl.current) {
-      selectEl.current.style.display = "none";
+    const point = showHideElement(selectEl, event.nativeEvent);
+    if (point) {
+      setSelectedTile(point);
     }
   }
 
