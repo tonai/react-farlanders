@@ -3,4 +3,4 @@ export interface ILevel {
   landform: number[][];
 }
 
-export type IMap = Record<string | number, ILevel>;
+export type IMap = Record<number | string, ILevel>;

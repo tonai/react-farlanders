@@ -1,6 +1,8 @@
-import { RefObject, TouchEvent } from "react";
+import type { RefObject, TouchEvent } from "react";
 
-export function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
+export function isTouchEvent(
+  event: MouseEvent | TouchEvent
+): event is TouchEvent {
   return "targetTouches" in event;
 }
 
@@ -11,7 +13,7 @@ export function zoomCamera(
   nextZoom: number,
   x: number,
   y: number
-) {
+): void {
   if (rootEl.current && boardEl.current && prevZoom !== nextZoom) {
     const { scrollLeft, scrollTop } = rootEl.current;
     boardEl.current.style.transform = `scale(${nextZoom})`;

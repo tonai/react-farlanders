@@ -1,21 +1,23 @@
+import type { IBlock, IBlocks } from "../../types/block";
+import type { IImage } from "../../types/image";
+import type { IMap } from "../../types/map";
+
 import { useRef } from "react";
+
 import { BLOCK_OFFSET, BLOCK_SIZE } from "../../constants/blocks";
 import landBlocks from "../../data/land-blocks.json";
 import map from "../../data/map.json";
+import { useBoardCursor } from "../../hooks/useBoardCursor";
 import { getBackgroundArray } from "../../services/board";
-import { IBlock, IBlocks } from "../../types/block";
-import { IImage } from "../../types/image";
-import { IMap } from "../../types/map";
 
 import "./Board.css";
-import { useBoardCursor } from "../../hooks/useBoardCursor";
 
 export interface IBoardProps {
   imageMap: Map<IBlock, IImage>;
   level: number;
 }
 
-function Board(props: IBoardProps) {
+function Board(props: IBoardProps): JSX.Element {
   const { imageMap, level } = props;
 
   const rootEl = useRef<HTMLDivElement>(null);
@@ -36,19 +38,19 @@ function Board(props: IBoardProps) {
 
   const background = [...landformBg, ...landBg].join(", ");
   const rootStyle = {
+    background,
     height: (height + 1) * BLOCK_SIZE - BLOCK_OFFSET,
     width: width * BLOCK_SIZE,
-    background,
   };
   const style = {
     height: BLOCK_SIZE,
     width: BLOCK_SIZE,
-  }
+  };
 
   return (
-    <div className="Board" ref={rootEl} style={rootStyle} {...boardProps}>
-      <div className="Board__cursor" ref={cursorEl} style={style} />
-      <div className="Board__selection" ref={selectEl} style={style} />
+    <div ref={rootEl} className="Board" style={rootStyle} {...boardProps}>
+      <div ref={cursorEl} className="Board__cursor" style={style} />
+      <div ref={selectEl} className="Board__selection" style={style} />
     </div>
   );
 }

@@ -1,27 +1,39 @@
-import { MouseEvent as ReactMouseEvent, RefObject, useContext, useEffect } from "react";
+import type { IPoint } from "../types/game";
+import type { MouseEvent as ReactMouseEvent, RefObject } from "react";
+
+import { useContext, useEffect } from "react";
 
 import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
+
+export interface IBoardCursorHook {
+  onClick: (event: ReactMouseEvent<HTMLDivElement>) => void;
+  onMouseEnter: (event: ReactMouseEvent<HTMLDivElement>) => void;
+  onMouseLeave: () => void;
+}
 
 export function useBoardCursor(
   rootEl: RefObject<HTMLDivElement>,
   cursorEl: RefObject<HTMLDivElement>,
   selectEl: RefObject<HTMLDivElement>
-) {
-  const { setSelectedTile } = useContext(gameContext)
+): IBoardCursorHook {
+  const { setSelectedTile } = useContext(gameContext);
 
   useEffect(() => {
-    function handleUnselect() {
+    function handleUnselect(): void {
       if (selectEl.current) {
         selectEl.current.style.display = "none";
       }
     }
-    
-    window.addEventListener('click', handleUnselect);
-    return () => window.removeEventListener('click', handleUnselect);
+
+    window.addEventListener("click", handleUnselect);
+    return () => window.removeEventListener("click", handleUnselect);
   });
 
-  function showHideElement(el: RefObject<HTMLDivElement>, event: MouseEvent) {
+  function showHideElement(
+    el: RefObject<HTMLDivElement>,
+    event: MouseEvent
+  ): IPoint | null {
     if (el.current) {
       const x = Math.floor(event.offsetX / BLOCK_SIZE);
       const y = Math.floor((event.offsetY + BLOCK_OFFSET) / BLOCK_SIZE);
@@ -31,24 +43,24 @@ export function useBoardCursor(
         }px)`;
         el.current.style.display = "block";
         return { x, y };
-      } else {
-        el.current.style.display = "none";
       }
+      el.current.style.display = "none";
     }
+    return null;
   }
 
-  function handleMouseEnter(event: ReactMouseEvent<HTMLDivElement>) {
+  function showCursor(event: MouseEvent): void {
+    showHideElement(cursorEl, event);
+  }
+
+  function handleMouseEnter(event: ReactMouseEvent<HTMLDivElement>): void {
     if (rootEl.current) {
       rootEl.current.addEventListener("mousemove", showCursor);
       showCursor(event.nativeEvent);
     }
   }
 
-  function showCursor(event: MouseEvent) {
-    showHideElement(cursorEl, event);
-  }
-
-  function handleMouseLeave() {
+  function handleMouseLeave(): void {
     if (rootEl.current) {
       rootEl.current.removeEventListener("mousemove", showCursor);
       if (cursorEl.current) {
@@ -57,7 +69,7 @@ export function useBoardCursor(
     }
   }
 
-  function handleClick(event: ReactMouseEvent<HTMLDivElement>) {
+  function handleClick(event: ReactMouseEvent<HTMLDivElement>): void {
     event.stopPropagation();
     const point = showHideElement(selectEl, event.nativeEvent);
     if (point) {

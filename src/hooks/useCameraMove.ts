@@ -1,4 +1,7 @@
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import type { ICameraMoves } from "../types/camera";
+import type { RefObject } from "react";
+
+import { useCallback, useEffect, useRef } from "react";
 
 import {
   KEY_DOWN,
@@ -7,9 +10,16 @@ import {
   KEY_UP,
   SCROLL_SPEED,
 } from "../constants/camera";
-import { Axis, ICameraMoves } from "../types/camera";
+import { Axis } from "../types/camera";
 
-export function useCameraMove(rootEl: RefObject<HTMLDivElement>) {
+export interface ICameraMoveHook {
+  handleMouseEnter: (cameraMove: ICameraMoves) => void;
+  handleMouseLeave: () => void;
+}
+
+export function useCameraMove(
+  rootEl: RefObject<HTMLDivElement>
+): ICameraMoveHook {
   const animating = useRef(false);
   const camera = useRef<ICameraMoves>({});
 
@@ -29,7 +39,7 @@ export function useCameraMove(rootEl: RefObject<HTMLDivElement>) {
     }
   }, [rootEl]);
 
-  function handleMouseEnter(cameraMove: ICameraMoves) {
+  function handleMouseEnter(cameraMove: ICameraMoves): void {
     camera.current = cameraMove;
     if (!animating.current) {
       animating.current = true;
@@ -37,12 +47,12 @@ export function useCameraMove(rootEl: RefObject<HTMLDivElement>) {
     }
   }
 
-  function handleMouseLeave() {
+  function handleMouseLeave(): void {
     camera.current = {};
   }
 
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
+    function handleKeyDown(event: KeyboardEvent): void {
       if (!event.repeat) {
         switch (event.code) {
           case KEY_UP:
@@ -68,7 +78,7 @@ export function useCameraMove(rootEl: RefObject<HTMLDivElement>) {
       }
     }
 
-    function handleKeyUp(event: KeyboardEvent) {
+    function handleKeyUp(event: KeyboardEvent): void {
       switch (event.code) {
         case KEY_UP:
           if (camera.current[Axis.Y] === -1) {

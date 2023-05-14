@@ -1,5 +1,5 @@
-import { IBlock } from "./block";
+import type { IBlock } from "./block";
 
 export interface IImage extends HTMLImageElement {
-  block: IBlock
+  block: IBlock;
 }

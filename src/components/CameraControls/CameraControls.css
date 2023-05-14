@@ -1,6 +1,7 @@
 .CameraControls {
   position: absolute;
   inset: 0;
+
   --camera-controls-edge-size: 20px;
 }
 

@@ -1,19 +1,20 @@
+import type { IPickPartial } from "../../types/utils";
+import type { IBoardProps } from "../Board/Board";
+
 import { useEffect, useRef } from "react";
 
+import { DEFAULT_ZOOM } from "../../constants/camera";
 import { useCameraDrag } from "../../hooks/useCameraDrag";
 import { useCameraMove } from "../../hooks/useCameraMove";
 import { useCameraWheel } from "../../hooks/useCameraWheel";
-import { DEFAULT_ZOOM } from "../../constants/camera";
 import { Axis } from "../../types/camera";
-import { PickPartial } from "../../types/utils";
-
-import Board, { IBoardProps } from "../Board/Board";
+import Board from "../Board/Board";
 
 import "./CameraControls.css";
 
-export type ICameraControlsProps = PickPartial<IBoardProps, "level">;
+export type ICameraControlsProps = IPickPartial<IBoardProps, "level">;
 
-function CameraControls(props: ICameraControlsProps) {
+function CameraControls(props: ICameraControlsProps): JSX.Element {
   const rootEl = useRef<HTMLDivElement>(null);
   const boardEl = useRef<HTMLDivElement>(null);
   const zoom = useRef(DEFAULT_ZOOM);
@@ -33,7 +34,7 @@ function CameraControls(props: ICameraControlsProps) {
 
   return (
     <div className="CameraControls">
-      <div className="CameraControls__scroll" ref={rootEl}>
+      <div ref={rootEl} className="CameraControls__scroll">
         <div
           className="CameraControls__area"
           {...boardCameraProps}
@@ -46,42 +47,42 @@ function CameraControls(props: ICameraControlsProps) {
         className="CameraControls__top"
         onMouseEnter={() => handleMouseEnter({ [Axis.Y]: -1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__bottom"
         onMouseEnter={() => handleMouseEnter({ [Axis.Y]: 1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__left"
         onMouseEnter={() => handleMouseEnter({ [Axis.X]: -1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__right"
         onMouseEnter={() => handleMouseEnter({ [Axis.X]: 1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__topLeft"
         onMouseEnter={() => handleMouseEnter({ [Axis.Y]: -1, [Axis.X]: -1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__topRight"
         onMouseEnter={() => handleMouseEnter({ [Axis.Y]: -1, [Axis.X]: 1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__bottomLeft"
         onMouseEnter={() => handleMouseEnter({ [Axis.Y]: 1, [Axis.X]: -1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       <div
         className="CameraControls__bottomRight"
         onMouseEnter={() => handleMouseEnter({ [Axis.Y]: 1, [Axis.X]: 1 })}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 export interface IBlock {
   id: string;
   images: string;
-  variants?: Record<string, string>;
   sid: number;
+  variants?: Record<string, string>;
 }
 
 export type IBlocks = IBlock[];
-export type IBlockMap = Map<IBlock['sid'], IBlock>;
+export type IBlockMap = Map<IBlock["sid"], IBlock>;

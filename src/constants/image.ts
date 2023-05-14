@@ -1,5 +1,5 @@
-import { IBlock } from "../types/block";
-import { IImage } from "../types/image";
+import type { IBlock } from "../types/block";
+import type { IImage } from "../types/image";
 
 export function loadImage(block: IBlock): Promise<IImage> {
   return new Promise((resolve, reject) => {

@@ -1,23 +1,30 @@
-import { ReactNode, useMemo, useState } from "react";
+import type { IPoint } from "../../types/game";
+import type { ReactNode } from "react";
+
+import { useMemo, useState } from "react";
 
 import { gameContext } from "../../contexts/game";
-import { IPoint } from "../../types/game";
 
 export interface IGameProviderProps {
   children: ReactNode;
 }
 
-function GameProvider(props: IGameProviderProps) {
+function GameProvider(props: IGameProviderProps): JSX.Element {
   const { children } = props;
 
-  const [selectedTile, setSelectedTile] = useState<IPoint>()
+  const [selectedTile, setSelectedTile] = useState<IPoint>();
 
-  const contextValue = useMemo(() => ({
-    selectedTile,
-    setSelectedTile,
-  }), [selectedTile]);
+  const contextValue = useMemo(
+    () => ({
+      selectedTile,
+      setSelectedTile,
+    }),
+    [selectedTile]
+  );
 
-  return <gameContext.Provider value={contextValue}>{children}</gameContext.Provider>;
+  return (
+    <gameContext.Provider value={contextValue}>{children}</gameContext.Provider>
+  );
 }
 
 export default GameProvider;

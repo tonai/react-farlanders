@@ -1,7 +1,7 @@
+import type { IGameContext } from "../types/game";
+
 import { createContext } from "react";
 
-import { GameContext } from "../types/game";
-
-export const gameContext = createContext<GameContext>({
+export const gameContext = createContext<IGameContext>({
   setSelectedTile: () => null,
 });
