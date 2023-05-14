@@ -3,13 +3,8 @@ import type { RefObject } from "react";
 
 import { useCallback, useEffect, useRef } from "react";
 
-import {
-  KEY_DOWN,
-  KEY_LEFT,
-  KEY_RIGHT,
-  KEY_UP,
-  SCROLL_SPEED,
-} from "../constants/camera";
+import { SCROLL_SPEED } from "../constants/camera";
+import { KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_UP } from "../constants/keys";
 import { Axis } from "../types/camera";
 
 export interface ICameraMoveHook {

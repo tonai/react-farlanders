@@ -1,9 +1,15 @@
-import type { IBlockCategories, IBuildingBlocks } from "../../types/block";
+import type {
+  IBlockCategories,
+  IBuildingBlock,
+  IBuildingBlocks,
+} from "../../types/block";
 import type { MouseEvent } from "react";
 
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
+import { ESCAPE } from "../../constants/keys";
+import { gameContext } from "../../contexts/game";
 import buildingBlocks from "../../data/building-blocks.json";
 import buildingCategories from "../../data/buildings-categories.json";
 
@@ -22,6 +28,7 @@ const blockCategoryMap = blocks.reduce((acc, block) => {
 
 function BuildingsInterface(): JSX.Element {
   const [activeCategory, setActiveCategory] = useState<string>();
+  const { selectedBuilding, setSelectedBuilding } = useContext(gameContext);
 
   function handleActiveCategory(
     event: MouseEvent<HTMLButtonElement>,
@@ -29,16 +36,41 @@ function BuildingsInterface(): JSX.Element {
   ): void {
     event.stopPropagation();
     setActiveCategory(id);
+    setSelectedBuilding(undefined);
+  }
+
+  function handlePropagation(event: MouseEvent<HTMLDivElement>): void {
+    event.stopPropagation();
+  }
+
+  function handleActiveBuilding(
+    event: MouseEvent<HTMLButtonElement>,
+    block: IBuildingBlock
+  ): void {
+    event.stopPropagation();
+    setSelectedBuilding(block);
   }
 
   useEffect(() => {
-    function handleClearCategory(): void {
+    function handleClick(): void {
       setActiveCategory(undefined);
+      setSelectedBuilding(undefined);
     }
 
-    window.addEventListener("click", handleClearCategory);
-    return () => window.removeEventListener("click", handleClearCategory);
-  }, []);
+    function handleKeyUp(event: KeyboardEvent): void {
+      if (event.code === ESCAPE) {
+        setActiveCategory(undefined);
+        setSelectedBuilding(undefined);
+      }
+    }
+
+    window.addEventListener("click", handleClick);
+    window.addEventListener("keyup", handleKeyUp);
+    return () => {
+      window.removeEventListener("click", handleClick);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [setSelectedBuilding]);
 
   return (
     <div className="BuildingsInterface">
@@ -61,11 +93,19 @@ function BuildingsInterface(): JSX.Element {
               src={category.images}
             />
           </button>
-          <div className="BuildingsInterface__blocks">
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+          <div
+            className="BuildingsInterface__blocks"
+            onClick={handlePropagation}
+          >
             {blockCategoryMap.get(category.id)?.map((block) => (
               <button
                 key={block.id}
-                className="BuildingsInterface__blocks-button"
+                className={classNames("BuildingsInterface__blocks-button", {
+                  "BuildingsInterface__blocks-button--active":
+                    selectedBuilding === block,
+                })}
+                onClick={(e) => handleActiveBuilding(e, block)}
                 type="button"
               >
                 <img

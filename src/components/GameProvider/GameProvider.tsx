@@ -1,3 +1,4 @@
+import type { IBuildingBlock } from "../../types/block";
 import type { IPoint } from "../../types/game";
 import type { ReactNode } from "react";
 
@@ -12,14 +13,17 @@ export interface IGameProviderProps {
 function GameProvider(props: IGameProviderProps): JSX.Element {
   const { children } = props;
 
+  const [selectedBuilding, setSelectedBuilding] = useState<IBuildingBlock>();
   const [selectedTile, setSelectedTile] = useState<IPoint>();
 
   const contextValue = useMemo(
     () => ({
+      selectedBuilding,
       selectedTile,
+      setSelectedBuilding,
       setSelectedTile,
     }),
-    [selectedTile]
+    [selectedBuilding, selectedTile]
   );
 
   return (
