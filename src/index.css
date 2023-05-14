@@ -1,6 +1,11 @@
+:root {
+  --block-size: 64px;
+}
+
 body {
   margin: 0;
   overflow: hidden;
   user-select: none;
   touch-action: none;
+  background-color: #000;
 }

@@ -17,6 +17,9 @@ export interface IBoardProps {
   level: number;
 }
 
+const blocks = landBlocks as IBlocks;
+const blockMap = new Map(blocks.map((block) => [block.sid, block]));
+
 function Board(props: IBoardProps): JSX.Element {
   const { imageMap, level } = props;
 
@@ -29,9 +32,6 @@ function Board(props: IBoardProps): JSX.Element {
   const mapLevel = (map as IMap)[level];
   const height = mapLevel.land.length;
   const width = mapLevel.land[0].length;
-  const blockMap = new Map(
-    (landBlocks as IBlocks).map((block) => [block.sid, block])
-  );
 
   const landformBg = getBackgroundArray(blockMap, imageMap, mapLevel.landform);
   const landBg = getBackgroundArray(blockMap, imageMap, mapLevel.land);
