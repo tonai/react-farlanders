@@ -3,8 +3,8 @@ import type { IImage } from "../../types/image";
 
 import { useEffect, useState } from "react";
 
+import { blocks } from "../../constants/blocks";
 import { loadImage } from "../../constants/image";
-import landBlocks from "../../data/land-blocks.json";
 import Game from "../Game/Game";
 
 function GameLoader(): JSX.Element | null {
@@ -12,7 +12,7 @@ function GameLoader(): JSX.Element | null {
   const [imageMap, setImageMap] = useState<Map<IBlock, IImage>>(new Map());
 
   useEffect(() => {
-    Promise.all(landBlocks.map((block) => loadImage(block))).then((images) => {
+    Promise.all(blocks.map((block) => loadImage(block))).then((images) => {
       setImageMap(new Map(images.map((image) => [image.block, image])));
       setLoaded(true);
     });

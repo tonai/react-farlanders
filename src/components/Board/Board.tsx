@@ -1,12 +1,12 @@
-import type { IBlock, IBlocks } from "../../types/block";
+import type { IBlock } from "../../types/block";
 import type { IImage } from "../../types/image";
-import type { IMap } from "../../types/map";
+import type { CSSProperties } from "react";
 
-import { useRef } from "react";
+import classNames from "classnames";
+import { useContext, useRef } from "react";
 
-import { BLOCK_OFFSET, BLOCK_SIZE } from "../../constants/blocks";
-import landBlocks from "../../data/land-blocks.json";
-import map from "../../data/map.json";
+import { BLOCK_OFFSET, BLOCK_SIZE, blockMap } from "../../constants/blocks";
+import { gameContext } from "../../contexts/game";
 import { useBoardCursor } from "../../hooks/useBoardCursor";
 import { getBackgroundArray } from "../../services/board";
 
@@ -17,11 +17,9 @@ export interface IBoardProps {
   level: number;
 }
 
-const blocks = landBlocks as IBlocks;
-const blockMap = new Map(blocks.map((block) => [block.sid, block]));
-
 function Board(props: IBoardProps): JSX.Element {
   const { imageMap, level } = props;
+  const { map, selectedBuilding } = useContext(gameContext);
 
   const rootEl = useRef<HTMLDivElement>(null);
   const cursorEl = useRef<HTMLDivElement>(null);
@@ -29,7 +27,7 @@ function Board(props: IBoardProps): JSX.Element {
 
   const boardProps = useBoardCursor(rootEl, cursorEl, selectEl);
 
-  const mapLevel = (map as IMap)[level];
+  const mapLevel = map[level];
   const height = mapLevel.land.length;
   const width = mapLevel.land[0].length;
 
@@ -37,20 +35,39 @@ function Board(props: IBoardProps): JSX.Element {
   const landBg = getBackgroundArray(blockMap, imageMap, mapLevel.land);
 
   const background = [...landformBg, ...landBg].join(", ");
-  const rootStyle = {
+  const rootStyle: CSSProperties = {
     background,
     height: (height + 1) * BLOCK_SIZE - BLOCK_OFFSET,
     width: width * BLOCK_SIZE,
   };
-  const style = {
+  const cursorStyle: CSSProperties = {
+    height: BLOCK_SIZE,
+    width: BLOCK_SIZE,
+  };
+  if (selectedBuilding) {
+    cursorStyle.backgroundImage = `url(${selectedBuilding.images})`;
+    const image = imageMap.get(selectedBuilding);
+    if (image) {
+      cursorStyle.height = image.height;
+      cursorStyle.width = image.width;
+      cursorStyle.top = BLOCK_SIZE - image.height;
+    }
+  }
+  const selectStyle: CSSProperties = {
     height: BLOCK_SIZE,
     width: BLOCK_SIZE,
   };
 
   return (
     <div ref={rootEl} className="Board" style={rootStyle} {...boardProps}>
-      <div ref={cursorEl} className="Board__cursor" style={style} />
-      <div ref={selectEl} className="Board__selection" style={style} />
+      <div
+        ref={cursorEl}
+        className={classNames("Board__cursor", {
+          "Board__cursor--empty": !selectedBuilding,
+        })}
+        style={cursorStyle}
+      />
+      <div ref={selectEl} className="Board__selection" style={selectStyle} />
     </div>
   );
 }

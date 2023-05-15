@@ -7,9 +7,12 @@
   top: 0;
   left: 0;
   box-sizing: border-box;
-  border: 2px solid green;
   pointer-events: none;
   display: none;
+}
+
+.Board__cursor--empty {
+  border: 2px solid green;
 }
 
 .Board__selection {

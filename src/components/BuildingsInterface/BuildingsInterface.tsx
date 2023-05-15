@@ -1,30 +1,14 @@
-import type {
-  IBlockCategories,
-  IBuildingBlock,
-  IBuildingBlocks,
-} from "../../types/block";
+import type { IBuildingBlock } from "../../types/block";
 import type { MouseEvent } from "react";
 
 import classNames from "classnames";
 import { useContext, useEffect, useState } from "react";
 
+import { blockCategoryMap, categories } from "../../constants/blocks";
 import { ESCAPE } from "../../constants/keys";
 import { gameContext } from "../../contexts/game";
-import buildingBlocks from "../../data/building-blocks.json";
-import buildingCategories from "../../data/buildings-categories.json";
 
 import "./BuildingsInterface.css";
-
-const blocks = buildingBlocks as IBuildingBlocks;
-const categories = buildingCategories as IBlockCategories;
-const blockCategoryMap = blocks.reduce((acc, block) => {
-  if (acc.has(block.category)) {
-    acc.get(block.category)?.push(block);
-  } else {
-    acc.set(block.category, [block]);
-  }
-  return acc;
-}, new Map<string, IBuildingBlocks>());
 
 function BuildingsInterface(): JSX.Element {
   const [activeCategory, setActiveCategory] = useState<string>();
