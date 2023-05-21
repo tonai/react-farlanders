@@ -1,4 +1,4 @@
-import type { IBuildingBlock } from "./block";
+import type { BuildingTool, IBuildingBlock } from "./block";
 import type { IMap } from "./map";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -11,7 +11,9 @@ export interface IGameContext {
   map: IMap;
   selectedBuilding?: IBuildingBlock;
   selectedTile?: IPoint;
+  selectedTool?: BuildingTool;
   setMap: Dispatch<SetStateAction<IMap>>;
   setSelectedBuilding: Dispatch<SetStateAction<IBuildingBlock | undefined>>;
   setSelectedTile: Dispatch<SetStateAction<IPoint | undefined>>;
+  setSelectedTool: Dispatch<SetStateAction<BuildingTool | undefined>>;
 }

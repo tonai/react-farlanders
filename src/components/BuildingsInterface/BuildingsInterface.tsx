@@ -7,13 +7,18 @@ import { useContext, useEffect, useState } from "react";
 import { blockCategoryMap, categories } from "../../constants/blocks";
 import { ESCAPE } from "../../constants/keys";
 import { gameContext } from "../../contexts/game";
-import { GroundType } from "../../types/block";
+import { BuildingTool, GroundType } from "../../types/block";
 
 import "./BuildingsInterface.css";
 
 function BuildingsInterface(): JSX.Element {
   const [activeCategory, setActiveCategory] = useState<string>();
-  const { selectedBuilding, setSelectedBuilding } = useContext(gameContext);
+  const {
+    selectedBuilding,
+    selectedTool,
+    setSelectedBuilding,
+    setSelectedTool,
+  } = useContext(gameContext);
 
   function handleActiveCategory(
     event: MouseEvent<HTMLButtonElement>,
@@ -22,6 +27,7 @@ function BuildingsInterface(): JSX.Element {
     event.stopPropagation();
     setActiveCategory(id);
     setSelectedBuilding(undefined);
+    setSelectedTool(undefined);
   }
 
   function handlePropagation(event: MouseEvent<HTMLDivElement>): void {
@@ -34,18 +40,28 @@ function BuildingsInterface(): JSX.Element {
   ): void {
     event.stopPropagation();
     setSelectedBuilding(block);
+    setSelectedTool(undefined);
+  }
+
+  function handleActiveTool(event: MouseEvent<HTMLButtonElement>): void {
+    event.stopPropagation();
+    setActiveCategory(undefined);
+    setSelectedTool(BuildingTool.Remove);
+    setSelectedBuilding(undefined);
   }
 
   useEffect(() => {
     function handleClick(): void {
       setActiveCategory(undefined);
       setSelectedBuilding(undefined);
+      setSelectedTool(undefined);
     }
 
     function handleKeyUp(event: KeyboardEvent): void {
       if (event.code === ESCAPE) {
         setActiveCategory(undefined);
         setSelectedBuilding(undefined);
+        setSelectedTool(undefined);
       }
     }
 
@@ -55,7 +71,7 @@ function BuildingsInterface(): JSX.Element {
       window.removeEventListener("click", handleClick);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [setSelectedBuilding]);
+  }, [setSelectedBuilding, setSelectedTool]);
 
   return (
     <div className="BuildingsInterface">
@@ -106,8 +122,21 @@ function BuildingsInterface(): JSX.Element {
           </div>
         </div>
       ))}
-      <div className="BuildingsInterface__category">
-        <button className="BuildingsInterface__button" type="button">
+      <div
+        className={classNames(
+          "BuildingsInterface__category",
+          "BuildingsInterface__category--tool",
+          {
+            "BuildingsInterface__category--active":
+              selectedTool === BuildingTool.Remove,
+          }
+        )}
+      >
+        <button
+          className="BuildingsInterface__button"
+          onClick={handleActiveTool}
+          type="button"
+        >
           <img alt="Remove" src="/assets/categories/remove.png" />
         </button>
       </div>

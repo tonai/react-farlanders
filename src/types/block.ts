@@ -3,6 +3,10 @@ export enum GroundType {
   Underground = "underground",
 }
 
+export enum BuildingTool {
+  Remove = "remove",
+}
+
 export interface IBlockCategory {
   id: string;
   images: string;

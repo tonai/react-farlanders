@@ -16,6 +16,9 @@ export const buildingBlocks = rawBuildingBlocks as IBuildingBlocks;
 export const categories = rawBuildingCategories as IBlockCategories;
 
 export const blocks = landBlocks.concat(buildingBlocks);
+export const buildingBlocksMap = new Map(
+  buildingBlocks.map((block) => [block.sid, block])
+);
 export const blockMap = new Map(blocks.map((block) => [block.sid, block]));
 export const blockCategoryMap = buildingBlocks.reduce((acc, block) => {
   if (acc.has(block.category)) {

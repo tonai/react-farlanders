@@ -3,7 +3,11 @@ import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
 import type { IBoard, ILevel } from "../types/map";
 
-import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
+import {
+  BLOCK_OFFSET,
+  BLOCK_SIZE,
+  buildingBlocksMap,
+} from "../constants/blocks";
 
 import { getMapBlockSid } from "./map";
 
@@ -78,4 +82,10 @@ export function isBuildable(
   const landCondition =
     land === 0 || (selectedBuilding.conditions.land?.includes(land) ?? true);
   return buildingCondition && landCondition;
+}
+
+export function isRemovable(level: ILevel, point: IPoint): boolean {
+  const { x, y } = point;
+  const building = getMapBlockSid(level.buildings[y - 1][x]) as number;
+  return buildingBlocksMap.has(building);
 }

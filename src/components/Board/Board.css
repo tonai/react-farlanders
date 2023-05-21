@@ -15,6 +15,10 @@
   border: 2px solid green;
 }
 
+.Board__cursor--remove {
+  border: 2px solid red;
+}
+
 .Board__selection {
   position: absolute;
   top: 0;

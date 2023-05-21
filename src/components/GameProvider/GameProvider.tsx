@@ -1,4 +1,4 @@
-import type { IBuildingBlock } from "../../types/block";
+import type { BuildingTool, IBuildingBlock } from "../../types/block";
 import type { IPoint } from "../../types/game";
 import type { IMap } from "../../types/map";
 import type { ReactNode } from "react";
@@ -19,6 +19,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const [map, setMap] = useState<IMap>(testMap);
   const [selectedBuilding, setSelectedBuilding] = useState<IBuildingBlock>();
   const [selectedTile, setSelectedTile] = useState<IPoint>();
+  const [selectedTool, setSelectedTool] = useState<BuildingTool>();
 
   const updatedMap = useMemo(() => getUpdatedMap(map), [map]);
   const contextValue = useMemo(
@@ -26,11 +27,13 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       map: updatedMap,
       selectedBuilding,
       selectedTile,
+      selectedTool,
       setMap,
       setSelectedBuilding,
       setSelectedTile,
+      setSelectedTool,
     }),
-    [selectedBuilding, selectedTile, updatedMap]
+    [selectedBuilding, selectedTile, selectedTool, updatedMap]
   );
 
   return (

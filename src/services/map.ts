@@ -31,6 +31,23 @@ export function addBlockToMap(
   };
 }
 
+export function removeBlockFromMap(map: IMap, point: IPoint, level = 0): IMap {
+  return {
+    ...map,
+    [level]: {
+      buildings: map[level].buildings.map((line, j) =>
+        line.map((sid, i) => {
+          if (i === point.x && j === point.y - 1) {
+            return sid instanceof Array ? sid.slice(0, -1) : 0;
+          }
+          return sid;
+        })
+      ),
+      land: map[level].land,
+    },
+  };
+}
+
 export function getMapBlockSid(
   mapItem?: number[] | number
 ): number | undefined {

@@ -7,8 +7,8 @@ import { useCallback, useContext, useEffect } from "react";
 
 import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
-import { isBuildable } from "../services/board";
-import { addBlockToMap } from "../services/map";
+import { isBuildable, isRemovable } from "../services/board";
+import { addBlockToMap, removeBlockFromMap } from "../services/map";
 
 export interface IBoardCursorHook {
   onClick: (event: ReactMouseEvent<HTMLDivElement>) => void;
@@ -22,11 +22,12 @@ export function useBoardCursor(
   imageMap: Map<IBlock, IImage>,
   level = 0
 ): IBoardCursorHook {
-  const { map, selectedBuilding, setMap, setSelectedTile } =
+  const { map, selectedBuilding, selectedTool, setMap, setSelectedTile } =
     useContext(gameContext);
 
   useEffect(() => {
     if (cursorEl.current) {
+      cursorEl.current.style.background = "none";
       if (selectedBuilding) {
         cursorEl.current.style.backgroundImage = `url(${selectedBuilding.images})`;
         const image = imageMap.get(selectedBuilding);
@@ -40,7 +41,6 @@ export function useBoardCursor(
         cursorEl.current.style.height = `${BLOCK_SIZE}px`;
         cursorEl.current.style.width = `${BLOCK_SIZE}px`;
         cursorEl.current.style.top = "0px";
-        cursorEl.current.style.filter = "none";
       }
     }
   }, [cursorEl, imageMap, selectedBuilding]);
@@ -86,26 +86,33 @@ export function useBoardCursor(
     }
   }
 
-  function showCursor(event: MouseEvent): void {
-    const point = getPoint(event);
+  function handleMouseMove(event: ReactMouseEvent<HTMLDivElement>): void {
+    const point = getPoint(event.nativeEvent);
     showHideElement(cursorEl, point);
-    if (point && selectedBuilding && cursorEl.current) {
-      if (isBuildable(map[level], point, selectedBuilding)) {
-        cursorEl.current.style.filter = "none";
-      } else {
-        cursorEl.current.style.filter =
-          "saturate(0) sepia(1) hue-rotate(-50deg) saturate(4)";
+    if (point && cursorEl.current) {
+      cursorEl.current.style.display = "block";
+      if (selectedBuilding) {
+        if (isBuildable(map[level], point, selectedBuilding)) {
+          cursorEl.current.style.filter = "none";
+        } else {
+          cursorEl.current.style.filter =
+            "saturate(0) sepia(1) hue-rotate(-50deg) saturate(4)";
+        }
+      } else if (selectedTool) {
+        if (isRemovable(map[level], point)) {
+          cursorEl.current.style.backgroundColor = "transparent";
+        } else {
+          cursorEl.current.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+        }
       }
     }
   }
 
-  function handleMouseMove(event: ReactMouseEvent<HTMLDivElement>): void {
-    showCursor(event.nativeEvent);
-  }
-
   function handleMouseLeave(): void {
     if (cursorEl.current) {
+      cursorEl.current.style.backgroundColor = "transparent";
       cursorEl.current.style.display = "none";
+      cursorEl.current.style.filter = "none";
     }
   }
 
@@ -116,6 +123,10 @@ export function useBoardCursor(
       if (selectedBuilding) {
         if (isBuildable(map[level], point, selectedBuilding)) {
           setMap((map) => addBlockToMap(map, selectedBuilding, point));
+        }
+      } else if (selectedTool) {
+        if (isRemovable(map[level], point)) {
+          setMap((map) => removeBlockFromMap(map, point));
         }
       } else {
         showHideElement(selectEl, point);
