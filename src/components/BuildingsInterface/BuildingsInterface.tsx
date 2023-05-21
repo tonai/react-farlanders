@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { blockCategoryMap, categories } from "../../constants/blocks";
 import { ESCAPE } from "../../constants/keys";
 import { gameContext } from "../../contexts/game";
+import { GroundType } from "../../types/block";
 
 import "./BuildingsInterface.css";
 
@@ -82,23 +83,26 @@ function BuildingsInterface(): JSX.Element {
             className="BuildingsInterface__blocks"
             onClick={handlePropagation}
           >
-            {blockCategoryMap.get(category.id)?.map((block) => (
-              <button
-                key={block.id}
-                className={classNames("BuildingsInterface__blocks-button", {
-                  "BuildingsInterface__blocks-button--active":
-                    selectedBuilding === block,
-                })}
-                onClick={(e) => handleActiveBuilding(e, block)}
-                type="button"
-              >
-                <img
-                  alt={block.title}
-                  className="BuildingsInterface__image"
-                  src={block.images}
-                />
-              </button>
-            ))}
+            {blockCategoryMap
+              .get(category.id)
+              ?.filter((block) => block.only !== GroundType.Underground)
+              .map((block) => (
+                <button
+                  key={block.id}
+                  className={classNames("BuildingsInterface__blocks-button", {
+                    "BuildingsInterface__blocks-button--active":
+                      selectedBuilding === block,
+                  })}
+                  onClick={(e) => handleActiveBuilding(e, block)}
+                  type="button"
+                >
+                  <img
+                    alt={block.title}
+                    className="BuildingsInterface__image"
+                    src={block.images}
+                  />
+                </button>
+              ))}
           </div>
         </div>
       ))}
