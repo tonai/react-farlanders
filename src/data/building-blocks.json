@@ -7,7 +7,7 @@
     "title": "Power line",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [12, 13, 14, 17, 20, 21]
+      "landform": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -18,7 +18,7 @@
     "title": "Reinforced power line",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [12, 13, 14, 17, 20, 21]
+      "landform": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -29,7 +29,7 @@
     "title": "Pipe",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [12, 13, 14, 17, 20, 21]
+      "landform": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -40,7 +40,7 @@
     "title": "Reinforced pipe",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [12, 13, 14, 17, 20, 21]
+      "landform": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -50,8 +50,7 @@
     "category": "utilities",
     "title": "Tunnel",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -62,8 +61,7 @@
     "only": "ground",
     "title": "Wind turbine",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -74,8 +72,7 @@
     "only": "ground",
     "title": "Solar panel",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -85,8 +82,7 @@
     "category": "energy",
     "title": "Capacitor",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -107,8 +103,7 @@
     "only": "ground",
     "title": "Water condenser",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -128,8 +123,7 @@
     "category": "water-agriculture",
     "title": "Water tank",
     "conditions": {
-      "land": [2, 4],
-      "landform": []
+      "land": [2, 4]
     }
   },
   {
@@ -140,8 +134,7 @@
     "only": "ground",
     "title": "Greenhouse",
     "conditions": {
-      "land": [4],
-      "landform": []
+      "land": [4]
     }
   },
   {
@@ -151,8 +144,7 @@
     "category": "water-agriculture",
     "title": "Food-silo",
     "conditions": {
-      "land": [2, 4],
-      "landform": []
+      "land": [2, 4]
     }
   },
   {
@@ -174,8 +166,7 @@
     "only": "ground",
     "title": "Ground hydrator",
     "conditions": {
-      "land": [2, 4],
-      "landform": []
+      "land": [2, 4]
     }
   },
   {
@@ -186,8 +177,7 @@
     "only": "ground",
     "title": "Water dispenser",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -214,8 +204,7 @@
     "only": "ground",
     "title": "Basic house",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -227,7 +216,6 @@
     "title": "House",
     "conditions": {
       "land": [2, 4],
-      "landform": [],
       "buildings": [130]
     }
   },
@@ -239,8 +227,7 @@
     "only": "ground",
     "title": "Luxury house",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -267,7 +254,6 @@
     "title": "Community center",
     "conditions": {
       "land": [1, 2, 4],
-      "landform": [],
       "buildings": [130, 131]
     }
   },
@@ -278,8 +264,7 @@
     "category": "habitats",
     "title": "Restaurant",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -290,8 +275,7 @@
     "only": "ground",
     "title": "Park",
     "conditions": {
-      "land": [4],
-      "landform": []
+      "land": [4]
     }
   },
   {
@@ -340,8 +324,7 @@
     "category": "production",
     "title": "Mineral deposit",
     "conditions": {
-      "land": [2, 4],
-      "landform": []
+      "land": [2, 4]
     }
   },
   {
@@ -361,8 +344,7 @@
     "category": "production",
     "title": "Glass deposit",
     "conditions": {
-      "land": [2, 4],
-      "landform": []
+      "land": [2, 4]
     }
   },
   {
@@ -383,8 +365,7 @@
     "only": "ground",
     "title": "Landing platform",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -394,8 +375,7 @@
     "category": "expansion",
     "title": "Scanner",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -405,8 +385,7 @@
     "category": "expansion",
     "title": "Anomaly research camp",
     "conditions": {
-      "land": [1, 2, 3, 4],
-      "landform": []
+      "land": [1, 2, 3, 4]
     }
   },
   {
@@ -417,8 +396,7 @@
     "only": "ground",
     "title": "Spaceport",
     "conditions": {
-      "land": [2],
-      "landform": []
+      "land": [2]
     }
   },
   {
@@ -439,8 +417,7 @@
     "only": "ground",
     "title": "Ground stabilizer",
     "conditions": {
-      "land": [1, 3],
-      "landform": []
+      "land": [1, 3]
     }
   },
   {
@@ -460,8 +437,7 @@
     "category": "terraformation",
     "title": "Explosives",
     "conditions": {
-      "land": [1, 2, 3, 4],
-      "landform": []
+      "land": [1, 2, 3, 4]
     }
   },
   {
@@ -479,8 +455,7 @@
     "category": "biomatter",
     "title": "Bio storehouse",
     "conditions": {
-      "land": [1, 2, 4],
-      "landform": []
+      "land": [1, 2, 4]
     }
   },
   {
@@ -491,8 +466,7 @@
     "only": "ground",
     "title": "Bacteria",
     "conditions": {
-      "land": [2, 4],
-      "landform": []
+      "land": [2, 4]
     }
   },
   {

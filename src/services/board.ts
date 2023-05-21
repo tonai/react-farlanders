@@ -77,8 +77,8 @@ export function isBuildable(
     : building === 0;
   const landCondition =
     land === 0 || (selectedBuilding.conditions.land?.includes(land) ?? true);
-  const landformCondition =
-    landform === 0 ||
-    (selectedBuilding.conditions.landform?.includes(landform) ?? true);
+  const landformCondition = selectedBuilding.conditions.landform
+    ? selectedBuilding.conditions.landform.includes(landform)
+    : landform === 0;
   return buildingCondition && landCondition && landformCondition;
 }
