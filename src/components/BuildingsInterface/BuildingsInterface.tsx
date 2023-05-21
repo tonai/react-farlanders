@@ -51,7 +51,7 @@ function BuildingsInterface(): JSX.Element {
   }
 
   useEffect(() => {
-    function handleClick(): void {
+    function unselect(): void {
       setActiveCategory(undefined);
       setSelectedBuilding(undefined);
       setSelectedTool(undefined);
@@ -59,17 +59,22 @@ function BuildingsInterface(): JSX.Element {
 
     function handleKeyUp(event: KeyboardEvent): void {
       if (event.code === ESCAPE) {
-        setActiveCategory(undefined);
-        setSelectedBuilding(undefined);
-        setSelectedTool(undefined);
+        unselect();
       }
     }
 
-    window.addEventListener("click", handleClick);
+    function handleContextMenu(event: Event): void {
+      event.preventDefault();
+      unselect();
+    }
+
+    window.addEventListener("click", unselect);
     window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener("contextmenu", handleContextMenu);
     return () => {
-      window.removeEventListener("click", handleClick);
+      window.removeEventListener("click", unselect);
       window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener("contextmenu", handleContextMenu);
     };
   }, [setSelectedBuilding, setSelectedTool]);
 
