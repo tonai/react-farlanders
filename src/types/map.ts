@@ -1,6 +1,7 @@
 export interface ILevel {
+  buildings: (number[] | number)[][];
   land: number[][];
-  landform: number[][];
+  landforms: number[][];
 }
 
 export type IMap = Record<number | string, ILevel>;

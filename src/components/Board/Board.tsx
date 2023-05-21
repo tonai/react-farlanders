@@ -25,34 +25,32 @@ function Board(props: IBoardProps): JSX.Element {
   const cursorEl = useRef<HTMLDivElement>(null);
   const selectEl = useRef<HTMLDivElement>(null);
 
-  const boardProps = useBoardCursor(rootEl, cursorEl, selectEl);
+  const boardProps = useBoardCursor(
+    rootEl,
+    cursorEl,
+    selectEl,
+    imageMap,
+    level
+  );
 
   const mapLevel = map[level];
   const height = mapLevel.land.length;
   const width = mapLevel.land[0].length;
 
-  const landformBg = getBackgroundArray(blockMap, imageMap, mapLevel.landform);
+  const buildingsBg = getBackgroundArray(
+    blockMap,
+    imageMap,
+    mapLevel.buildings
+  );
+  const landformBg = getBackgroundArray(blockMap, imageMap, mapLevel.landforms);
   const landBg = getBackgroundArray(blockMap, imageMap, mapLevel.land);
 
-  const background = [...landformBg, ...landBg].join(", ");
+  const background = [...buildingsBg, ...landformBg, ...landBg].join(", ");
   const rootStyle: CSSProperties = {
     background,
     height: (height + 1) * BLOCK_SIZE - BLOCK_OFFSET,
     width: width * BLOCK_SIZE,
   };
-  const cursorStyle: CSSProperties = {
-    height: BLOCK_SIZE,
-    width: BLOCK_SIZE,
-  };
-  if (selectedBuilding) {
-    cursorStyle.backgroundImage = `url(${selectedBuilding.images})`;
-    const image = imageMap.get(selectedBuilding);
-    if (image) {
-      cursorStyle.height = image.height;
-      cursorStyle.width = image.width;
-      cursorStyle.top = BLOCK_SIZE - image.height;
-    }
-  }
   const selectStyle: CSSProperties = {
     height: BLOCK_SIZE,
     width: BLOCK_SIZE,
@@ -65,7 +63,6 @@ function Board(props: IBoardProps): JSX.Element {
         className={classNames("Board__cursor", {
           "Board__cursor--empty": !selectedBuilding,
         })}
-        style={cursorStyle}
       />
       <div ref={selectEl} className="Board__selection" style={selectStyle} />
     </div>

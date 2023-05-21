@@ -4,7 +4,7 @@ import { createContext } from "react";
 
 export const gameContext = createContext<IGameContext>({
   map: {
-    "0": { land: [], landform: [] },
+    "0": { buildings: [], land: [], landforms: [] },
   },
   setMap: () => undefined,
   setSelectedBuilding: () => undefined,

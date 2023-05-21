@@ -11,12 +11,13 @@ export function addBlockToMap(
   return {
     ...map,
     [level]: {
-      land: map[level].land,
-      landform: map[level].landform.map((line: number[], j: number) =>
+      buildings: map[level].buildings.map((line, j) =>
         line.map((sid, i) =>
           i === point.x && j === point.y - 1 ? block.sid : sid
         )
       ),
+      land: map[level].land,
+      landforms: map[level].landforms,
     },
   };
 }

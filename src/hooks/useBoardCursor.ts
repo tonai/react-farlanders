@@ -1,10 +1,13 @@
+import type { IBlock } from "../types/block";
 import type { IPoint } from "../types/game";
+import type { IImage } from "../types/image";
 import type { MouseEvent as ReactMouseEvent, RefObject } from "react";
 
 import { useCallback, useContext, useEffect } from "react";
 
 import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
+import { isBuildable } from "../services/board";
 import { addBlockToMap } from "../services/map";
 
 export interface IBoardCursorHook {
@@ -16,9 +19,31 @@ export interface IBoardCursorHook {
 export function useBoardCursor(
   rootEl: RefObject<HTMLDivElement>,
   cursorEl: RefObject<HTMLDivElement>,
-  selectEl: RefObject<HTMLDivElement>
+  selectEl: RefObject<HTMLDivElement>,
+  imageMap: Map<IBlock, IImage>,
+  level = 0
 ): IBoardCursorHook {
-  const { selectedBuilding, setMap, setSelectedTile } = useContext(gameContext);
+  const { map, selectedBuilding, setMap, setSelectedTile } =
+    useContext(gameContext);
+
+  useEffect(() => {
+    if (cursorEl.current) {
+      if (selectedBuilding) {
+        cursorEl.current.style.backgroundImage = `url(${selectedBuilding.images})`;
+        const image = imageMap.get(selectedBuilding);
+        if (image) {
+          cursorEl.current.style.height = `${image.height}px`;
+          cursorEl.current.style.width = `${image.width}px`;
+          cursorEl.current.style.top = `${BLOCK_SIZE - image.height}px`;
+        }
+      } else {
+        cursorEl.current.style.backgroundImage = "none";
+        cursorEl.current.style.height = `${BLOCK_SIZE}px`;
+        cursorEl.current.style.width = `${BLOCK_SIZE}px`;
+        cursorEl.current.style.top = "0px";
+      }
+    }
+  }, [cursorEl, imageMap, selectedBuilding]);
 
   const unselect = useCallback(() => {
     if (selectEl.current) {
@@ -28,8 +53,9 @@ export function useBoardCursor(
   }, [selectEl, setSelectedTile]);
 
   useEffect(() => {
-    window.addEventListener("click", unselect);
-    return () => window.removeEventListener("click", unselect);
+    window.addEventListener("click", unselect, { capture: true });
+    return () =>
+      window.removeEventListener("click", unselect, { capture: true });
   }, [unselect]);
 
   function getPoint(event: MouseEvent): IPoint | undefined {
@@ -63,12 +89,19 @@ export function useBoardCursor(
   function showCursor(event: MouseEvent): void {
     const point = getPoint(event);
     showHideElement(cursorEl, point);
+    if (point && selectedBuilding && cursorEl.current) {
+      if (isBuildable(map[level], point, selectedBuilding)) {
+        cursorEl.current.style.filter = "none";
+      } else {
+        cursorEl.current.style.filter =
+          "saturate(0) sepia(1) hue-rotate(-50deg) saturate(4)";
+      }
+    }
   }
 
-  function handleMouseEnter(event: ReactMouseEvent<HTMLDivElement>): void {
+  function handleMouseEnter(): void {
     if (rootEl.current) {
       rootEl.current.addEventListener("mousemove", showCursor);
-      showCursor(event.nativeEvent);
     }
   }
 
@@ -86,8 +119,10 @@ export function useBoardCursor(
     const point = getPoint(event.nativeEvent);
     if (point) {
       if (selectedBuilding) {
-        setMap((map) => addBlockToMap(map, selectedBuilding, point));
-        unselect();
+        if (isBuildable(map[level], point, selectedBuilding)) {
+          setMap((map) => addBlockToMap(map, selectedBuilding, point));
+          unselect();
+        }
       } else {
         showHideElement(selectEl, point);
         setSelectedTile(point);

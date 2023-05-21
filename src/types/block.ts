@@ -15,8 +15,15 @@ export interface IBlock {
   variants?: Record<string, string>;
 }
 
+export interface IBuildingCondition {
+  buildings?: number[];
+  land?: number[];
+  landform?: number[];
+}
+
 export interface IBuildingBlock extends IBlock {
   category: string;
+  conditions: IBuildingCondition;
   only?: GroundType;
   title: string;
 }
