@@ -42,7 +42,8 @@ function getBackgrounds(
     return mapItem
       .slice()
       .reverse()
-      .map((sid) => getBackground(blockMap, imageMap, sid, x, y));
+      .map((sid) => getBackground(blockMap, imageMap, sid, x, y))
+      .filter((x) => x);
   }
   return getBackground(blockMap, imageMap, mapItem, x, y);
 }
@@ -71,14 +72,10 @@ export function isBuildable(
   const { x, y } = point;
   const building = getMapBlockSid(level.buildings[y - 1][x]) as number;
   const land = getMapBlockSid(level.land[y - 1][x]) as number;
-  const landform = getMapBlockSid(level.landforms[y - 1][x]) as number;
   const buildingCondition = selectedBuilding.conditions.buildings
     ? selectedBuilding.conditions.buildings.includes(building)
     : building === 0;
   const landCondition =
     land === 0 || (selectedBuilding.conditions.land?.includes(land) ?? true);
-  const landformCondition = selectedBuilding.conditions.landform
-    ? selectedBuilding.conditions.landform.includes(landform)
-    : landform === 0;
-  return buildingCondition && landCondition && landformCondition;
+  return buildingCondition && landCondition;
 }

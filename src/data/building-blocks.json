@@ -7,7 +7,7 @@
     "title": "Power line",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [0, 12, 13, 14, 17, 20, 21]
+      "buildings": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -18,7 +18,7 @@
     "title": "Reinforced power line",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [0, 12, 13, 14, 17, 20, 21]
+      "buildings": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -29,7 +29,7 @@
     "title": "Pipe",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [0, 12, 13, 14, 17, 20, 21]
+      "buildings": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -40,7 +40,7 @@
     "title": "Reinforced pipe",
     "conditions": {
       "land": [1, 2, 3, 4],
-      "landform": [0, 12, 13, 14, 17, 20, 21]
+      "buildings": [0, 12, 13, 14, 17, 20, 21]
     }
   },
   {
@@ -92,7 +92,7 @@
     "category": "energy",
     "title": "Geothermal power plant",
     "conditions": {
-      "landform": [12]
+      "buildings": [12]
     }
   },
   {
@@ -113,7 +113,7 @@
     "category": "water-agriculture",
     "title": "Water pump",
     "conditions": {
-      "landform": [20]
+      "buildings": [20]
     }
   },
   {
@@ -286,7 +286,7 @@
     "only": "ground",
     "title": "Statue",
     "conditions": {
-      "landform": [13, 14]
+      "buildings": [13, 14]
     }
   },
   {
@@ -296,7 +296,7 @@
     "category": "habitats",
     "title": "Swimming pool",
     "conditions": {
-      "landform": [20]
+      "buildings": [20]
     }
   },
   {
@@ -314,7 +314,7 @@
     "category": "production",
     "title": "Factory",
     "conditions": {
-      "landform": [14]
+      "buildings": [14]
     }
   },
   {
@@ -334,7 +334,7 @@
     "category": "production",
     "title": "Glass refinery",
     "conditions": {
-      "landform": [13]
+      "buildings": [13]
     }
   },
   {
@@ -354,7 +354,7 @@
     "category": "production",
     "title": "Electronics fabricator",
     "conditions": {
-      "landform": [21]
+      "buildings": [21]
     }
   },
   {
@@ -406,7 +406,7 @@
     "category": "expansion",
     "title": "Elevator",
     "conditions": {
-      "landform": [19]
+      "buildings": [19]
     }
   },
   {
@@ -427,7 +427,7 @@
     "category": "terraformation",
     "title": "Ice drill",
     "conditions": {
-      "landform": [17]
+      "buildings": [17]
     }
   },
   {
@@ -477,7 +477,7 @@
     "only": "ground",
     "title": "Moss",
     "conditions": {
-      "landform": [181]
+      "buildings": [181]
     }
   },
   {
@@ -488,7 +488,7 @@
     "only": "ground",
     "title": "Grass",
     "conditions": {
-      "landform": [182]
+      "buildings": [182]
     }
   },
   {
@@ -499,7 +499,7 @@
     "only": "ground",
     "title": "Aquatic ecosystem",
     "conditions": {
-      "landform": [20]
+      "buildings": [20]
     }
   },
   {

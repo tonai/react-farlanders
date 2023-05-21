@@ -14,12 +14,19 @@ export function addBlockToMap(
     ...map,
     [level]: {
       buildings: map[level].buildings.map((line, j) =>
-        line.map((sid, i) =>
-          i === point.x && j === point.y - 1 ? block.sid : sid
-        )
+        line.map((sid, i) => {
+          if (i === point.x && j === point.y - 1) {
+            if (sid === 0) {
+              return block.sid;
+            }
+            return sid instanceof Array
+              ? [...sid, block.sid]
+              : [sid, block.sid];
+          }
+          return sid;
+        })
       ),
       land: map[level].land,
-      landforms: map[level].landforms,
     },
   };
 }
@@ -32,6 +39,7 @@ export function getMapBlockSid(
 
 export function transformAdjacentLand(
   level: ILevel,
+  board: IBoard,
   x: number,
   y: number,
   from: number[],
@@ -40,18 +48,18 @@ export function transformAdjacentLand(
 ): void {
   for (let i = x - 1; i <= x + 1; i++) {
     for (let j = y - 1; j <= y + 1; j++) {
-      const landform = getMapBlockSid(level.landforms?.[i]?.[j]);
-      const land = getMapBlockSid(level.land?.[i]?.[j]);
-      if (land && from.includes(land) && landform === 0) {
-        const cell = level.land[i][j];
+      const building = getMapBlockSid(level.buildings?.[i]?.[j]);
+      const land = getMapBlockSid(board?.[i]?.[j]);
+      if (land && from.includes(land) && building === 0) {
+        const cell = board[i][j];
         if (push) {
           if (cell instanceof Array) {
             cell.push(to);
           } else {
-            level.land[i][j] = [land, to];
+            board[i][j] = [land, to];
           }
         } else {
-          level.land[i][j] = to;
+          board[i][j] = to;
         }
       }
     }
@@ -59,20 +67,19 @@ export function transformAdjacentLand(
 }
 
 export function getUpdatedMap(map: IMap): IMap {
-  const land: IBoard = [];
+  const land: IBoard = map[0].land.map((row) =>
+    row.map((cell) => (cell instanceof Array ? [...cell] : cell))
+  );
+
   for (let i = 0; i < map[0].land.length; i++) {
-    land[i] = [];
     for (let j = 0; j < map[0].land[i].length; j++) {
-      const cell = map[0].land[i][j];
-      const landform = map[0].landforms[i][j];
       const building = getMapBlockSid(map[0].buildings[i][j]);
       if (building && DRYERS.includes(building)) {
-        transformAdjacentLand(map[0], i, j, [2, 4], 5);
+        transformAdjacentLand(map[0], land, i, j, [2, 4], 5);
       }
-      if (landform === 20 && building === 0) {
-        transformAdjacentLand(map[0], i, j, [2], 4, true);
+      if (building === 20) {
+        transformAdjacentLand(map[0], land, i, j, [2], 4, true);
       }
-      land[i][j] = cell;
     }
   }
 

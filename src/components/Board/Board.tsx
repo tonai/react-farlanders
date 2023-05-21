@@ -25,13 +25,7 @@ function Board(props: IBoardProps): JSX.Element {
   const cursorEl = useRef<HTMLDivElement>(null);
   const selectEl = useRef<HTMLDivElement>(null);
 
-  const boardProps = useBoardCursor(
-    rootEl,
-    cursorEl,
-    selectEl,
-    imageMap,
-    level
-  );
+  const boardProps = useBoardCursor(cursorEl, selectEl, imageMap, level);
 
   const mapLevel = map[level];
   const height = mapLevel.land.length;
@@ -42,10 +36,9 @@ function Board(props: IBoardProps): JSX.Element {
     imageMap,
     mapLevel.buildings
   );
-  const landformBg = getBackgroundArray(blockMap, imageMap, mapLevel.landforms);
   const landBg = getBackgroundArray(blockMap, imageMap, mapLevel.land);
 
-  const background = [...buildingsBg, ...landformBg, ...landBg].join(", ");
+  const background = [...buildingsBg, ...landBg].join(", ");
   const rootStyle: CSSProperties = {
     background,
     height: (height + 1) * BLOCK_SIZE - BLOCK_OFFSET,

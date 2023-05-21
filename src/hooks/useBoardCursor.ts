@@ -12,12 +12,11 @@ import { addBlockToMap } from "../services/map";
 
 export interface IBoardCursorHook {
   onClick: (event: ReactMouseEvent<HTMLDivElement>) => void;
-  onMouseEnter: (event: ReactMouseEvent<HTMLDivElement>) => void;
   onMouseLeave: () => void;
+  onMouseMove: (event: ReactMouseEvent<HTMLDivElement>) => void;
 }
 
 export function useBoardCursor(
-  rootEl: RefObject<HTMLDivElement>,
   cursorEl: RefObject<HTMLDivElement>,
   selectEl: RefObject<HTMLDivElement>,
   imageMap: Map<IBlock, IImage>,
@@ -41,6 +40,7 @@ export function useBoardCursor(
         cursorEl.current.style.height = `${BLOCK_SIZE}px`;
         cursorEl.current.style.width = `${BLOCK_SIZE}px`;
         cursorEl.current.style.top = "0px";
+        cursorEl.current.style.filter = "none";
       }
     }
   }, [cursorEl, imageMap, selectedBuilding]);
@@ -99,18 +99,13 @@ export function useBoardCursor(
     }
   }
 
-  function handleMouseEnter(): void {
-    if (rootEl.current) {
-      rootEl.current.addEventListener("mousemove", showCursor);
-    }
+  function handleMouseMove(event: ReactMouseEvent<HTMLDivElement>): void {
+    showCursor(event.nativeEvent);
   }
 
   function handleMouseLeave(): void {
-    if (rootEl.current) {
-      rootEl.current.removeEventListener("mousemove", showCursor);
-      if (cursorEl.current) {
-        cursorEl.current.style.display = "none";
-      }
+    if (cursorEl.current) {
+      cursorEl.current.style.display = "none";
     }
   }
 
@@ -121,7 +116,6 @@ export function useBoardCursor(
       if (selectedBuilding) {
         if (isBuildable(map[level], point, selectedBuilding)) {
           setMap((map) => addBlockToMap(map, selectedBuilding, point));
-          unselect();
         }
       } else {
         showHideElement(selectEl, point);
@@ -132,7 +126,7 @@ export function useBoardCursor(
 
   return {
     onClick: handleClick,
-    onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
+    onMouseMove: handleMouseMove,
   };
 }

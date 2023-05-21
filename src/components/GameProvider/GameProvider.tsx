@@ -20,16 +20,17 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const [selectedBuilding, setSelectedBuilding] = useState<IBuildingBlock>();
   const [selectedTile, setSelectedTile] = useState<IPoint>();
 
+  const updatedMap = useMemo(() => getUpdatedMap(map), [map]);
   const contextValue = useMemo(
     () => ({
-      map: getUpdatedMap(map),
+      map: updatedMap,
       selectedBuilding,
       selectedTile,
       setMap,
       setSelectedBuilding,
       setSelectedTile,
     }),
-    [map, selectedBuilding, selectedTile]
+    [selectedBuilding, selectedTile, updatedMap]
   );
 
   return (
