@@ -7,6 +7,10 @@ export enum BuildingTool {
   Remove = "remove",
 }
 
+export enum BlockState {
+  WrongGround = "wrong-ground",
+}
+
 export interface IBlockCategory {
   id: string;
   images: string;
@@ -29,6 +33,7 @@ export interface IBuildingBlock extends IBlock {
   category: string;
   conditions: IBuildingCondition;
   only?: GroundType;
+  states?: BlockState[];
   title: string;
 }
 

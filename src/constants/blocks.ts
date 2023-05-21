@@ -8,14 +8,19 @@ import rawBuildingBlocks from "../data/building-blocks.json";
 import rawBuildingCategories from "../data/buildings-categories.json";
 import rawLandBlocks from "../data/land-blocks.json";
 
+export const DISABLED_BLOCK_URL = "/assets/disabled.png";
+
 export const BLOCK_SIZE = 64;
 export const BLOCK_OFFSET = 6;
 
 export const landBlocks = rawLandBlocks as IBlocks;
 export const buildingBlocks = rawBuildingBlocks as IBuildingBlocks;
 export const categories = rawBuildingCategories as IBlockCategories;
-
 export const blocks = landBlocks.concat(buildingBlocks);
+
+export const landBlockMap = new Map(
+  landBlocks.map((block) => [block.sid, block])
+);
 export const buildingBlocksMap = new Map(
   buildingBlocks.map((block) => [block.sid, block])
 );

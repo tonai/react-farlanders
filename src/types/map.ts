@@ -1,3 +1,5 @@
+import type { IBlock } from "./block";
+
 export type IBoard = (number[] | number)[][];
 
 export interface ILevel {
@@ -6,3 +8,12 @@ export interface ILevel {
 }
 
 export type IMap = Record<number | string, ILevel>;
+
+export type IBlockBoard = (IBlock | IBlock[])[][];
+
+export interface IBlockLevel {
+  buildings: IBlockBoard;
+  land: IBlockBoard;
+}
+
+export type IBlockMap = Record<number | string, IBlockLevel>;

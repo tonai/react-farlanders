@@ -1,11 +1,10 @@
-import type { IBlock } from "../../types/block";
 import type { IImage } from "../../types/image";
 import type { CSSProperties } from "react";
 
 import classNames from "classnames";
 import { useContext, useRef } from "react";
 
-import { BLOCK_OFFSET, BLOCK_SIZE, blockMap } from "../../constants/blocks";
+import { BLOCK_OFFSET, BLOCK_SIZE } from "../../constants/blocks";
 import { gameContext } from "../../contexts/game";
 import { useBoardCursor } from "../../hooks/useBoardCursor";
 import { getBackgroundArray } from "../../services/board";
@@ -14,7 +13,7 @@ import { BuildingTool } from "../../types/block";
 import "./Board.css";
 
 export interface IBoardProps {
-  imageMap: Map<IBlock, IImage>;
+  imageMap: Map<number, IImage>;
   level: number;
 }
 
@@ -32,14 +31,10 @@ function Board(props: IBoardProps): JSX.Element {
   const height = mapLevel.land.length;
   const width = mapLevel.land[0].length;
 
-  const buildingsBg = getBackgroundArray(
-    blockMap,
-    imageMap,
-    mapLevel.buildings
-  );
-  const landBg = getBackgroundArray(blockMap, imageMap, mapLevel.land);
+  const buildingsBg = getBackgroundArray(imageMap, mapLevel.buildings);
+  const landBg = getBackgroundArray(imageMap, mapLevel.land);
 
-  const background = [...buildingsBg, ...landBg].join(", ");
+  const background = [...buildingsBg, ...landBg].join(",");
   const rootStyle: CSSProperties = {
     background,
     height: (height + 1) * BLOCK_SIZE - BLOCK_OFFSET,

@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 
 import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
-import { getUpdatedMap } from "../../services/map";
+import { getBlockMap } from "../../services/map";
 
 export interface IGameProviderProps {
   children: ReactNode;
@@ -21,10 +21,10 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const [selectedTile, setSelectedTile] = useState<IPoint>();
   const [selectedTool, setSelectedTool] = useState<BuildingTool>();
 
-  const updatedMap = useMemo(() => getUpdatedMap(map), [map]);
+  const blockMap = useMemo(() => getBlockMap(map), [map]);
   const contextValue = useMemo(
     () => ({
-      map: updatedMap,
+      map: blockMap,
       selectedBuilding,
       selectedTile,
       selectedTool,
@@ -33,7 +33,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       setSelectedTile,
       setSelectedTool,
     }),
-    [selectedBuilding, selectedTile, selectedTool, updatedMap]
+    [blockMap, selectedBuilding, selectedTile, selectedTool]
   );
 
   return (

@@ -1,4 +1,3 @@
-import type { IBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
 import type { MouseEvent as ReactMouseEvent, RefObject } from "react";
@@ -19,7 +18,7 @@ export interface IBoardCursorHook {
 export function useBoardCursor(
   cursorEl: RefObject<HTMLDivElement>,
   selectEl: RefObject<HTMLDivElement>,
-  imageMap: Map<IBlock, IImage>,
+  imageMap: Map<number, IImage>,
   level = 0
 ): IBoardCursorHook {
   const { map, selectedBuilding, selectedTool, setMap, setSelectedTile } =
@@ -27,10 +26,10 @@ export function useBoardCursor(
 
   useEffect(() => {
     if (cursorEl.current) {
-      cursorEl.current.style.background = "none";
+      cursorEl.current.style.backgroundColor = "transparent";
       if (selectedBuilding) {
         cursorEl.current.style.backgroundImage = `url(${selectedBuilding.images})`;
-        const image = imageMap.get(selectedBuilding);
+        const image = imageMap.get(selectedBuilding.sid);
         if (image) {
           cursorEl.current.style.height = `${image.height}px`;
           cursorEl.current.style.width = `${image.width}px`;
@@ -43,7 +42,7 @@ export function useBoardCursor(
         cursorEl.current.style.top = "0px";
       }
     }
-  }, [cursorEl, imageMap, selectedBuilding]);
+  }, [cursorEl, imageMap, selectedBuilding, selectedTool]);
 
   const unselect = useCallback(() => {
     if (selectEl.current) {
@@ -90,16 +89,17 @@ export function useBoardCursor(
     const point = getPoint(event.nativeEvent);
     showHideElement(cursorEl, point);
     if (point && cursorEl.current) {
+      const { x, y } = point;
       cursorEl.current.style.display = "block";
       if (selectedBuilding) {
-        if (isBuildable(map[level], point, selectedBuilding)) {
+        if (isBuildable(map[level], y - 1, x, selectedBuilding)) {
           cursorEl.current.style.filter = "none";
         } else {
           cursorEl.current.style.filter =
             "saturate(0) sepia(1) hue-rotate(-50deg) saturate(4)";
         }
       } else if (selectedTool) {
-        if (isRemovable(map[level], point)) {
+        if (isRemovable(map[level], y - 1, x)) {
           cursorEl.current.style.backgroundColor = "transparent";
         } else {
           cursorEl.current.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
@@ -120,12 +120,13 @@ export function useBoardCursor(
     event.stopPropagation();
     const point = getPoint(event.nativeEvent);
     if (point) {
+      const { x, y } = point;
       if (selectedBuilding) {
-        if (isBuildable(map[level], point, selectedBuilding)) {
+        if (isBuildable(map[level], y - 1, x, selectedBuilding)) {
           setMap((map) => addBlockToMap(map, selectedBuilding, point));
         }
       } else if (selectedTool) {
-        if (isRemovable(map[level], point)) {
+        if (isRemovable(map[level], y - 1, x)) {
           setMap((map) => removeBlockFromMap(map, point));
         }
       } else {

@@ -1,8 +1,13 @@
 import type { IBlock } from "../types/block";
 import type { IPoint } from "../types/game";
-import type { IBoard, ILevel, IMap } from "../types/map";
+import type { IBlockBoard, IBlockMap, IMap } from "../types/map";
 
+import { blockMap, landBlockMap } from "../constants/blocks";
 import { DRYERS } from "../constants/map";
+import { BlockState } from "../types/block";
+
+import { isBuildingBlock } from "./block";
+import { isLandCorrect } from "./board";
 
 export function addBlockToMap(
   map: IMap,
@@ -54,9 +59,13 @@ export function getMapBlockSid(
   return mapItem instanceof Array ? (mapItem.at(-1) as number) : mapItem;
 }
 
+export function getMapBlock(mapItem?: IBlock | IBlock[]): IBlock | undefined {
+  return mapItem instanceof Array ? (mapItem.at(-1) as IBlock) : mapItem;
+}
+
 export function transformAdjacentLand(
-  level: ILevel,
-  board: IBoard,
+  land: IBlockBoard,
+  buildings: IBlockBoard,
   x: number,
   y: number,
   from: number[],
@@ -65,43 +74,86 @@ export function transformAdjacentLand(
 ): void {
   for (let i = x - 1; i <= x + 1; i++) {
     for (let j = y - 1; j <= y + 1; j++) {
-      const building = getMapBlockSid(level.buildings?.[i]?.[j]);
-      const land = getMapBlockSid(board?.[i]?.[j]);
-      if (land && from.includes(land) && building === 0) {
-        const cell = board[i][j];
+      const building = getMapBlock(buildings?.[i]?.[j]);
+      const landBlock = getMapBlock(land?.[i]?.[j]);
+      const toBlock = blockMap.get(to);
+      if (
+        toBlock &&
+        landBlock &&
+        from.includes(landBlock.sid) &&
+        (!building || !landBlockMap.has(building.sid))
+      ) {
+        const cell = land[i][j];
         if (push) {
           if (cell instanceof Array) {
-            cell.push(to);
+            cell.push(toBlock);
           } else {
-            board[i][j] = [land, to];
+            land[i][j] = [landBlock, toBlock];
           }
         } else {
-          board[i][j] = to;
+          land[i][j] = toBlock;
         }
       }
     }
   }
 }
 
-export function getUpdatedMap(map: IMap): IMap {
-  const land: IBoard = map[0].land.map((row) =>
-    row.map((cell) => (cell instanceof Array ? [...cell] : cell))
+export function checkBuildingConditions(
+  land: IBlockBoard,
+  buildings: IBlockBoard,
+  x: number,
+  y: number
+): void {
+  const buildingBlock = getMapBlock(buildings?.[x]?.[y]);
+  const landBlock = getMapBlock(land[x][y]);
+  if (
+    buildingBlock &&
+    landBlock &&
+    isBuildingBlock(buildingBlock) &&
+    !isLandCorrect(buildingBlock, landBlock.sid)
+  ) {
+    if (buildingBlock.states) {
+      buildingBlock.states.push(BlockState.WrongGround);
+    } else {
+      buildingBlock.states = [BlockState.WrongGround];
+    }
+  }
+}
+
+export function getBlock(sid: number): IBlock {
+  const block = blockMap.get(sid) as IBlock;
+  return { ...block };
+}
+
+export function getBlockMap(map: IMap): IBlockMap {
+  const buildings: IBlockBoard = map[0].buildings.map((row) =>
+    row.map((cell) =>
+      cell instanceof Array ? cell.map(getBlock) : getBlock(cell)
+    )
+  );
+  const land: IBlockBoard = map[0].land.map((row) =>
+    row.map((cell) =>
+      cell instanceof Array ? cell.map(getBlock) : getBlock(cell)
+    )
   );
 
   for (let i = 0; i < map[0].land.length; i++) {
     for (let j = 0; j < map[0].land[i].length; j++) {
-      const building = getMapBlockSid(map[0].buildings[i][j]);
-      if (building && DRYERS.includes(building)) {
-        transformAdjacentLand(map[0], land, i, j, [2, 4], 5);
+      const building = getMapBlock(buildings[i][j]);
+      if (building && DRYERS.includes(building.sid)) {
+        transformAdjacentLand(land, buildings, i, j, [2, 4], 5);
       }
-      if (building === 20) {
-        transformAdjacentLand(map[0], land, i, j, [2], 4, true);
+      if (building?.sid === 20) {
+        transformAdjacentLand(land, buildings, i, j, [2], 4, true);
+      }
+      if (building?.sid !== 0) {
+        checkBuildingConditions(land, buildings, i, j);
       }
     }
   }
 
   return {
     ...map,
-    0: { ...map[0], land },
+    0: { buildings, land },
   };
 }
