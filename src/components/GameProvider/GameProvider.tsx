@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 
 import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
+import { getUpdatedMap } from "../../services/map";
 
 export interface IGameProviderProps {
   children: ReactNode;
@@ -21,7 +22,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
 
   const contextValue = useMemo(
     () => ({
-      map,
+      map: getUpdatedMap(map),
       selectedBuilding,
       selectedTile,
       setMap,
