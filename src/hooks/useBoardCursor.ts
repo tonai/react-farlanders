@@ -27,6 +27,7 @@ export function useBoardCursor(
   useEffect(() => {
     if (cursorEl.current) {
       cursorEl.current.style.backgroundColor = "transparent";
+      cursorEl.current.style.filter = "none";
       if (selectedBuilding) {
         cursorEl.current.style.backgroundImage = `url(${selectedBuilding.images})`;
         const image = imageMap.get(selectedBuilding.sid);
