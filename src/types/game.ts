@@ -8,6 +8,7 @@ export interface IPoint {
 }
 
 export interface IGameContext {
+  colonyLevel: number;
   map: IBlockMap;
   selectedBuilding?: IBuildingBlock;
   selectedTile?: IPoint;

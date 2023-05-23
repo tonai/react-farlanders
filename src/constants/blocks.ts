@@ -12,6 +12,7 @@ export const DISABLED_BLOCK_URL = "/assets/disabled.png";
 
 export const BLOCK_SIZE = 64;
 export const BLOCK_OFFSET = 6;
+export const BASE_SID = 130;
 
 export const landBlocks = rawLandBlocks as IBlocks;
 export const buildingBlocks = rawBuildingBlocks as IBuildingBlocks;

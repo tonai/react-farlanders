@@ -4,7 +4,7 @@ import type { MouseEvent } from "react";
 import classNames from "classnames";
 import { useContext, useEffect, useState } from "react";
 
-import { blockCategoryMap, categories } from "../../constants/blocks";
+import { BASE_SID, blockCategoryMap, categories } from "../../constants/blocks";
 import { ESCAPE } from "../../constants/keys";
 import { gameContext } from "../../contexts/game";
 import { BuildingTool, GroundType } from "../../types/block";
@@ -14,6 +14,7 @@ import "./BuildingsInterface.css";
 function BuildingsInterface(): JSX.Element {
   const [activeCategory, setActiveCategory] = useState<string>();
   const {
+    colonyLevel,
     selectedBuilding,
     selectedTool,
     setSelectedBuilding,
@@ -80,34 +81,41 @@ function BuildingsInterface(): JSX.Element {
 
   return (
     <div className="BuildingsInterface">
-      {categories.map((category) => (
-        <div
-          key={category.id}
-          className={classNames("BuildingsInterface__category", {
-            "BuildingsInterface__category--active":
-              activeCategory === category.id,
-          })}
-        >
-          <button
-            className="BuildingsInterface__button"
-            onClick={(e) => handleActiveCategory(e, category.id)}
-            type="button"
-          >
-            <img
-              alt={category.title}
-              className="BuildingsInterface__image"
-              src={category.images}
-            />
-          </button>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+      {categories.map((category) => {
+        const categoryBlocks = blockCategoryMap
+          .get(category.id)
+          ?.filter(
+            (block) =>
+              block.only !== GroundType.Underground &&
+              ((colonyLevel === 0 && block.sid === BASE_SID) ||
+                (colonyLevel > 0 && block.sid !== BASE_SID))
+          );
+        return (
           <div
-            className="BuildingsInterface__blocks"
-            onClick={handlePropagation}
+            key={category.id}
+            className={classNames("BuildingsInterface__category", {
+              "BuildingsInterface__category--active":
+                activeCategory === category.id,
+            })}
           >
-            {blockCategoryMap
-              .get(category.id)
-              ?.filter((block) => block.only !== GroundType.Underground)
-              .map((block) => (
+            <button
+              className="BuildingsInterface__button"
+              disabled={!categoryBlocks || categoryBlocks.length === 0}
+              onClick={(e) => handleActiveCategory(e, category.id)}
+              type="button"
+            >
+              <img
+                alt={category.title}
+                className="BuildingsInterface__image"
+                src={category.images}
+              />
+            </button>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+            <div
+              className="BuildingsInterface__blocks"
+              onClick={handlePropagation}
+            >
+              {categoryBlocks?.map((block) => (
                 <button
                   key={block.id}
                   className={classNames("BuildingsInterface__blocks-button", {
@@ -124,9 +132,10 @@ function BuildingsInterface(): JSX.Element {
                   />
                 </button>
               ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       <div
         className={classNames(
           "BuildingsInterface__category",

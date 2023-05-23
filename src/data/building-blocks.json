@@ -197,9 +197,20 @@
     "title": "Hydro fertilizer"
   },
   {
+    "id": "base",
+    "images": "/assets/buildings/habitats/base.png",
+    "sid": 130,
+    "category": "habitats",
+    "only": "ground",
+    "title": "Base",
+    "conditions": {
+      "land": [1, 2, 4]
+    }
+  },
+  {
     "id": "basic-house",
     "images": "/assets/buildings/habitats/basic-house.png",
-    "sid": 130,
+    "sid": 131,
     "category": "habitats",
     "only": "ground",
     "title": "Basic house",
@@ -210,7 +221,7 @@
   {
     "id": "house",
     "images": "/assets/buildings/habitats/house.png",
-    "sid": 131,
+    "sid": 132,
     "category": "habitats",
     "only": "ground",
     "title": "House",
@@ -222,7 +233,7 @@
   {
     "id": "luxury-house",
     "images": "/assets/buildings/habitats/luxury-house.png",
-    "sid": 132,
+    "sid": 133,
     "category": "habitats",
     "only": "ground",
     "title": "Luxury house",
@@ -233,7 +244,7 @@
   {
     "id": "underground-house",
     "images": "/assets/buildings/habitats/underground-house.png",
-    "sid": 133,
+    "sid": 134,
     "category": "habitats",
     "only": "underground",
     "title": "Underground house"
@@ -241,7 +252,7 @@
   {
     "id": "lanterns",
     "images": "/assets/buildings/habitats/lanterns.png",
-    "sid": 134,
+    "sid": 135,
     "category": "habitats",
     "only": "underground",
     "title": "Lanterns"
@@ -249,7 +260,7 @@
   {
     "id": "community-center",
     "images": "/assets/buildings/habitats/community-center.png",
-    "sid": 135,
+    "sid": 136,
     "category": "habitats",
     "title": "Community center",
     "conditions": {
@@ -260,7 +271,7 @@
   {
     "id": "restaurant",
     "images": "/assets/buildings/habitats/restaurant.png",
-    "sid": 136,
+    "sid": 137,
     "category": "habitats",
     "title": "Restaurant",
     "conditions": {
@@ -270,7 +281,7 @@
   {
     "id": "park",
     "images": "/assets/buildings/habitats/park.png",
-    "sid": 137,
+    "sid": 138,
     "category": "habitats",
     "only": "ground",
     "title": "Park",
@@ -281,7 +292,7 @@
   {
     "id": "statue",
     "images": "/assets/buildings/habitats/statue.png",
-    "sid": 138,
+    "sid": 139,
     "category": "habitats",
     "only": "ground",
     "title": "Statue",
@@ -292,7 +303,7 @@
   {
     "id": "swimming-pool",
     "images": "/assets/buildings/habitats/swimming-pool.png",
-    "sid": 139,
+    "sid": 140,
     "category": "habitats",
     "title": "Swimming pool",
     "conditions": {
@@ -302,7 +313,7 @@
   {
     "id": "robotics-gallery",
     "images": "/assets/buildings/habitats/robotics-gallery.png",
-    "sid": 140,
+    "sid": 141,
     "category": "habitats",
     "only": "underground",
     "title": "Robotics gallery"

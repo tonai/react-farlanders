@@ -30,6 +30,10 @@
   background-color: transparent;
 }
 
+.BuildingsInterface__button:disabled {
+  filter: saturate(0) brightness(0.3);
+}
+
 .BuildingsInterface__image {
   display: block;
 }

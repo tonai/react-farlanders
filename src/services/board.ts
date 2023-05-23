@@ -3,6 +3,7 @@ import type { IImage } from "../types/image";
 import type { IBlockBoard, IBlockLevel } from "../types/map";
 
 import {
+  BASE_SID,
   BLOCK_OFFSET,
   BLOCK_SIZE,
   DISABLED_BLOCK_URL,
@@ -107,5 +108,7 @@ export function isBuildable(
 
 export function isRemovable(level: IBlockLevel, x: number, y: number): boolean {
   const building = getMapBlock(level.buildings[x][y]);
-  return buildingBlocksMap.has(building?.sid ?? 0);
+  return (
+    buildingBlocksMap.has(building?.sid ?? 0) && building?.sid !== BASE_SID
+  );
 }
