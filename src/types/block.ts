@@ -9,6 +9,19 @@ export enum BuildingTool {
 
 export enum BlockState {
   WrongGround = "wrong-ground",
+  MissingPipe = "missing-pipe",
+  MissingPowerLine = "missing-power-line",
+  MissingReinforcedPowerLine = "missing-reinforced-power-line",
+  MissingReinforcedPipe = "missing-reinforced-pipe",
+  MissingTunnel = "missing-tunnel",
+}
+
+export enum Connection {
+  Pipe = "pipe",
+  PowerLine = "power-line",
+  ReinforcedPowerLine = "reinforced-power-line",
+  ReinforcedPipe = "reinforced-pipe",
+  Tunnel = "tunnel",
 }
 
 export interface IBlockCategory {
@@ -32,6 +45,7 @@ export interface IBuildingCondition {
 export interface IBuildingBlock extends IBlock {
   category: string;
   conditions: IBuildingCondition;
+  connections?: Connection[];
   only?: GroundType;
   states?: BlockState[];
   title: string;

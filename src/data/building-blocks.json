@@ -62,7 +62,8 @@
     "title": "Wind turbine",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "solar-panel",
@@ -73,7 +74,8 @@
     "title": "Solar panel",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "capacitor",
@@ -83,7 +85,8 @@
     "title": "Capacitor",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "geothermal-power-plant",
@@ -93,7 +96,8 @@
     "title": "Geothermal power plant",
     "conditions": {
       "buildings": [12]
-    }
+    },
+    "connections": ["reinforced-power-line"]
   },
   {
     "id": "water-condenser",
@@ -104,7 +108,8 @@
     "title": "Water condenser",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["pipe"]
   },
   {
     "id": "water-pump",
@@ -114,7 +119,8 @@
     "title": "Water pump",
     "conditions": {
       "buildings": [20]
-    }
+    },
+    "connections": ["power-line", "reinforced-pipe"]
   },
   {
     "id": "water-tank",
@@ -124,7 +130,8 @@
     "title": "Water tank",
     "conditions": {
       "land": [2, 4]
-    }
+    },
+    "connections": ["pipe"]
   },
   {
     "id": "greenhouse",
@@ -135,7 +142,8 @@
     "title": "Greenhouse",
     "conditions": {
       "land": [4]
-    }
+    },
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "food-silo",
@@ -145,7 +153,8 @@
     "title": "Food-silo",
     "conditions": {
       "land": [2, 4]
-    }
+    },
+    "connections": ["power-line", "tunnel"]
   },
   {
     "id": "spice-greenhouse",
@@ -156,7 +165,8 @@
     "title": "Spice greenhouse",
     "conditions": {
       "buildings": [123]
-    }
+    },
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "ground-hydrator",
@@ -167,7 +177,8 @@
     "title": "Ground hydrator",
     "conditions": {
       "land": [2, 4]
-    }
+    },
+    "connections": ["power-line", "pipe"]
   },
   {
     "id": "water-dispenser",
@@ -178,7 +189,8 @@
     "title": "Water dispenser",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["reinforced-power-line", "reinforced-pipe"]
   },
   {
     "id": "hydroponic-farm",
@@ -186,7 +198,8 @@
     "sid": 128,
     "category": "water-agriculture",
     "only": "underground",
-    "title": "Hydroponic farm"
+    "title": "Hydroponic farm",
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "hydro-fertilizer",
@@ -194,7 +207,8 @@
     "sid": 129,
     "category": "water-agriculture",
     "only": "underground",
-    "title": "Hydro fertilizer"
+    "title": "Hydro fertilizer",
+    "connections": ["power-line"]
   },
   {
     "id": "base",
@@ -205,7 +219,8 @@
     "title": "Base",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["reinforced-power-line", "reinforced-pipe", "tunnel"]
   },
   {
     "id": "basic-house",
@@ -216,7 +231,8 @@
     "title": "Basic house",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "house",
@@ -228,7 +244,8 @@
     "conditions": {
       "land": [2, 4],
       "buildings": [130]
-    }
+    },
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "luxury-house",
@@ -239,7 +256,8 @@
     "title": "Luxury house",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "underground-house",
@@ -247,7 +265,8 @@
     "sid": 134,
     "category": "habitats",
     "only": "underground",
-    "title": "Underground house"
+    "title": "Underground house",
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "lanterns",
@@ -255,7 +274,8 @@
     "sid": 135,
     "category": "habitats",
     "only": "underground",
-    "title": "Lanterns"
+    "title": "Lanterns",
+    "connections": ["power-line"]
   },
   {
     "id": "community-center",
@@ -266,7 +286,8 @@
     "conditions": {
       "land": [1, 2, 4],
       "buildings": [130, 131]
-    }
+    },
+    "connections": ["power-line", "pipe", "tunnel"]
   },
   {
     "id": "restaurant",
@@ -276,7 +297,8 @@
     "title": "Restaurant",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["reinforced-power-line", "pipe", "tunnel"]
   },
   {
     "id": "park",
@@ -287,7 +309,8 @@
     "title": "Park",
     "conditions": {
       "land": [4]
-    }
+    },
+    "connections": ["power-line", "reinforced-pipe", "tunnel"]
   },
   {
     "id": "statue",
@@ -298,7 +321,8 @@
     "title": "Statue",
     "conditions": {
       "buildings": [13, 14]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "swimming-pool",
@@ -308,7 +332,8 @@
     "title": "Swimming pool",
     "conditions": {
       "buildings": [20]
-    }
+    },
+    "connections": ["reinforced-power-line", "tunnel"]
   },
   {
     "id": "robotics-gallery",
@@ -316,7 +341,8 @@
     "sid": 141,
     "category": "habitats",
     "only": "underground",
-    "title": "Robotics gallery"
+    "title": "Robotics gallery",
+    "connections": ["reinforced-power-line", "pipe", "tunnel"]
   },
   {
     "id": "factory",
@@ -326,7 +352,8 @@
     "title": "Factory",
     "conditions": {
       "buildings": [14]
-    }
+    },
+    "connections": ["power-line", "tunnel"]
   },
   {
     "id": "mineral-deposit",
@@ -336,7 +363,8 @@
     "title": "Mineral deposit",
     "conditions": {
       "land": [2, 4]
-    }
+    },
+    "connections": ["tunnel"]
   },
   {
     "id": "glass-refinery",
@@ -346,7 +374,8 @@
     "title": "Glass refinery",
     "conditions": {
       "buildings": [13]
-    }
+    },
+    "connections": ["power-line", "tunnel"]
   },
   {
     "id": "glass-deposit",
@@ -356,7 +385,8 @@
     "title": "Glass deposit",
     "conditions": {
       "land": [2, 4]
-    }
+    },
+    "connections": ["tunnel"]
   },
   {
     "id": "electronics-fabricator",
@@ -366,7 +396,8 @@
     "title": "Electronics fabricator",
     "conditions": {
       "buildings": [21]
-    }
+    },
+    "connections": ["reinforced-power-line", "tunnel"]
   },
   {
     "id": "landing-platform",
@@ -387,7 +418,8 @@
     "title": "Scanner",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "anomaly-research-camp",
@@ -397,7 +429,8 @@
     "title": "Anomaly research camp",
     "conditions": {
       "land": [1, 2, 3, 4]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "spaceport",
@@ -408,7 +441,8 @@
     "title": "Spaceport",
     "conditions": {
       "land": [2]
-    }
+    },
+    "connections": ["power-line", "tunnel"]
   },
   {
     "id": "elevator",
@@ -418,7 +452,8 @@
     "title": "Elevator",
     "conditions": {
       "buildings": [19]
-    }
+    },
+    "connections": ["reinforced-power-line", "tunnel"]
   },
   {
     "id": "ground-stabilizer",
@@ -429,7 +464,8 @@
     "title": "Ground stabilizer",
     "conditions": {
       "land": [1, 3]
-    }
+    },
+    "connections": ["power-line", "pipe"]
   },
   {
     "id": "ice-drill",
@@ -439,7 +475,8 @@
     "title": "Ice drill",
     "conditions": {
       "buildings": [17]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "explosives",
@@ -467,7 +504,8 @@
     "title": "Bio storehouse",
     "conditions": {
       "land": [1, 2, 4]
-    }
+    },
+    "connections": ["power-line", "tunnel"]
   },
   {
     "id": "bacteria",
@@ -478,7 +516,8 @@
     "title": "Bacteria",
     "conditions": {
       "land": [2, 4]
-    }
+    },
+    "connections": ["power-line", "pipe"]
   },
   {
     "id": "moss",
@@ -489,7 +528,8 @@
     "title": "Moss",
     "conditions": {
       "buildings": [181]
-    }
+    },
+    "connections": ["power-line", "pipe"]
   },
   {
     "id": "grass",
@@ -500,7 +540,8 @@
     "title": "Grass",
     "conditions": {
       "buildings": [182]
-    }
+    },
+    "connections": ["power-line", "pipe"]
   },
   {
     "id": "aquatic-ecosystem",
@@ -511,7 +552,8 @@
     "title": "Aquatic ecosystem",
     "conditions": {
       "buildings": [20]
-    }
+    },
+    "connections": ["power-line"]
   },
   {
     "id": "fungi",
@@ -519,6 +561,7 @@
     "sid": 185,
     "category": "biomatter",
     "only": "underground",
-    "title": "Fungi"
+    "title": "Fungi",
+    "connections": ["power-line", "pipe"]
   }
 ]

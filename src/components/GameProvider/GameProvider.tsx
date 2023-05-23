@@ -5,10 +5,10 @@ import type { ReactNode } from "react";
 
 import { useEffect, useMemo, useState } from "react";
 
-import { BASE_SID } from "../../constants/blocks";
 import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
-import { getBlockMap, getMapBlockSid } from "../../services/map";
+import { getBase } from "../../services/board";
+import { getBlockMap, getTunnels } from "../../services/map";
 
 export interface IGameProviderProps {
   children: ReactNode;
@@ -24,18 +24,13 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const [selectedTool, setSelectedTool] = useState<BuildingTool>();
 
   useEffect(() => {
-    if (colonyLevel === 0) {
-      if (
-        map[0].buildings
-          .flat()
-          .some((block) => getMapBlockSid(block) === BASE_SID)
-      ) {
-        setColonyLevel(1);
-      }
+    if (colonyLevel === 0 && getBase(map)) {
+      setColonyLevel(1);
     }
   }, [colonyLevel, map]);
 
-  const blockMap = useMemo(() => getBlockMap(map), [map]);
+  const tunnels = useMemo(() => getTunnels(map), [map]);
+  const blockMap = useMemo(() => getBlockMap(map, tunnels), [map, tunnels]);
   const contextValue = useMemo(
     () => ({
       colonyLevel,
@@ -47,8 +42,16 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       setSelectedBuilding,
       setSelectedTile,
       setSelectedTool,
+      tunnels,
     }),
-    [blockMap, colonyLevel, selectedBuilding, selectedTile, selectedTool]
+    [
+      blockMap,
+      colonyLevel,
+      selectedBuilding,
+      selectedTile,
+      selectedTool,
+      tunnels,
+    ]
   );
 
   return (

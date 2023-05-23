@@ -1,6 +1,7 @@
 import type { IBlock } from "./block";
 
 export type IBoard = (number[] | number)[][];
+export type IConnectionBoard = (boolean | null)[][];
 
 export interface ILevel {
   buildings: IBoard;
