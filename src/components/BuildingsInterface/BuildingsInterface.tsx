@@ -2,7 +2,7 @@ import type { IBuildingBlock } from "../../types/block";
 import type { MouseEvent } from "react";
 
 import classNames from "classnames";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { BASE_SID, blockCategoryMap, categories } from "../../constants/blocks";
 import { ESCAPE } from "../../constants/keys";
@@ -51,13 +51,13 @@ function BuildingsInterface(): JSX.Element {
     setSelectedBuilding(undefined);
   }
 
-  useEffect(() => {
-    function unselect(): void {
-      setActiveCategory(undefined);
-      setSelectedBuilding(undefined);
-      setSelectedTool(undefined);
-    }
+  const unselect = useCallback((): void => {
+    setActiveCategory(undefined);
+    setSelectedBuilding(undefined);
+    setSelectedTool(undefined);
+  }, [setSelectedBuilding, setSelectedTool]);
 
+  useEffect(() => {
     function handleKeyUp(event: KeyboardEvent): void {
       if (event.code === ESCAPE) {
         unselect();
@@ -77,7 +77,13 @@ function BuildingsInterface(): JSX.Element {
       window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("contextmenu", handleContextMenu);
     };
-  }, [setSelectedBuilding, setSelectedTool]);
+  }, [unselect]);
+
+  useEffect(() => {
+    if (colonyLevel === 1 && selectedBuilding?.sid === BASE_SID) {
+      unselect();
+    }
+  }, [colonyLevel, selectedBuilding, unselect]);
 
   return (
     <div className="BuildingsInterface">
