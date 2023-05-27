@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 
 import { useEffect, useMemo, useState } from "react";
 
+import { PIPES_SIDS, POWER_LINES_SIDS } from "../../constants/blocks";
 import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
 import { getBase } from "../../services/board";
@@ -25,6 +26,16 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const [selectedTile, setSelectedTile] = useState<IPoint>();
   const [selectedTool, setSelectedTool] = useState<BuildingTool>();
   const [view, setView] = useState<View>(View.Buildings);
+
+  useEffect(() => {
+    if (selectedBuilding && POWER_LINES_SIDS.includes(selectedBuilding.sid)) {
+      setView(View.Power);
+    } else if (selectedBuilding && PIPES_SIDS.includes(selectedBuilding.sid)) {
+      setView(View.Water);
+    } else {
+      setView(View.Buildings);
+    }
+  }, [selectedBuilding]);
 
   useEffect(() => {
     if (colonyLevel === 0 && getBase(map)) {
