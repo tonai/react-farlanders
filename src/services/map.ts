@@ -198,7 +198,10 @@ export function checkBuildingConditions(
     if (!isLandCorrect(buildingBlock, landBlock.sid)) {
       buildingBlock.states.push(BlockState.WrongGround);
     }
-    if (!isConnected(tunnels, x, y)) {
+    if (
+      buildingBlock.connections?.includes(Connection.Tunnel) &&
+      !isConnected(tunnels, x, y)
+    ) {
       buildingBlock.states.push(BlockState.MissingTunnel);
     }
   }

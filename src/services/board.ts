@@ -7,6 +7,8 @@ import {
   BASE_SID,
   BLOCK_SIZE,
   DISABLED_BLOCK_URL,
+  PIPES_SIDS,
+  POWER_LINES_SIDS,
   TUNNEL_SID,
   buildingBlocksMap,
 } from "../constants/blocks";
@@ -80,14 +82,18 @@ export function getBackgroundArray(
 
 export function isBuildingCorrect(
   selectedBuilding: IBuildingBlock,
-  building = 0
+  building = 0,
+  landformOnly = false
 ): boolean {
-  return (
+  const buildCondition =
     (selectedBuilding.connections?.includes(Connection.Tunnel) &&
       building === TUNNEL_SID) ||
     (selectedBuilding.conditions.buildings
       ? selectedBuilding.conditions.buildings.includes(building)
-      : building === 0)
+      : building === 0);
+  return (
+    (!landformOnly && buildCondition) ||
+    (landformOnly && (buildingBlocksMap.has(building) || buildCondition))
   );
 }
 
@@ -108,8 +114,11 @@ export function isBuildable(
 ): boolean {
   const building = getMapBlock(level.buildings[x][y]);
   const land = getMapBlock(level.land[x][y]);
+  const landformOnly =
+    POWER_LINES_SIDS.includes(selectedBuilding.sid) ||
+    PIPES_SIDS.includes(selectedBuilding.sid);
   return (
-    isBuildingCorrect(selectedBuilding, building?.sid) &&
+    isBuildingCorrect(selectedBuilding, building?.sid, landformOnly) &&
     isLandCorrect(selectedBuilding, land?.sid)
   );
 }
