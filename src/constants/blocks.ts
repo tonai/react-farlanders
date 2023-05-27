@@ -11,9 +11,14 @@ import rawLandBlocks from "../data/land-blocks.json";
 export const DISABLED_BLOCK_URL = "/assets/disabled.png";
 
 export const BLOCK_SIZE = 64;
-export const BLOCK_OFFSET = 6;
 export const BASE_SID = 130;
-export const TUNNEL_SID = 103;
+export const POWER_LINES_SID = 100;
+export const REINFORCED_POWER_LINES_SID = 101;
+export const POWER_LINES_SIDS = [POWER_LINES_SID, REINFORCED_POWER_LINES_SID];
+export const PIPES_SID = 102;
+export const REINFORCED_PIPES_SID = 103;
+export const PIPES_SIDS = [PIPES_SID, REINFORCED_PIPES_SID];
+export const TUNNEL_SID = 104;
 
 export const landBlocks = rawLandBlocks as IBlocks;
 export const buildingBlocks = rawBuildingBlocks as IBuildingBlocks;

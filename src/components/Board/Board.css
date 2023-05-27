@@ -2,6 +2,14 @@
   position: relative;
 }
 
+.Board__bg {
+  transition: filter linear 200ms;
+}
+
+.Board__bg--fade {
+  filter: saturate(0);
+}
+
 .Board__cursor {
   position: absolute;
   top: 0;

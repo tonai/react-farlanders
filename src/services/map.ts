@@ -1,52 +1,119 @@
 import type { IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type {
-  IBlockBoard,
   IBlockMap,
   IBoard,
+  IBoardBlock,
   IConnectionBoard,
+  ILevel,
   IMap,
+  ISid,
 } from "../types/map";
 
-import { TUNNEL_SID, blockMap, landBlockMap } from "../constants/blocks";
+import {
+  PIPES_SID,
+  PIPES_SIDS,
+  POWER_LINES_SID,
+  POWER_LINES_SIDS,
+  REINFORCED_PIPES_SID,
+  REINFORCED_POWER_LINES_SID,
+  TUNNEL_SID,
+  blockMap,
+  landBlockMap,
+} from "../constants/blocks";
 import { DRYERS } from "../constants/map";
 import { BlockState, Connection } from "../types/block";
 
 import { isBuildingBlock } from "./block";
-import { getBase, isConnected, isLandCorrect } from "./board";
+import { isLandCorrect } from "./board";
+import { isConnected } from "./connections";
+import { intersect } from "./utils";
+
+export function getNewSid(
+  block: IBuildingBlock,
+  level: ILevel,
+  x: number,
+  y: number
+): ISid {
+  let newSids = [block.sid];
+  const sid = level.buildings[x][y];
+  if (
+    block.connections?.includes(Connection.Tunnel) &&
+    ((sid instanceof Array && !sid.includes(TUNNEL_SID)) || sid !== TUNNEL_SID)
+  ) {
+    newSids.unshift(TUNNEL_SID);
+  }
+  if (
+    block.connections?.includes(Connection.ReinforcedPowerLine) &&
+    !intersect(level.power[x][y], REINFORCED_POWER_LINES_SID)
+  ) {
+    level.power[x][y] = REINFORCED_POWER_LINES_SID;
+  } else if (
+    block.connections?.includes(Connection.PowerLine) &&
+    !intersect(level.power[x][y], POWER_LINES_SIDS)
+  ) {
+    level.power[x][y] = POWER_LINES_SID;
+  }
+  if (
+    block.connections?.includes(Connection.ReinforcedPipe) &&
+    !intersect(level.water[x][y], REINFORCED_PIPES_SID)
+  ) {
+    level.water[x][y] = REINFORCED_PIPES_SID;
+  } else if (
+    block.connections?.includes(Connection.Pipe) &&
+    !intersect(level.water[x][y], PIPES_SIDS)
+  ) {
+    level.water[x][y] = PIPES_SID;
+  }
+  if (sid instanceof Array) {
+    newSids = [...sid, ...newSids];
+  } else if (sid !== 0) {
+    newSids = [sid, ...newSids];
+  }
+  return newSids.length === 1 ? newSids[0] : newSids;
+}
+
+export function getBoardKey(block: IBuildingBlock): keyof ILevel {
+  if (POWER_LINES_SIDS.includes(block.sid)) {
+    return "power";
+  }
+  if (PIPES_SIDS.includes(block.sid)) {
+    return "water";
+  }
+  return "buildings";
+}
+
+export function cloneBoard(board: IBoard): IBoard {
+  return board.map((row) =>
+    row.map((cell) => (cell instanceof Array ? [...cell] : cell))
+  );
+}
+
+export function cloneLevel(level: ILevel): ILevel {
+  return {
+    buildings: cloneBoard(level.buildings),
+    land: cloneBoard(level.land),
+    power: cloneBoard(level.power),
+    water: cloneBoard(level.water),
+  };
+}
 
 export function addBlockToMap(
   map: IMap,
   block: IBuildingBlock,
   point: IPoint,
-  level = 0
+  levelDepth = 0
 ): IMap {
+  const boardKey = getBoardKey(block);
+  const level = cloneLevel(map[levelDepth]);
+  level[boardKey] = level[boardKey].map((line, j) =>
+    line.map((sid, i) =>
+      i === point.x && j === point.y - 1 ? getNewSid(block, level, j, i) : sid
+    )
+  );
   return {
     ...map,
-    [level]: {
-      buildings: map[level].buildings.map((line, j) =>
-        line.map((sid, i) => {
-          if (i === point.x && j === point.y - 1) {
-            const newSids = [block.sid];
-            if (
-              block.connections?.includes(Connection.Tunnel) &&
-              ((sid instanceof Array && !sid.includes(TUNNEL_SID)) ||
-                sid !== TUNNEL_SID)
-            ) {
-              newSids.unshift(TUNNEL_SID);
-            }
-            if (sid === 0) {
-              return newSids;
-            }
-            return sid instanceof Array
-              ? [...sid, ...newSids]
-              : [sid, ...newSids];
-          }
-          return sid;
-        })
-      ),
-      land: map[level].land,
-    },
+    [levelDepth]: level,
   };
 }
 
@@ -54,6 +121,7 @@ export function removeBlockFromMap(map: IMap, point: IPoint, level = 0): IMap {
   return {
     ...map,
     [level]: {
+      ...map[level],
       buildings: map[level].buildings.map((line, j) =>
         line.map((sid, i) => {
           if (i === point.x && j === point.y - 1) {
@@ -62,14 +130,11 @@ export function removeBlockFromMap(map: IMap, point: IPoint, level = 0): IMap {
           return sid;
         })
       ),
-      land: map[level].land,
     },
   };
 }
 
-export function getMapBlockSid(
-  mapItem?: number[] | number
-): number | undefined {
+export function getMapBlockSid(mapItem?: ISid): number | undefined {
   return mapItem instanceof Array ? (mapItem.at(-1) as number) : mapItem;
 }
 
@@ -78,8 +143,8 @@ export function getMapBlock(mapItem?: IBlock | IBlock[]): IBlock | undefined {
 }
 
 export function transformAdjacentLand(
-  land: IBlockBoard,
-  buildings: IBlockBoard,
+  land: IBoardBlock,
+  buildings: IBoardBlock,
   x: number,
   y: number,
   from: number[],
@@ -113,8 +178,8 @@ export function transformAdjacentLand(
 }
 
 export function checkBuildingConditions(
-  land: IBlockBoard,
-  buildings: IBlockBoard,
+  land: IBoardBlock,
+  buildings: IBoardBlock,
   tunnels: IConnectionBoard,
   x: number,
   y: number
@@ -138,12 +203,12 @@ export function getBlock(sid: number): IBlock {
 }
 
 export function getBlockMap(map: IMap, tunnels: IConnectionBoard): IBlockMap {
-  const buildings: IBlockBoard = map[0].buildings.map((row) =>
+  const buildings: IBoardBlock = map[0].buildings.map((row) =>
     row.map((cell) =>
       cell instanceof Array ? cell.map(getBlock) : getBlock(cell)
     )
   );
-  const land: IBlockBoard = map[0].land.map((row) =>
+  const land: IBoardBlock = map[0].land.map((row) =>
     row.map((cell) =>
       cell instanceof Array ? cell.map(getBlock) : getBlock(cell)
     )
@@ -166,45 +231,6 @@ export function getBlockMap(map: IMap, tunnels: IConnectionBoard): IBlockMap {
 
   return {
     ...map,
-    0: { buildings, land },
+    0: { ...map[0], buildings, land },
   };
-}
-
-export function updateConnections(
-  map: IBoard,
-  connections: IConnectionBoard,
-  x: number,
-  y: number
-): void {
-  const mapItem = map[x][y];
-  connections[x][y] =
-    mapItem instanceof Array
-      ? mapItem.includes(TUNNEL_SID)
-      : mapItem === TUNNEL_SID;
-  if (connections[x][y]) {
-    if (x > 1 && connections[x - 1][y] === null) {
-      updateConnections(map, connections, x - 1, y);
-    }
-    if (y > 1 && connections[x][y - 1] === null) {
-      updateConnections(map, connections, x, y - 1);
-    }
-    if (x < map.length - 2 && connections[x + 1][y] === null) {
-      updateConnections(map, connections, x + 1, y);
-    }
-    if (y < map[0].length - 2 && connections[x][y + 1] === null) {
-      updateConnections(map, connections, x, y + 1);
-    }
-  }
-}
-
-export function getTunnels(map: IMap): IConnectionBoard {
-  const tunnels: IConnectionBoard = map[0].buildings.map((row) =>
-    row.map(() => null)
-  );
-  const base = getBase(map);
-  if (base) {
-    const { x, y } = base;
-    updateConnections(map[0].buildings, tunnels, x, y);
-  }
-  return tunnels;
 }

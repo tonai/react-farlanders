@@ -4,11 +4,13 @@ import type { CSSProperties } from "react";
 import classNames from "classnames";
 import { useContext, useRef } from "react";
 
-import { BLOCK_OFFSET, BLOCK_SIZE } from "../../constants/blocks";
+import { BLOCK_SIZE } from "../../constants/blocks";
 import { gameContext } from "../../contexts/game";
 import { useBoardCursor } from "../../hooks/useBoardCursor";
 import { getBackgroundArray } from "../../services/board";
 import { BuildingTool } from "../../types/block";
+import { View } from "../../types/game";
+import Connections from "../Connections/Connections";
 
 import "./Board.css";
 
@@ -19,7 +21,7 @@ export interface IBoardProps {
 
 function Board(props: IBoardProps): JSX.Element {
   const { imageMap, level } = props;
-  const { map, selectedBuilding, selectedTool } = useContext(gameContext);
+  const { map, selectedBuilding, selectedTool, view } = useContext(gameContext);
 
   const rootEl = useRef<HTMLDivElement>(null);
   const cursorEl = useRef<HTMLDivElement>(null);
@@ -28,17 +30,19 @@ function Board(props: IBoardProps): JSX.Element {
   const boardProps = useBoardCursor(cursorEl, selectEl, imageMap, level);
 
   const mapLevel = map[level];
-  const height = mapLevel.land.length;
-  const width = mapLevel.land[0].length;
+  const rows = mapLevel.land.length;
+  const cols = mapLevel.land[0].length;
 
   const buildingsBg = getBackgroundArray(imageMap, mapLevel.buildings);
   const landBg = getBackgroundArray(imageMap, mapLevel.land);
 
   const background = [...buildingsBg, ...landBg].join(",");
+  const height = (rows + 1) * BLOCK_SIZE;
+  const width = cols * BLOCK_SIZE;
   const rootStyle: CSSProperties = {
     background,
-    height: (height + 1) * BLOCK_SIZE - BLOCK_OFFSET,
-    width: width * BLOCK_SIZE,
+    height,
+    width,
   };
   const selectStyle: CSSProperties = {
     height: BLOCK_SIZE,
@@ -46,7 +50,18 @@ function Board(props: IBoardProps): JSX.Element {
   };
 
   return (
-    <div ref={rootEl} className="Board" style={rootStyle} {...boardProps}>
+    <div className="Board">
+      <div
+        ref={rootEl}
+        className={classNames("Board__bg", {
+          "Board__bg--fade": view !== View.Buildings,
+        })}
+        style={rootStyle}
+        {...boardProps}
+      />
+      {view !== View.Buildings && (
+        <Connections height={height} level={level} width={width} />
+      )}
       <div
         ref={cursorEl}
         className={classNames("Board__cursor", {

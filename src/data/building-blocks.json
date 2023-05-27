@@ -24,7 +24,7 @@
   {
     "id": "pipe",
     "images": "/assets/buildings/utilities/pipe.png",
-    "sid": 101,
+    "sid": 102,
     "category": "utilities",
     "title": "Pipe",
     "conditions": {
@@ -35,7 +35,7 @@
   {
     "id": "reinforced-pipe",
     "images": "/assets/buildings/utilities/reinforced-pipe.png",
-    "sid": 102,
+    "sid": 103,
     "category": "utilities",
     "title": "Reinforced pipe",
     "conditions": {
@@ -46,7 +46,7 @@
   {
     "id": "tunnel",
     "images": "/assets/buildings/utilities/tunnel.png",
-    "sid": 103,
+    "sid": 104,
     "category": "utilities",
     "title": "Tunnel",
     "conditions": {

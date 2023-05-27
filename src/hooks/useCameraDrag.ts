@@ -10,7 +10,7 @@ import { useRef } from "react";
 
 import { MAX_ZOOM, MIN_ZOOM, ZOOMS, ZOOM_DISTANCE } from "../constants/camera";
 import { isTouchEvent, zoomCamera } from "../services/camera";
-import { getDistance } from "../services/math";
+import { getDistance } from "../services/utils";
 
 export interface ICameraDragHook {
   onClickCapture: (event: ReactMouseEvent<HTMLDivElement>) => void;

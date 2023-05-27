@@ -1,16 +1,10 @@
 import type { IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
-import type {
-  IBlockBoard,
-  IBlockLevel,
-  IConnectionBoard,
-  IMap,
-} from "../types/map";
+import type { IBoardBlock, ILevelBlock, IMap } from "../types/map";
 
 import {
   BASE_SID,
-  BLOCK_OFFSET,
   BLOCK_SIZE,
   DISABLED_BLOCK_URL,
   TUNNEL_SID,
@@ -38,13 +32,13 @@ function getBackground(
   if (isBuildingBlock(block) && (block.states?.length ?? 0) > 0) {
     backgrounds.push(
       `${x * BLOCK_SIZE}px ${
-        (y + 2) * BLOCK_SIZE - image.height
+        (y + 1) * BLOCK_SIZE
       }px no-repeat url(${DISABLED_BLOCK_URL})`
     );
   }
   backgrounds.push(
     `${x * BLOCK_SIZE}px ${
-      (y + 2) * BLOCK_SIZE - BLOCK_OFFSET - image.height
+      (y + 2) * BLOCK_SIZE - image.height
     }px no-repeat url(${block.images})`
   );
   return backgrounds.join(",");
@@ -52,7 +46,7 @@ function getBackground(
 
 function getBackgrounds(
   imageMap: Map<number, IImage>,
-  map: IBlockBoard,
+  map: IBoardBlock,
   x: number,
   y: number
 ): (string | null)[] | string | null {
@@ -70,12 +64,12 @@ function getBackgrounds(
 
 export function getBackgroundArray(
   imageMap: Map<number, IImage>,
-  board: IBlockBoard
+  board: IBoardBlock
 ): string[] {
   const land = [...board];
   return land
     .map((line, j) =>
-      line.map((_, i) =>
+      line.map((_, i: number) =>
         getBackgrounds(imageMap, board, i, land.length - j - 1)
       )
     )
@@ -106,7 +100,7 @@ export function isLandCorrect(
 }
 
 export function isBuildable(
-  level: IBlockLevel,
+  level: ILevelBlock,
   x: number,
   y: number,
   selectedBuilding: IBuildingBlock
@@ -119,27 +113,19 @@ export function isBuildable(
   );
 }
 
-export function isRemovable(level: IBlockLevel, x: number, y: number): boolean {
+export function isRemovable(level: ILevelBlock, x: number, y: number): boolean {
   const building = getMapBlock(level.buildings[x][y]);
   return (
     buildingBlocksMap.has(building?.sid ?? 0) && building?.sid !== BASE_SID
   );
 }
 
-export function getBase(map: IMap): IPoint | null {
-  return map[0].buildings.reduce<IPoint | null>((acc, row, x) => {
+export function getBase(map: IMap): IPoint | undefined {
+  return map[0].buildings.reduce<IPoint | undefined>((acc, row, x) => {
     const y = row.findIndex((block) => getMapBlockSid(block) === BASE_SID);
     if (y !== -1) {
       return { x, y };
     }
     return acc;
-  }, null);
-}
-
-export function isConnected(
-  connectionBoard: IConnectionBoard,
-  x: number,
-  y: number
-): boolean {
-  return connectionBoard[x][y];
+  }, undefined);
 }

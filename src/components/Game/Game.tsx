@@ -1,18 +1,19 @@
-import type { IBlock } from "../../types/block";
 import type { IImage } from "../../types/image";
 
-import BuildingsInterface from "../BuildingsInterface/BuildingsInterface";
 import CameraControls from "../CameraControls/CameraControls";
 import GameProvider from "../GameProvider/GameProvider";
+import BuildingsInterface from "../Interfaces/BuildingsInterface/BuildingsInterface";
+import VisualizationInterface from "../Interfaces/VisualizationInterface/VisualizationInterface";
 
 export interface IGameProps {
-  imageMap: Map<IBlock, IImage>;
+  imageMap: Map<number, IImage>;
 }
 
 function Game(props: IGameProps): JSX.Element {
   return (
     <GameProvider>
       <CameraControls {...props} />
+      <VisualizationInterface />
       <BuildingsInterface />
     </GameProvider>
   );

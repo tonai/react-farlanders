@@ -1,6 +1,12 @@
 import type { BuildingTool, IBuildingBlock } from "./block";
-import type { IBlockMap, IMap } from "./map";
+import type { IConnectionBoard, IMap, IMapBlock } from "./map";
 import type { Dispatch, SetStateAction } from "react";
+
+export enum View {
+  Buildings = "buildings",
+  Power = "power",
+  Water = "water",
+}
 
 export interface IPoint {
   x: number;
@@ -9,7 +15,8 @@ export interface IPoint {
 
 export interface IGameContext {
   colonyLevel: number;
-  map: IBlockMap;
+  map: IMapBlock;
+  power: IConnectionBoard;
   selectedBuilding?: IBuildingBlock;
   selectedTile?: IPoint;
   selectedTool?: BuildingTool;
@@ -17,4 +24,8 @@ export interface IGameContext {
   setSelectedBuilding: Dispatch<SetStateAction<IBuildingBlock | undefined>>;
   setSelectedTile: Dispatch<SetStateAction<IPoint | undefined>>;
   setSelectedTool: Dispatch<SetStateAction<BuildingTool | undefined>>;
+  setView: Dispatch<SetStateAction<View>>;
+  tunnels: IConnectionBoard;
+  view: View;
+  water: IConnectionBoard;
 }

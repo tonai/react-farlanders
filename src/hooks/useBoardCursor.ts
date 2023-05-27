@@ -4,7 +4,7 @@ import type { MouseEvent as ReactMouseEvent, RefObject } from "react";
 
 import { useCallback, useContext, useEffect } from "react";
 
-import { BLOCK_OFFSET, BLOCK_SIZE } from "../constants/blocks";
+import { BLOCK_SIZE } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
 import { isBuildable, isRemovable } from "../services/board";
 import { addBlockToMap, removeBlockFromMap } from "../services/map";
@@ -60,7 +60,7 @@ export function useBoardCursor(
 
   function getPoint(event: MouseEvent): IPoint | undefined {
     const x = Math.floor(event.offsetX / BLOCK_SIZE);
-    const y = Math.floor((event.offsetY + BLOCK_OFFSET) / BLOCK_SIZE);
+    const y = Math.floor(event.offsetY / BLOCK_SIZE);
     if (x >= 0 && y > 0) {
       return { x, y };
     }
@@ -76,7 +76,7 @@ export function useBoardCursor(
         const { x, y } = point;
         if (x >= 0 && y > 0) {
           el.current.style.transform = `translate(${x * BLOCK_SIZE}px, ${
-            y * BLOCK_SIZE - BLOCK_OFFSET
+            y * BLOCK_SIZE
           }px)`;
           el.current.style.display = "block";
           return;

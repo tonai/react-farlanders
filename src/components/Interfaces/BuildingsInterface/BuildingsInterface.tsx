@@ -1,13 +1,17 @@
-import type { IBuildingBlock } from "../../types/block";
+import type { IBuildingBlock } from "../../../types/block";
 import type { MouseEvent } from "react";
 
 import classNames from "classnames";
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import { BASE_SID, blockCategoryMap, categories } from "../../constants/blocks";
-import { ESCAPE } from "../../constants/keys";
-import { gameContext } from "../../contexts/game";
-import { BuildingTool, GroundType } from "../../types/block";
+import {
+  BASE_SID,
+  blockCategoryMap,
+  categories,
+} from "../../../constants/blocks";
+import { ESCAPE } from "../../../constants/keys";
+import { gameContext } from "../../../contexts/game";
+import { BuildingTool, GroundType } from "../../../types/block";
 
 import "./BuildingsInterface.css";
 
@@ -143,17 +147,13 @@ function BuildingsInterface(): JSX.Element {
         );
       })}
       <div
-        className={classNames(
-          "BuildingsInterface__category",
-          "BuildingsInterface__category--tool",
-          {
-            "BuildingsInterface__category--active":
-              selectedTool === BuildingTool.Remove,
-          }
-        )}
+        className={classNames("BuildingsInterface__category", {
+          "BuildingsInterface__category--active":
+            selectedTool === BuildingTool.Remove,
+        })}
       >
         <button
-          className="BuildingsInterface__button"
+          className="BuildingsInterface__button BuildingsInterface__button--tool"
           onClick={handleActiveTool}
           type="button"
         >

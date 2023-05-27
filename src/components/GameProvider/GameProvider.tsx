@@ -8,7 +8,9 @@ import { useEffect, useMemo, useState } from "react";
 import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
 import { getBase } from "../../services/board";
-import { getBlockMap, getTunnels } from "../../services/map";
+import { getConnections } from "../../services/connections";
+import { getBlockMap } from "../../services/map";
+import { View } from "../../types/game";
 
 export interface IGameProviderProps {
   children: ReactNode;
@@ -22,6 +24,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const [selectedBuilding, setSelectedBuilding] = useState<IBuildingBlock>();
   const [selectedTile, setSelectedTile] = useState<IPoint>();
   const [selectedTool, setSelectedTool] = useState<BuildingTool>();
+  const [view, setView] = useState<View>(View.Buildings);
 
   useEffect(() => {
     if (colonyLevel === 0 && getBase(map)) {
@@ -29,12 +32,19 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
     }
   }, [colonyLevel, map]);
 
-  const tunnels = useMemo(() => getTunnels(map), [map]);
+  const base = useMemo(() => getBase(map), [map]);
+  const tunnels = useMemo(
+    () => getConnections(map, "buildings", base),
+    [base, map]
+  );
+  const power = useMemo(() => getConnections(map, "power", base), [base, map]);
+  const water = useMemo(() => getConnections(map, "water", base), [base, map]);
   const blockMap = useMemo(() => getBlockMap(map, tunnels), [map, tunnels]);
   const contextValue = useMemo(
     () => ({
       colonyLevel,
       map: blockMap,
+      power,
       selectedBuilding,
       selectedTile,
       selectedTool,
@@ -42,15 +52,21 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       setSelectedBuilding,
       setSelectedTile,
       setSelectedTool,
+      setView,
       tunnels,
+      view,
+      water,
     }),
     [
       blockMap,
       colonyLevel,
+      power,
       selectedBuilding,
       selectedTile,
       selectedTool,
       tunnels,
+      view,
+      water,
     ]
   );
 
