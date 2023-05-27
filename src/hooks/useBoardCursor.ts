@@ -21,7 +21,7 @@ export function useBoardCursor(
   imageMap: Map<number, IImage>,
   level = 0
 ): IBoardCursorHook {
-  const { map, selectedBuilding, selectedTool, setMap, setSelectedTile } =
+  const { map, selectedBuilding, selectedTool, setMap, setSelectedTile, view } =
     useContext(gameContext);
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export function useBoardCursor(
             "saturate(0) sepia(1) hue-rotate(-50deg) saturate(4)";
         }
       } else if (selectedTool) {
-        if (isRemovable(map[level], y - 1, x)) {
+        if (isRemovable(map[level], y - 1, x, view)) {
           cursorEl.current.style.backgroundColor = "transparent";
         } else {
           cursorEl.current.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
@@ -127,8 +127,8 @@ export function useBoardCursor(
           setMap((map) => addBlockToMap(map, selectedBuilding, point));
         }
       } else if (selectedTool) {
-        if (isRemovable(map[level], y - 1, x)) {
-          setMap((map) => removeBlockFromMap(map, point));
+        if (isRemovable(map[level], y - 1, x, view)) {
+          setMap((map) => removeBlockFromMap(map, point, view));
         }
       } else {
         showHideElement(selectEl, point);

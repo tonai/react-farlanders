@@ -1,4 +1,4 @@
-import type { BuildingTool, IBuildingBlock } from "../../types/block";
+import type { IBuildingBlock } from "../../types/block";
 import type { IPoint } from "../../types/game";
 import type { IMap } from "../../types/map";
 import type { ReactNode } from "react";
@@ -11,6 +11,7 @@ import testMap from "../../data/map.json";
 import { getBase } from "../../services/board";
 import { getConnections } from "../../services/connections";
 import { getBlockMap } from "../../services/map";
+import { BuildingTool } from "../../types/block";
 import { View } from "../../types/game";
 
 export interface IGameProviderProps {
@@ -32,10 +33,10 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       setView(View.Power);
     } else if (selectedBuilding && PIPES_SIDS.includes(selectedBuilding.sid)) {
       setView(View.Water);
-    } else {
+    } else if (selectedTool !== BuildingTool.Remove) {
       setView(View.Buildings);
     }
-  }, [selectedBuilding]);
+  }, [selectedBuilding, selectedTool]);
 
   useEffect(() => {
     if (colonyLevel === 0 && getBase(map)) {

@@ -1,12 +1,12 @@
 import type { IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type {
-  IBlockMap,
   IBoard,
   IBoardBlock,
   IConnectionBoard,
   ILevel,
   IMap,
+  IMapBlock,
   ISid,
 } from "../types/map";
 
@@ -23,6 +23,7 @@ import {
 } from "../constants/blocks";
 import { DRYERS } from "../constants/map";
 import { BlockState, Connection } from "../types/block";
+import { View } from "../types/game";
 
 import { isBuildingBlock } from "./block";
 import { isLandCorrect } from "./board";
@@ -117,12 +118,18 @@ export function addBlockToMap(
   };
 }
 
-export function removeBlockFromMap(map: IMap, point: IPoint, level = 0): IMap {
+export function removeBlockFromMap(
+  map: IMap,
+  point: IPoint,
+  view: View = View.Buildings,
+  level = 0
+): IMap {
+  const board = map[level][view];
   return {
     ...map,
     [level]: {
       ...map[level],
-      buildings: map[level].buildings.map((line, j) =>
+      [view]: board.map((line, j) =>
         line.map((sid, i) => {
           if (i === point.x && j === point.y - 1) {
             return sid instanceof Array ? sid.slice(0, -1) : 0;
@@ -202,7 +209,7 @@ export function getBlock(sid: number): IBlock {
   return { ...block };
 }
 
-export function getBlockMap(map: IMap, tunnels: IConnectionBoard): IBlockMap {
+export function getBlockMap(map: IMap, tunnels: IConnectionBoard): IMapBlock {
   const buildings: IBoardBlock = map[0].buildings.map((row) =>
     row.map((cell) =>
       cell instanceof Array ? cell.map(getBlock) : getBlock(cell)

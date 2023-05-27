@@ -11,6 +11,7 @@ import {
   buildingBlocksMap,
 } from "../constants/blocks";
 import { Connection } from "../types/block";
+import { View } from "../types/game";
 
 import { isBuildingBlock } from "./block";
 import { getMapBlock, getMapBlockSid } from "./map";
@@ -113,11 +114,18 @@ export function isBuildable(
   );
 }
 
-export function isRemovable(level: ILevelBlock, x: number, y: number): boolean {
-  const building = getMapBlock(level.buildings[x][y]);
-  return (
-    buildingBlocksMap.has(building?.sid ?? 0) && building?.sid !== BASE_SID
-  );
+export function isRemovable(
+  level: ILevelBlock,
+  x: number,
+  y: number,
+  boardKey: View = View.Buildings
+): boolean {
+  if (boardKey === View.Buildings) {
+    const block = getMapBlock(level[boardKey][x][y]);
+    return buildingBlocksMap.has(block?.sid ?? 0) && block?.sid !== BASE_SID;
+  }
+  const sid = getMapBlockSid(level[boardKey][x][y]);
+  return sid !== 0;
 }
 
 export function getBase(map: IMap): IPoint | undefined {
