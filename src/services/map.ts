@@ -11,6 +11,7 @@ import type {
 } from "../types/map";
 
 import {
+  MOUNTAIN_SID,
   PIPES_SID,
   PIPES_SIDS,
   POWER_LINES_SID,
@@ -195,7 +196,7 @@ export function checkBuildingConditions(
   water: IConnectionBoard,
   reinforcedWater: IConnectionBoard
 ): void {
-  const buildingBlock = getMapBlock(buildings?.[x]?.[y]);
+  const buildingBlock = getMapBlock(buildings[x][y]);
   const landBlock = getMapBlock(land[x][y]);
   if (buildingBlock && landBlock && isBuildingBlock(buildingBlock)) {
     buildingBlock.states ??= [];
@@ -233,6 +234,14 @@ export function checkBuildingConditions(
     ) {
       buildingBlock.states.push(BlockState.MissingPipe);
     }
+
+    if (
+      buildingBlock.needSun &&
+      y > 0 &&
+      getMapBlock(buildings[x][y - 1])?.sid === MOUNTAIN_SID
+    ) {
+      buildingBlock.states.push(BlockState.MissingSun);
+    }
   }
 }
 
@@ -269,6 +278,12 @@ export function getBlockMap(
       if (building?.sid === 20) {
         transformAdjacentLand(land, buildings, i, j, [2], 4, true);
       }
+    }
+  }
+
+  for (let i = 0; i < map[0].land.length; i++) {
+    for (let j = 0; j < map[0].land[i].length; j++) {
+      const building = getMapBlock(buildings[i][j]);
       if (building?.sid !== 0) {
         checkBuildingConditions(
           land,

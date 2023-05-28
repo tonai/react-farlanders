@@ -75,7 +75,8 @@
     "conditions": {
       "land": [1, 2, 4]
     },
-    "connections": ["power-line"]
+    "connections": ["power-line"],
+    "needSun": true
   },
   {
     "id": "capacitor",
@@ -143,7 +144,8 @@
     "conditions": {
       "land": [4]
     },
-    "connections": ["power-line", "pipe", "tunnel"]
+    "connections": ["power-line", "pipe", "tunnel"],
+    "needSun": true
   },
   {
     "id": "food-silo",
@@ -166,7 +168,8 @@
     "conditions": {
       "buildings": [123]
     },
-    "connections": ["power-line", "pipe", "tunnel"]
+    "connections": ["power-line", "pipe", "tunnel"],
+    "needSun": true
   },
   {
     "id": "ground-hydrator",
@@ -310,7 +313,8 @@
     "conditions": {
       "land": [4]
     },
-    "connections": ["power-line", "reinforced-pipe", "tunnel"]
+    "connections": ["power-line", "reinforced-pipe", "tunnel"],
+    "needSun": true
   },
   {
     "id": "statue",
@@ -476,7 +480,8 @@
     "conditions": {
       "buildings": [17]
     },
-    "connections": ["power-line"]
+    "connections": ["power-line"],
+    "needSun": true
   },
   {
     "id": "explosives",
@@ -517,7 +522,8 @@
     "conditions": {
       "land": [2, 4]
     },
-    "connections": ["power-line", "pipe"]
+    "connections": ["power-line", "pipe"],
+    "needSun": true
   },
   {
     "id": "moss",
@@ -529,7 +535,8 @@
     "conditions": {
       "buildings": [181]
     },
-    "connections": ["power-line", "pipe"]
+    "connections": ["power-line", "pipe"],
+    "needSun": true
   },
   {
     "id": "grass",
@@ -541,7 +548,8 @@
     "conditions": {
       "buildings": [182]
     },
-    "connections": ["power-line", "pipe"]
+    "connections": ["power-line", "pipe"],
+    "needSun": true
   },
   {
     "id": "aquatic-ecosystem",

@@ -13,6 +13,7 @@ export enum BlockState {
   MissingPowerLine = "missing-power-line",
   MissingReinforcedPowerLine = "missing-reinforced-power-line",
   MissingReinforcedPipe = "missing-reinforced-pipe",
+  MissingSun = "missing-sun",
   MissingTunnel = "missing-tunnel",
 }
 
@@ -46,6 +47,7 @@ export interface IBuildingBlock extends IBlock {
   category: string;
   conditions: IBuildingCondition;
   connections?: Connection[];
+  needSun?: boolean;
   only?: GroundType;
   states?: BlockState[];
   title: string;
