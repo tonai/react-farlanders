@@ -187,9 +187,13 @@ export function transformAdjacentLand(
 export function checkBuildingConditions(
   land: IBoardBlock,
   buildings: IBoardBlock,
-  tunnels: IConnectionBoard,
   x: number,
-  y: number
+  y: number,
+  tunnels: IConnectionBoard,
+  power: IConnectionBoard,
+  reinforcedPower: IConnectionBoard,
+  water: IConnectionBoard,
+  reinforcedWater: IConnectionBoard
 ): void {
   const buildingBlock = getMapBlock(buildings?.[x]?.[y]);
   const landBlock = getMapBlock(land[x][y]);
@@ -198,11 +202,36 @@ export function checkBuildingConditions(
     if (!isLandCorrect(buildingBlock, landBlock.sid)) {
       buildingBlock.states.push(BlockState.WrongGround);
     }
+
     if (
       buildingBlock.connections?.includes(Connection.Tunnel) &&
       !isConnected(tunnels, x, y)
     ) {
       buildingBlock.states.push(BlockState.MissingTunnel);
+    }
+
+    if (
+      buildingBlock.connections?.includes(Connection.ReinforcedPowerLine) &&
+      !isConnected(reinforcedPower, x, y)
+    ) {
+      buildingBlock.states.push(BlockState.MissingReinforcedPowerLine);
+    } else if (
+      buildingBlock.connections?.includes(Connection.PowerLine) &&
+      !isConnected(power, x, y)
+    ) {
+      buildingBlock.states.push(BlockState.MissingPowerLine);
+    }
+
+    if (
+      buildingBlock.connections?.includes(Connection.ReinforcedPipe) &&
+      !isConnected(reinforcedWater, x, y)
+    ) {
+      buildingBlock.states.push(BlockState.MissingReinforcedPipe);
+    } else if (
+      buildingBlock.connections?.includes(Connection.Pipe) &&
+      !isConnected(water, x, y)
+    ) {
+      buildingBlock.states.push(BlockState.MissingPipe);
     }
   }
 }
@@ -212,7 +241,14 @@ export function getBlock(sid: number): IBlock {
   return { ...block };
 }
 
-export function getBlockMap(map: IMap, tunnels: IConnectionBoard): IMapBlock {
+export function getBlockMap(
+  map: IMap,
+  tunnels: IConnectionBoard,
+  power: IConnectionBoard,
+  reinforcedPower: IConnectionBoard,
+  water: IConnectionBoard,
+  reinforcedWater: IConnectionBoard
+): IMapBlock {
   const buildings: IBoardBlock = map[0].buildings.map((row) =>
     row.map((cell) =>
       cell instanceof Array ? cell.map(getBlock) : getBlock(cell)
@@ -234,7 +270,17 @@ export function getBlockMap(map: IMap, tunnels: IConnectionBoard): IMapBlock {
         transformAdjacentLand(land, buildings, i, j, [2], 4, true);
       }
       if (building?.sid !== 0) {
-        checkBuildingConditions(land, buildings, tunnels, i, j);
+        checkBuildingConditions(
+          land,
+          buildings,
+          i,
+          j,
+          tunnels,
+          power,
+          reinforcedPower,
+          water,
+          reinforcedWater
+        );
       }
     }
   }

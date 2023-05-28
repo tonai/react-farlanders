@@ -9,8 +9,6 @@ import type {
 
 import {
   BLOCK_SIZE,
-  PIPES_SIDS,
-  POWER_LINES_SIDS,
   REINFORCED_PIPES_SID,
   REINFORCED_POWER_LINES_SID,
   TUNNEL_SID,
@@ -44,29 +42,18 @@ export function updateConnections(
   }
 }
 
-export function getSids(boardKey: keyof ILevel): ISid {
-  switch (boardKey) {
-    case "buildings":
-      return TUNNEL_SID;
-    case "power":
-      return POWER_LINES_SIDS;
-    case "water":
-      return PIPES_SIDS;
-  }
-  return [];
-}
-
 export function getConnections(
   map: IMap,
   boardKey: keyof ILevel,
-  base?: IPoint
+  base?: IPoint,
+  sids: ISid = TUNNEL_SID
 ): IConnectionBoard {
   const connections: IConnectionBoard = map[0][boardKey].map((row) =>
     row.map(() => null)
   );
   if (base) {
     const { x, y } = base;
-    updateConnections(map[0][boardKey], connections, x, y, getSids(boardKey));
+    updateConnections(map[0][boardKey], connections, x, y, sids);
   }
   return connections;
 }

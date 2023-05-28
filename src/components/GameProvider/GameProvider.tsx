@@ -5,7 +5,12 @@ import type { ReactNode } from "react";
 
 import { useEffect, useMemo, useState } from "react";
 
-import { PIPES_SIDS, POWER_LINES_SIDS } from "../../constants/blocks";
+import {
+  PIPES_SIDS,
+  POWER_LINES_SIDS,
+  REINFORCED_PIPES_SID,
+  REINFORCED_POWER_LINES_SID,
+} from "../../constants/blocks";
 import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
 import { getBase } from "../../services/board";
@@ -49,9 +54,27 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
     () => getConnections(map, "buildings", base),
     [base, map]
   );
-  const power = useMemo(() => getConnections(map, "power", base), [base, map]);
-  const water = useMemo(() => getConnections(map, "water", base), [base, map]);
-  const blockMap = useMemo(() => getBlockMap(map, tunnels), [map, tunnels]);
+  const power = useMemo(
+    () => getConnections(map, "power", base, POWER_LINES_SIDS),
+    [base, map]
+  );
+  const reinforcedPower = useMemo(
+    () => getConnections(map, "power", base, REINFORCED_POWER_LINES_SID),
+    [base, map]
+  );
+  const water = useMemo(
+    () => getConnections(map, "water", base, PIPES_SIDS),
+    [base, map]
+  );
+  const reinforcedWater = useMemo(
+    () => getConnections(map, "water", base, REINFORCED_PIPES_SID),
+    [base, map]
+  );
+  const blockMap = useMemo(
+    () =>
+      getBlockMap(map, tunnels, power, reinforcedPower, water, reinforcedWater),
+    [map, tunnels, power, reinforcedPower, reinforcedWater, water]
+  );
   const contextValue = useMemo(
     () => ({
       colonyLevel,
