@@ -9,15 +9,18 @@ export function getDistance(
   return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
 }
 
-export function intersect(boardItem: ISid, sids: ISid): boolean {
-  if (boardItem instanceof Array) {
+export function intersect(cellSids?: ISid, sids?: ISid): boolean {
+  if (!cellSids || !sids) {
+    return false;
+  }
+  if (cellSids instanceof Array) {
     if (sids instanceof Array) {
-      return boardItem.some((sid) => sids.includes(sid));
+      return cellSids.some((sid) => sids.includes(sid));
     }
-    return boardItem.includes(sids);
+    return cellSids.includes(sids);
   }
   if (sids instanceof Array) {
-    return sids.includes(boardItem);
+    return sids.includes(cellSids);
   }
-  return boardItem === sids;
+  return cellSids === sids;
 }

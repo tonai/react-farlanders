@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef } from "react";
 import { gameContext } from "../../contexts/game";
 import { drawConnections } from "../../services/connections";
 import { View } from "../../types/game";
+import { NonDrawableCellType } from "../../types/map";
 
 import "./Connections.css";
 
@@ -20,9 +21,19 @@ function Connections(props: IProps): JSX.Element {
   useEffect(() => {
     if (canvas.current) {
       if (view === View.Power) {
-        drawConnections(canvas.current, map[level].power, power);
+        drawConnections(
+          canvas.current,
+          map[level],
+          NonDrawableCellType.Power,
+          power
+        );
       } else if (view === View.Water) {
-        drawConnections(canvas.current, map[level].water, water);
+        drawConnections(
+          canvas.current,
+          map[level],
+          NonDrawableCellType.Water,
+          water
+        );
       }
     }
   }, [canvas, level, map, power, view, water]);

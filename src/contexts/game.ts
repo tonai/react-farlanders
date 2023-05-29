@@ -7,12 +7,15 @@ import { View } from "../types/game";
 export const gameContext = createContext<IGameContext>({
   colonyLevel: 0,
   map: {
-    "0": { buildings: [], land: [], power: [], water: [] },
+    "0": [],
   },
+  power: [],
   setMap: () => undefined,
   setSelectedBuilding: () => undefined,
   setSelectedTile: () => undefined,
   setSelectedTool: () => undefined,
   setView: () => undefined,
+  tunnels: [],
   view: View.Buildings,
+  water: [],
 });

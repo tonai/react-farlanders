@@ -10,6 +10,7 @@ import { useBoardCursor } from "../../hooks/useBoardCursor";
 import { getBackgroundArray } from "../../services/board";
 import { BuildingTool } from "../../types/block";
 import { View } from "../../types/game";
+import { DrawableCellType } from "../../types/map";
 import Connections from "../Connections/Connections";
 
 import "./Board.css";
@@ -30,11 +31,15 @@ function Board(props: IBoardProps): JSX.Element {
   const boardProps = useBoardCursor(cursorEl, selectEl, imageMap, level);
 
   const mapLevel = map[level];
-  const rows = mapLevel.land.length;
-  const cols = mapLevel.land[0].length;
+  const rows = mapLevel.length;
+  const cols = mapLevel[0].length;
 
-  const buildingsBg = getBackgroundArray(imageMap, mapLevel.buildings);
-  const landBg = getBackgroundArray(imageMap, mapLevel.land);
+  const buildingsBg = getBackgroundArray(imageMap, mapLevel, [
+    DrawableCellType.Buildings,
+    DrawableCellType.Tunnel,
+    DrawableCellType.Landform,
+  ]);
+  const landBg = getBackgroundArray(imageMap, mapLevel);
 
   const background = [...buildingsBg, ...landBg].join(",");
   const height = (rows + 1) * BLOCK_SIZE;

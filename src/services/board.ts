@@ -1,7 +1,7 @@
 import type { IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
-import type { IBoardBlock, ILevelBlock, IMap } from "../types/map";
+import type { IBoardBlock, IMap } from "../types/map";
 
 import {
   BASE_SID,
@@ -14,15 +14,16 @@ import {
 } from "../constants/blocks";
 import { Connection } from "../types/block";
 import { View } from "../types/game";
+import { DrawableCellType } from "../types/map";
 
 import { isBuildingBlock } from "./block";
-import { getMapBlock, getMapBlockSid } from "./map";
+import { getCellBlock, getCellBlockSid } from "./map";
 
-function getBackground(
+function getBlockBackground(
   imageMap: Map<number, IImage>,
-  block: IBlock,
   x: number,
-  y: number
+  y: number,
+  block?: IBlock
 ): string | null {
   if (!block) {
     return null;
@@ -47,33 +48,50 @@ function getBackground(
   return backgrounds.join(",");
 }
 
-function getBackgrounds(
+function getBlocksBackground(
   imageMap: Map<number, IImage>,
-  map: IBoardBlock,
   x: number,
-  y: number
-): (string | null)[] | string | null {
-  const mapItem = map[y][x];
-  if (mapItem instanceof Array) {
-    return mapItem
+  y: number,
+  blocks?: IBlock | IBlock[]
+): string | null {
+  if (!blocks) {
+    return null;
+  }
+  if (blocks instanceof Array) {
+    return blocks
       .slice()
       .reverse()
-      .map((block) => getBackground(imageMap, block, x, y))
+      .map((block) => getBlockBackground(imageMap, x, y, block))
       .filter((x) => x)
       .join(",");
   }
-  return getBackground(imageMap, mapItem, x, y);
+  return getBlockBackground(imageMap, x, y, blocks);
+}
+
+function getCellBackground(
+  imageMap: Map<number, IImage>,
+  board: IBoardBlock,
+  x: number,
+  y: number,
+  types: DrawableCellType[] = [DrawableCellType.Land]
+): string | null {
+  const cell = board[y][x];
+  return types
+    .map((type) => getBlocksBackground(imageMap, x, y, cell[type]))
+    .filter((x) => x)
+    .join(",");
 }
 
 export function getBackgroundArray(
   imageMap: Map<number, IImage>,
-  board: IBoardBlock
+  board: IBoardBlock,
+  types: DrawableCellType[] = [DrawableCellType.Land]
 ): string[] {
   const land = [...board];
   return land
     .map((line, j) =>
       line.map((_, i: number) =>
-        getBackgrounds(imageMap, board, i, land.length - j - 1)
+        getCellBackground(imageMap, board, i, land.length - j - 1, types)
       )
     )
     .flat()
@@ -107,13 +125,13 @@ export function isLandCorrect(
 }
 
 export function isBuildable(
-  level: ILevelBlock,
+  board: IBoardBlock,
   x: number,
   y: number,
   selectedBuilding: IBuildingBlock
 ): boolean {
-  const building = getMapBlock(level.buildings[x][y]);
-  const land = getMapBlock(level.land[x][y]);
+  const building = getCellBlock(board[x][y].buildings);
+  const land = getCellBlock(board[x][y].land);
   const landformOnly =
     POWER_LINES_SIDS.includes(selectedBuilding.sid) ||
     PIPES_SIDS.includes(selectedBuilding.sid);
@@ -124,22 +142,24 @@ export function isBuildable(
 }
 
 export function isRemovable(
-  level: ILevelBlock,
+  board: IBoardBlock,
   x: number,
   y: number,
-  boardKey: View = View.Buildings
+  type: View = View.Buildings
 ): boolean {
-  if (boardKey === View.Buildings) {
-    const block = getMapBlock(level[boardKey][x][y]);
+  if (type === View.Buildings) {
+    const block = getCellBlock(board[x][y][type]);
     return buildingBlocksMap.has(block?.sid ?? 0) && block?.sid !== BASE_SID;
   }
-  const sid = getMapBlockSid(level[boardKey][x][y]);
+  const sid = getCellBlockSid(board[x][y][type]);
   return sid !== 0;
 }
 
 export function getBase(map: IMap): IPoint | undefined {
-  return map[0].buildings.reduce<IPoint | undefined>((acc, row, x) => {
-    const y = row.findIndex((block) => getMapBlockSid(block) === BASE_SID);
+  return map[0].reduce<IPoint | undefined>((acc, row, x) => {
+    const y = row.findIndex(
+      (cell) => getCellBlockSid(cell.buildings) === BASE_SID
+    );
     if (y !== -1) {
       return { x, y };
     }

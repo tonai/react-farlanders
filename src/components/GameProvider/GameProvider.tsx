@@ -15,9 +15,10 @@ import { gameContext } from "../../contexts/game";
 import testMap from "../../data/map.json";
 import { getBase } from "../../services/board";
 import { getConnections } from "../../services/connections";
-import { getBlockMap } from "../../services/map";
+import { getMapBlock } from "../../services/map";
 import { BuildingTool } from "../../types/block";
 import { View } from "../../types/game";
+import { CellType } from "../../types/map";
 
 export interface IGameProviderProps {
   children: ReactNode;
@@ -51,28 +52,28 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
 
   const base = useMemo(() => getBase(map), [map]);
   const tunnels = useMemo(
-    () => getConnections(map, "buildings", base),
+    () => getConnections(map, CellType.Tunnel, base),
     [base, map]
   );
   const power = useMemo(
-    () => getConnections(map, "power", base, POWER_LINES_SIDS),
+    () => getConnections(map, CellType.Power, base, POWER_LINES_SIDS),
     [base, map]
   );
   const reinforcedPower = useMemo(
-    () => getConnections(map, "power", base, REINFORCED_POWER_LINES_SID),
+    () => getConnections(map, CellType.Power, base, REINFORCED_POWER_LINES_SID),
     [base, map]
   );
   const water = useMemo(
-    () => getConnections(map, "water", base, PIPES_SIDS),
+    () => getConnections(map, CellType.Water, base, PIPES_SIDS),
     [base, map]
   );
   const reinforcedWater = useMemo(
-    () => getConnections(map, "water", base, REINFORCED_PIPES_SID),
+    () => getConnections(map, CellType.Water, base, REINFORCED_PIPES_SID),
     [base, map]
   );
   const blockMap = useMemo(
     () =>
-      getBlockMap(map, tunnels, power, reinforcedPower, water, reinforcedWater),
+      getMapBlock(map, tunnels, power, reinforcedPower, water, reinforcedWater),
     [map, tunnels, power, reinforcedPower, reinforcedWater, water]
   );
   const contextValue = useMemo(

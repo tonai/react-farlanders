@@ -1,10 +1,12 @@
 import type { IPoint } from "../types/game";
 import type {
+  CellType,
   IBoard,
+  IBoardBlock,
   IConnectionBoard,
-  ILevel,
   IMap,
   ISid,
+  NonDrawableCellType,
 } from "../types/map";
 
 import {
@@ -14,46 +16,51 @@ import {
   TUNNEL_SID,
 } from "../constants/blocks";
 
-import { getMapBlockSid } from "./map";
+import { getCellBlockSid } from "./map";
 import { intersect } from "./utils";
 
 export function updateConnections(
   map: IBoard,
+  type: CellType,
   connections: IConnectionBoard,
   x: number,
   y: number,
   sids: ISid
 ): void {
-  const mapItem = map[x][y];
-  connections[x][y] = intersect(mapItem, sids);
+  const cell = map[x][y];
+  const cellSids = cell[type];
+  if (!cellSids) {
+    return;
+  }
+  connections[x][y] = intersect(cellSids, sids);
   if (connections[x][y]) {
     if (x > 0 && connections[x - 1][y] === null) {
-      updateConnections(map, connections, x - 1, y, sids);
+      updateConnections(map, type, connections, x - 1, y, sids);
     }
     if (y > 0 && connections[x][y - 1] === null) {
-      updateConnections(map, connections, x, y - 1, sids);
+      updateConnections(map, type, connections, x, y - 1, sids);
     }
     if (x < map.length - 1 && connections[x + 1][y] === null) {
-      updateConnections(map, connections, x + 1, y, sids);
+      updateConnections(map, type, connections, x + 1, y, sids);
     }
     if (y < map[0].length - 1 && connections[x][y + 1] === null) {
-      updateConnections(map, connections, x, y + 1, sids);
+      updateConnections(map, type, connections, x, y + 1, sids);
     }
   }
 }
 
 export function getConnections(
   map: IMap,
-  boardKey: keyof ILevel,
+  type: CellType,
   base?: IPoint,
   sids: ISid = TUNNEL_SID
 ): IConnectionBoard {
-  const connections: IConnectionBoard = map[0][boardKey].map((row) =>
+  const connections: IConnectionBoard = map[0].map((row) =>
     row.map(() => null)
   );
   if (base) {
     const { x, y } = base;
-    updateConnections(map[0][boardKey], connections, x, y, sids);
+    updateConnections(map[0], type, connections, x, y, sids);
   }
   return connections;
 }
@@ -103,7 +110,8 @@ export function isReinforced(sid: number): boolean {
 
 export function drawConnections(
   canvas: HTMLCanvasElement,
-  board: IBoard,
+  board: IBoardBlock,
+  type: NonDrawableCellType,
   connections: IConnectionBoard
 ): void {
   const { height, width } = canvas;
@@ -113,7 +121,7 @@ export function drawConnections(
     context.clearRect(0, 0, width, height);
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[0].length; j++) {
-        const sid = getMapBlockSid(board[i][j]);
+        const sid = getCellBlockSid(board[i][j][type]);
         if (sid) {
           const x = j * BLOCK_SIZE + BLOCK_SIZE / 2;
           const y = (i + 1) * BLOCK_SIZE + BLOCK_SIZE / 2;
@@ -121,7 +129,7 @@ export function drawConnections(
           const reinforced = isReinforced(sid);
 
           if (i < board.length - 1) {
-            const sid2 = getMapBlockSid(board[i + 1][j]);
+            const sid2 = getCellBlockSid(board[i + 1][j][type]);
             if (sid2) {
               const y2 = y + BLOCK_SIZE;
               const connected = connections[i + 1][j];
@@ -131,7 +139,7 @@ export function drawConnections(
           }
 
           if (j < board[0].length - 1) {
-            const sid2 = getMapBlockSid(board[i][j + 1]);
+            const sid2 = getCellBlockSid(board[i][j + 1][type]);
             if (sid2) {
               const x2 = x + BLOCK_SIZE;
               const connected = connections[i][j + 1];

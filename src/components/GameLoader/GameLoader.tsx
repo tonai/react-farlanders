@@ -3,7 +3,7 @@ import type { IImage } from "../../types/image";
 import { useEffect, useState } from "react";
 
 import { blocks } from "../../constants/blocks";
-import { loadImage } from "../../constants/image";
+import { loadImage } from "../../services/image";
 import Game from "../Game/Game";
 
 function GameLoader(): JSX.Element | null {

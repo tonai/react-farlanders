@@ -12,7 +12,9 @@ export const DISABLED_BLOCK_URL = "/assets/disabled.png";
 
 export const BLOCK_SIZE = 64;
 
+export const ANOMALY_SIDS = [11, 15, 18];
 export const MOUNTAIN_SID = 16;
+export const WATER_SID = 20;
 export const BASE_SID = 130;
 export const POWER_LINES_SID = 100;
 export const REINFORCED_POWER_LINES_SID = 101;
