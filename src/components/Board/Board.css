@@ -36,3 +36,12 @@
   pointer-events: none;
   display: none;
 }
+
+.Board__state {
+  position: absolute;
+  border-radius: 10px;
+  background: rgb(34 34 34 / 80%);
+  transform: translate(-50%, -100%);
+  padding: 10px;
+  color: white;
+}

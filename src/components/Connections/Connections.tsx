@@ -9,13 +9,12 @@ import "./Connections.css";
 
 interface IProps {
   height: number;
-  level: number;
   width: number;
 }
 
 function Connections(props: IProps): JSX.Element {
-  const { height, level, width } = props;
-  const { map, power, view, water } = useContext(gameContext);
+  const { height, width } = props;
+  const { depth, map, power, view, water } = useContext(gameContext);
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -23,20 +22,20 @@ function Connections(props: IProps): JSX.Element {
       if (view === View.Power) {
         drawConnections(
           canvas.current,
-          map[level],
+          map[depth],
           NonDrawableCellType.Power,
           power
         );
       } else if (view === View.Water) {
         drawConnections(
           canvas.current,
-          map[level],
+          map[depth],
           NonDrawableCellType.Water,
           water
         );
       }
     }
-  }, [canvas, level, map, power, view, water]);
+  }, [canvas, depth, map, power, view, water]);
 
   return (
     <canvas

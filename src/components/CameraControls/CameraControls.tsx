@@ -1,4 +1,3 @@
-import type { IPickPartial } from "../../types/utils";
 import type { IBoardProps } from "../Board/Board";
 
 import { useEffect, useRef } from "react";
@@ -12,9 +11,7 @@ import Board from "../Board/Board";
 
 import "./CameraControls.css";
 
-export type ICameraControlsProps = IPickPartial<IBoardProps, "level">;
-
-function CameraControls(props: ICameraControlsProps): JSX.Element {
+function CameraControls(props: IBoardProps): JSX.Element {
   const rootEl = useRef<HTMLDivElement>(null);
   const boardEl = useRef<HTMLDivElement>(null);
   const zoom = useRef(DEFAULT_ZOOM);

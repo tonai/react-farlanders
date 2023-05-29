@@ -6,7 +6,7 @@ import { useCallback, useContext, useEffect } from "react";
 
 import { BLOCK_SIZE } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
-import { isBuildable, isRemovable } from "../services/board";
+import { getBuildingState, isBuildable, isRemovable } from "../services/board";
 import { addBlockToMap, removeBlockFromMap } from "../services/map";
 
 export interface IBoardCursorHook {
@@ -18,6 +18,7 @@ export interface IBoardCursorHook {
 export function useBoardCursor(
   cursorEl: RefObject<HTMLDivElement>,
   selectEl: RefObject<HTMLDivElement>,
+  stateEl: RefObject<HTMLDivElement>,
   imageMap: Map<number, IImage>,
   level = 0
 ): IBoardCursorHook {
@@ -89,7 +90,7 @@ export function useBoardCursor(
   function handleMouseMove(event: ReactMouseEvent<HTMLDivElement>): void {
     const point = getPoint(event.nativeEvent);
     showHideElement(cursorEl, point);
-    if (point && cursorEl.current) {
+    if (point && cursorEl.current && stateEl.current) {
       const { x, y } = point;
       cursorEl.current.style.display = "block";
       if (selectedBuilding) {
@@ -105,6 +106,16 @@ export function useBoardCursor(
         } else {
           cursorEl.current.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
         }
+      } else {
+        const state = getBuildingState(map[level], y - 1, x);
+        if (state) {
+          stateEl.current.innerText = state;
+          stateEl.current.style.display = "block";
+          stateEl.current.style.left = `${x * BLOCK_SIZE + BLOCK_SIZE / 2}px`;
+          stateEl.current.style.top = `${y * BLOCK_SIZE}px`;
+        } else {
+          stateEl.current.style.display = "none";
+        }
       }
     }
   }
@@ -114,6 +125,9 @@ export function useBoardCursor(
       cursorEl.current.style.backgroundColor = "transparent";
       cursorEl.current.style.display = "none";
       cursorEl.current.style.filter = "none";
+    }
+    if (stateEl.current) {
+      stateEl.current.style.display = "none";
     }
   }
 

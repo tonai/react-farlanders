@@ -65,64 +65,59 @@ export function cloneCell(cell: ICell): ICell {
   };
 }
 
-export function addBlockToBoard(
-  block: IBuildingBlock,
-  board: IBoard,
-  x: number,
-  y: number
-): ICell {
+export function addBlockToBoard(block: IBuildingBlock, cell: ICell): ICell {
   const type = getCellType(block);
-  const cell = cloneCell(board[x][y]);
+  const newCell = cloneCell(cell);
 
   if (
     block.connections?.includes(Connection.Tunnel) &&
-    !intersect(cell.tunnel, REINFORCED_POWER_LINES_SID)
+    !intersect(newCell.tunnel, REINFORCED_POWER_LINES_SID)
   ) {
-    cell.tunnel = TUNNEL_SID;
+    newCell.tunnel = TUNNEL_SID;
   }
 
   if (
     block.connections?.includes(Connection.ReinforcedPowerLine) &&
-    !intersect(cell.power, REINFORCED_POWER_LINES_SID)
+    !intersect(newCell.power, REINFORCED_POWER_LINES_SID)
   ) {
-    cell.power = REINFORCED_POWER_LINES_SID;
+    newCell.power = REINFORCED_POWER_LINES_SID;
   } else if (
     block.connections?.includes(Connection.PowerLine) &&
-    !intersect(cell.power, POWER_LINES_SIDS)
+    !intersect(newCell.power, POWER_LINES_SIDS)
   ) {
-    cell.power = POWER_LINES_SID;
+    newCell.power = POWER_LINES_SID;
   }
 
   if (
     block.connections?.includes(Connection.ReinforcedPipe) &&
-    !intersect(cell.water, REINFORCED_PIPES_SID)
+    !intersect(newCell.water, REINFORCED_PIPES_SID)
   ) {
-    cell.water = REINFORCED_PIPES_SID;
+    newCell.water = REINFORCED_PIPES_SID;
   } else if (
     block.connections?.includes(Connection.Pipe) &&
-    !intersect(cell.water, PIPES_SIDS)
+    !intersect(newCell.water, PIPES_SIDS)
   ) {
-    cell.water = PIPES_SID;
+    newCell.water = PIPES_SID;
   }
 
   if (type === CellType.Buildings) {
     let newSids = [block.sid];
-    const sid = cell.buildings;
+    const sid = newCell.buildings;
     if (sid instanceof Array) {
       newSids = [...sid, ...newSids];
     } else if (sid) {
       newSids = [sid, ...newSids];
     }
-    cell.buildings = newSids.length === 1 ? newSids[0] : newSids;
+    newCell.buildings = newSids.length === 1 ? newSids[0] : newSids;
   } else if (
     type === CellType.Tunnel ||
     type === CellType.Power ||
     type === CellType.Water
   ) {
-    cell[type] = block.sid;
+    newCell[type] = block.sid;
   }
 
-  return cell;
+  return newCell;
 }
 
 export function addBlockToMap(
@@ -134,10 +129,10 @@ export function addBlockToMap(
   const board = map[depth];
   return {
     ...map,
-    [depth]: board.map((row, j) =>
-      row.map((cell, i) =>
-        i === point.x && j === point.y - 1
-          ? addBlockToBoard(block, board, j, i)
+    [depth]: board.map((row, i) =>
+      row.map((cell, j) =>
+        j === point.x && i === point.y - 1
+          ? addBlockToBoard(block, board[i][j])
           : cell
       )
     ),
@@ -170,14 +165,14 @@ export function removeBlockFromMap(
 
 export function transformAdjacentLand(
   board: IBoardBlock,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   from: number[],
   to: number,
   push = false
 ): void {
-  for (let i = x - 1; i <= x + 1; i++) {
-    for (let j = y - 1; j <= y + 1; j++) {
+  for (let x = i - 1; x <= i + 1; x++) {
+    for (let y = j - 1; y <= j + 1; y++) {
       const buildingBlock = getCellBlock(board[x][y].buildings);
       const landBlock = getCellBlock(board[x][y].land);
       const toBlock = blockMap.get(to);
@@ -204,16 +199,16 @@ export function transformAdjacentLand(
 
 export function checkBuildingConditions(
   board: IBoardBlock,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   tunnels: IConnectionBoard,
   power: IConnectionBoard,
   reinforcedPower: IConnectionBoard,
   water: IConnectionBoard,
   reinforcedWater: IConnectionBoard
 ): void {
-  const buildingBlock = getCellBlock(board[x][y].buildings);
-  const landBlock = getCellBlock(board[x][y].land);
+  const buildingBlock = getCellBlock(board[i][j].buildings);
+  const landBlock = getCellBlock(board[i][j].land);
   if (buildingBlock && landBlock && isBuildingBlock(buildingBlock)) {
     buildingBlock.states ??= [];
     if (!isLandCorrect(buildingBlock, landBlock.sid)) {
@@ -222,31 +217,31 @@ export function checkBuildingConditions(
 
     if (
       buildingBlock.connections?.includes(Connection.Tunnel) &&
-      !isConnected(tunnels, x, y)
+      !isConnected(tunnels, i, j)
     ) {
       buildingBlock.states.push(BlockState.MissingTunnel);
     }
 
     if (
       buildingBlock.connections?.includes(Connection.ReinforcedPowerLine) &&
-      !isConnected(reinforcedPower, x, y)
+      !isConnected(reinforcedPower, i, j)
     ) {
       buildingBlock.states.push(BlockState.MissingReinforcedPowerLine);
     } else if (
       buildingBlock.connections?.includes(Connection.PowerLine) &&
-      !isConnected(power, x, y)
+      !isConnected(power, i, j)
     ) {
       buildingBlock.states.push(BlockState.MissingPowerLine);
     }
 
     if (
       buildingBlock.connections?.includes(Connection.ReinforcedPipe) &&
-      !isConnected(reinforcedWater, x, y)
+      !isConnected(reinforcedWater, i, j)
     ) {
       buildingBlock.states.push(BlockState.MissingReinforcedPipe);
     } else if (
       buildingBlock.connections?.includes(Connection.Pipe) &&
-      !isConnected(water, x, y)
+      !isConnected(water, i, j)
     ) {
       buildingBlock.states.push(BlockState.MissingPipe);
     }
@@ -254,7 +249,7 @@ export function checkBuildingConditions(
     if (
       buildingBlock.needSun &&
       y > 0 &&
-      getCellBlock(board[x][y - 1].buildings)?.sid === MOUNTAIN_SID
+      getCellBlock(board[i][j - 1].buildings)?.sid === MOUNTAIN_SID
     ) {
       buildingBlock.states.push(BlockState.MissingSun);
     }

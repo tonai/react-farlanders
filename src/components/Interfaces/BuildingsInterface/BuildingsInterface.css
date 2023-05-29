@@ -6,15 +6,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.BuildingsInterface::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: #222;
   border-radius: 10px;
-  opacity: 0.8;
+  background: rgb(34 34 34 / 80%);
 }
 
 .BuildingsInterface__category {
@@ -51,15 +44,8 @@
   padding: 10px;
   align-items: flex-end;
   gap: 10px;
-}
-
-.BuildingsInterface__blocks::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: #222;
   border-radius: 10px;
-  opacity: 0.8;
+  background: rgb(34 34 34 / 80%);
 }
 
 .BuildingsInterface__blocks-button {

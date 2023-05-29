@@ -15,6 +15,7 @@ export interface IPoint {
 
 export interface IGameContext {
   colonyLevel: number;
+  depth: number;
   map: IMapBlock;
   power: IConnectionBoard;
   selectedBuilding?: IBuildingBlock;

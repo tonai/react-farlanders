@@ -6,6 +6,7 @@ import { View } from "../types/game";
 
 export const gameContext = createContext<IGameContext>({
   colonyLevel: 0,
+  depth: 0,
   map: {
     "0": [],
   },

@@ -20,6 +20,8 @@ import { BuildingTool } from "../../types/block";
 import { View } from "../../types/game";
 import { CellType } from "../../types/map";
 
+const depth = 0;
+
 export interface IGameProviderProps {
   children: ReactNode;
 }
@@ -52,23 +54,30 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
 
   const base = useMemo(() => getBase(map), [map]);
   const tunnels = useMemo(
-    () => getConnections(map, CellType.Tunnel, base),
+    () => getConnections(map[depth], CellType.Tunnel, base),
     [base, map]
   );
   const power = useMemo(
-    () => getConnections(map, CellType.Power, base, POWER_LINES_SIDS),
+    () => getConnections(map[depth], CellType.Power, base, POWER_LINES_SIDS),
     [base, map]
   );
   const reinforcedPower = useMemo(
-    () => getConnections(map, CellType.Power, base, REINFORCED_POWER_LINES_SID),
+    () =>
+      getConnections(
+        map[depth],
+        CellType.Power,
+        base,
+        REINFORCED_POWER_LINES_SID
+      ),
     [base, map]
   );
   const water = useMemo(
-    () => getConnections(map, CellType.Water, base, PIPES_SIDS),
+    () => getConnections(map[depth], CellType.Water, base, PIPES_SIDS),
     [base, map]
   );
   const reinforcedWater = useMemo(
-    () => getConnections(map, CellType.Water, base, REINFORCED_PIPES_SID),
+    () =>
+      getConnections(map[depth], CellType.Water, base, REINFORCED_PIPES_SID),
     [base, map]
   );
   const blockMap = useMemo(
@@ -79,6 +88,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
   const contextValue = useMemo(
     () => ({
       colonyLevel,
+      depth,
       map: blockMap,
       power,
       selectedBuilding,

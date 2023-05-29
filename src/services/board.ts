@@ -1,4 +1,4 @@
-import type { IBlock, IBuildingBlock } from "../types/block";
+import type { BlockState, IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
 import type { IBoardBlock, IMap } from "../types/map";
@@ -21,8 +21,8 @@ import { getCellBlock, getCellBlockSid } from "./map";
 
 function getBlockBackground(
   imageMap: Map<number, IImage>,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   block?: IBlock
 ): string | null {
   if (!block) {
@@ -35,14 +35,14 @@ function getBlockBackground(
   const backgrounds = [];
   if (isBuildingBlock(block) && (block.states?.length ?? 0) > 0) {
     backgrounds.push(
-      `${x * BLOCK_SIZE}px ${
-        (y + 1) * BLOCK_SIZE
+      `${j * BLOCK_SIZE}px ${
+        (i + 1) * BLOCK_SIZE
       }px no-repeat url(${DISABLED_BLOCK_URL})`
     );
   }
   backgrounds.push(
-    `${x * BLOCK_SIZE}px ${
-      (y + 2) * BLOCK_SIZE - image.height
+    `${j * BLOCK_SIZE}px ${
+      (i + 2) * BLOCK_SIZE - image.height
     }px no-repeat url(${block.images})`
   );
   return backgrounds.join(",");
@@ -50,8 +50,8 @@ function getBlockBackground(
 
 function getBlocksBackground(
   imageMap: Map<number, IImage>,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   blocks?: IBlock | IBlock[]
 ): string | null {
   if (!blocks) {
@@ -61,23 +61,23 @@ function getBlocksBackground(
     return blocks
       .slice()
       .reverse()
-      .map((block) => getBlockBackground(imageMap, x, y, block))
+      .map((block) => getBlockBackground(imageMap, i, j, block))
       .filter((x) => x)
       .join(",");
   }
-  return getBlockBackground(imageMap, x, y, blocks);
+  return getBlockBackground(imageMap, i, j, blocks);
 }
 
 function getCellBackground(
   imageMap: Map<number, IImage>,
   board: IBoardBlock,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   types: DrawableCellType[] = [DrawableCellType.Land]
 ): string | null {
-  const cell = board[y][x];
+  const cell = board[i][j];
   return types
-    .map((type) => getBlocksBackground(imageMap, x, y, cell[type]))
+    .map((type) => getBlocksBackground(imageMap, i, j, cell[type]))
     .filter((x) => x)
     .join(",");
 }
@@ -89,9 +89,9 @@ export function getBackgroundArray(
 ): string[] {
   const land = [...board];
   return land
-    .map((line, j) =>
-      line.map((_, i: number) =>
-        getCellBackground(imageMap, board, i, land.length - j - 1, types)
+    .map((row, i) =>
+      row.map((_, j: number) =>
+        getCellBackground(imageMap, board, land.length - i - 1, j, types)
       )
     )
     .flat()
@@ -126,12 +126,12 @@ export function isLandCorrect(
 
 export function isBuildable(
   board: IBoardBlock,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   selectedBuilding: IBuildingBlock
 ): boolean {
-  const building = getCellBlock(board[x][y].buildings);
-  const land = getCellBlock(board[x][y].land);
+  const building = getCellBlock(board[i][j].buildings);
+  const land = getCellBlock(board[i][j].land);
   const landformOnly =
     POWER_LINES_SIDS.includes(selectedBuilding.sid) ||
     PIPES_SIDS.includes(selectedBuilding.sid);
@@ -143,15 +143,15 @@ export function isBuildable(
 
 export function isRemovable(
   board: IBoardBlock,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   type: View = View.Buildings
 ): boolean {
   if (type === View.Buildings) {
-    const block = getCellBlock(board[x][y][type]);
+    const block = getCellBlock(board[i][j][type]);
     return buildingBlocksMap.has(block?.sid ?? 0) && block?.sid !== BASE_SID;
   }
-  const sid = getCellBlockSid(board[x][y][type]);
+  const sid = getCellBlockSid(board[i][j][type]);
   return sid !== 0;
 }
 
@@ -165,4 +165,21 @@ export function getBase(map: IMap): IPoint | undefined {
     }
     return acc;
   }, undefined);
+}
+
+export function getBuildingState(
+  board: IBoardBlock,
+  i: number,
+  j: number
+): BlockState | undefined {
+  const building = getCellBlock(board[i][j].buildings);
+  if (
+    building &&
+    isBuildingBlock(building) &&
+    building.states &&
+    building.states?.length > 0
+  ) {
+    return building.states[0];
+  }
+  return undefined;
 }

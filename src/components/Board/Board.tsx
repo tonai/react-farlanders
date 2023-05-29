@@ -17,20 +17,27 @@ import "./Board.css";
 
 export interface IBoardProps {
   imageMap: Map<number, IImage>;
-  level: number;
 }
 
 function Board(props: IBoardProps): JSX.Element {
-  const { imageMap, level } = props;
-  const { map, selectedBuilding, selectedTool, view } = useContext(gameContext);
+  const { imageMap } = props;
+  const { depth, map, selectedBuilding, selectedTool, view } =
+    useContext(gameContext);
 
   const rootEl = useRef<HTMLDivElement>(null);
   const cursorEl = useRef<HTMLDivElement>(null);
   const selectEl = useRef<HTMLDivElement>(null);
+  const stateEl = useRef<HTMLDivElement>(null);
 
-  const boardProps = useBoardCursor(cursorEl, selectEl, imageMap, level);
+  const boardProps = useBoardCursor(
+    cursorEl,
+    selectEl,
+    stateEl,
+    imageMap,
+    depth
+  );
 
-  const mapLevel = map[level];
+  const mapLevel = map[depth];
   const rows = mapLevel.length;
   const cols = mapLevel[0].length;
 
@@ -64,9 +71,7 @@ function Board(props: IBoardProps): JSX.Element {
         style={rootStyle}
         {...boardProps}
       />
-      {view !== View.Buildings && (
-        <Connections height={height} level={level} width={width} />
-      )}
+      {view !== View.Buildings && <Connections height={height} width={width} />}
       <div
         ref={cursorEl}
         className={classNames("Board__cursor", {
@@ -75,6 +80,7 @@ function Board(props: IBoardProps): JSX.Element {
         })}
       />
       <div ref={selectEl} className="Board__selection" style={selectStyle} />
+      <div ref={stateEl} className="Board__state" />
     </div>
   );
 }

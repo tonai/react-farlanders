@@ -4,7 +4,6 @@ import type {
   IBoard,
   IBoardBlock,
   IConnectionBoard,
-  IMap,
   ISid,
   NonDrawableCellType,
 } from "../types/map";
@@ -23,54 +22,52 @@ export function updateConnections(
   map: IBoard,
   type: CellType,
   connections: IConnectionBoard,
-  x: number,
-  y: number,
+  i: number,
+  j: number,
   sids: ISid
 ): void {
-  const cell = map[x][y];
+  const cell = map[i][j];
   const cellSids = cell[type];
   if (!cellSids) {
     return;
   }
-  connections[x][y] = intersect(cellSids, sids);
-  if (connections[x][y]) {
-    if (x > 0 && connections[x - 1][y] === null) {
-      updateConnections(map, type, connections, x - 1, y, sids);
+  connections[i][j] = intersect(cellSids, sids);
+  if (connections[i][j]) {
+    if (i > 0 && connections[i - 1][j] === null) {
+      updateConnections(map, type, connections, i - 1, j, sids);
     }
-    if (y > 0 && connections[x][y - 1] === null) {
-      updateConnections(map, type, connections, x, y - 1, sids);
+    if (j > 0 && connections[i][j - 1] === null) {
+      updateConnections(map, type, connections, i, j - 1, sids);
     }
-    if (x < map.length - 1 && connections[x + 1][y] === null) {
-      updateConnections(map, type, connections, x + 1, y, sids);
+    if (i < map.length - 1 && connections[i + 1][j] === null) {
+      updateConnections(map, type, connections, i + 1, j, sids);
     }
-    if (y < map[0].length - 1 && connections[x][y + 1] === null) {
-      updateConnections(map, type, connections, x, y + 1, sids);
+    if (j < map[0].length - 1 && connections[i][j + 1] === null) {
+      updateConnections(map, type, connections, i, j + 1, sids);
     }
   }
 }
 
 export function getConnections(
-  map: IMap,
+  board: IBoard,
   type: CellType,
   base?: IPoint,
   sids: ISid = TUNNEL_SID
 ): IConnectionBoard {
-  const connections: IConnectionBoard = map[0].map((row) =>
-    row.map(() => null)
-  );
+  const connections: IConnectionBoard = board.map((row) => row.map(() => null));
   if (base) {
     const { x, y } = base;
-    updateConnections(map[0], type, connections, x, y, sids);
+    updateConnections(board, type, connections, x, y, sids);
   }
   return connections;
 }
 
 export function isConnected(
   connectionBoard: IConnectionBoard,
-  x: number,
-  y: number
+  i: number,
+  j: number
 ): boolean | null {
-  return connectionBoard[x][y];
+  return connectionBoard[i][j];
 }
 
 export function drawConnectionPoint(
