@@ -15,16 +15,6 @@
     "sid": 3
   },
   {
-    "id": "hydrated-ground",
-    "images": "/assets/natural/land/fertile-soil1.png",
-    "sid": 4
-  },
-  {
-    "id": "dry-ground",
-    "images": "/assets/natural/land/ground1.png",
-    "sid": 5
-  },
-  {
     "id": "canyon",
     "images": "/assets/natural/landform/canyon1.png",
     "sid": 10

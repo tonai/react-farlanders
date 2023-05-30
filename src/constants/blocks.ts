@@ -9,9 +9,11 @@ import rawBuildingCategories from "../data/buildings-categories.json";
 import rawLandBlocks from "../data/land-blocks.json";
 
 export const DISABLED_BLOCK_URL = "/assets/disabled.png";
+export const HYDRATED_BLOCK_URL = "/assets/natural/land/fertile-soil1.png";
 
 export const BLOCK_SIZE = 64;
 
+export const GROUND_SID = 2;
 export const ANOMALY_SIDS = [11, 15, 18];
 export const MOUNTAIN_SID = 16;
 export const WATER_SID = 20;

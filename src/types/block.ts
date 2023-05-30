@@ -8,6 +8,11 @@ export enum BuildingTool {
 }
 
 export enum BlockState {
+  Dry = "dry",
+  Hydrated = "hydrated",
+}
+
+export enum BlockError {
   WrongGround = "wrong-ground",
   MissingPipe = "missing-pipe",
   MissingPowerLine = "missing-power-line",
@@ -39,6 +44,7 @@ export interface IBlock {
 
 export interface IBuildingCondition {
   buildings?: number[];
+  hydrated?: boolean;
   land?: number[];
   landform?: number[];
 }
@@ -47,10 +53,14 @@ export interface IBuildingBlock extends IBlock {
   category: string;
   conditions: IBuildingCondition;
   connections?: Connection[];
+  errors?: BlockError[];
   needSun?: boolean;
   only?: GroundType;
-  states?: BlockState[];
   title: string;
+}
+
+export interface ILandBlock extends IBlock {
+  states?: BlockState[];
 }
 
 export type IBlockCategories = IBlockCategory[];

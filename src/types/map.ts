@@ -35,9 +35,9 @@ export type IMap = Record<number | string, IBoard>;
 
 export interface ICellBlock
   extends Omit<ICell, "buildings" | "land" | "landform" | "tunnel"> {
-  buildings?: IBlock | IBlock[];
-  land: IBlock | IBlock[];
-  landform: IBlock | IBlock[];
+  buildings?: IBlock | IBlock[] | undefined;
+  land: IBlock | IBlock[] | undefined;
+  landform: IBlock | IBlock[] | undefined;
   tunnel?: IBlock;
 }
 export type IBoardBlock = ICellBlock[][];

@@ -1,23 +1,38 @@
-import type { BlockState, IBlock, IBuildingBlock } from "../types/block";
+import type {
+  BlockError,
+  IBlock,
+  IBuildingBlock,
+  ILandBlock,
+} from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
-import type { IBoardBlock, IMap } from "../types/map";
+import type { IBoardBlock, ICellBlock, IMap } from "../types/map";
 
 import {
   BASE_SID,
   BLOCK_SIZE,
   DISABLED_BLOCK_URL,
+  HYDRATED_BLOCK_URL,
   PIPES_SIDS,
   POWER_LINES_SIDS,
-  TUNNEL_SID,
   buildingBlocksMap,
 } from "../constants/blocks";
-import { Connection } from "../types/block";
+import { BlockState } from "../types/block";
 import { View } from "../types/game";
 import { DrawableCellType } from "../types/map";
 
 import { isBuildingBlock } from "./block";
 import { getCellBlock, getCellBlockSid } from "./map";
+
+function isHydrated(block: IBlock): boolean {
+  if (((block as ILandBlock)?.states?.length ?? 0) > 0) {
+    const states = (block as ILandBlock).states as BlockState[];
+    return (
+      states.includes(BlockState.Hydrated) && !states.includes(BlockState.Dry)
+    );
+  }
+  return false;
+}
 
 function getBlockBackground(
   imageMap: Map<number, IImage>,
@@ -33,11 +48,18 @@ function getBlockBackground(
     return null;
   }
   const backgrounds = [];
-  if (isBuildingBlock(block) && (block.states?.length ?? 0) > 0) {
+  if (isBuildingBlock(block) && (block.errors?.length ?? 0) > 0) {
     backgrounds.push(
       `${j * BLOCK_SIZE}px ${
         (i + 1) * BLOCK_SIZE
       }px no-repeat url(${DISABLED_BLOCK_URL})`
+    );
+  }
+  if (isHydrated(block)) {
+    backgrounds.push(
+      `${j * BLOCK_SIZE}px ${
+        (i + 1) * BLOCK_SIZE
+      }px no-repeat url(${HYDRATED_BLOCK_URL})`
     );
   }
   backgrounds.push(
@@ -100,27 +122,27 @@ export function getBackgroundArray(
 
 export function isBuildingCorrect(
   selectedBuilding: IBuildingBlock,
-  building = 0,
-  landformOnly = false
+  cell: ICellBlock
 ): boolean {
-  const buildCondition =
-    (selectedBuilding.connections?.includes(Connection.Tunnel) &&
-      building === TUNNEL_SID) ||
-    (selectedBuilding.conditions.buildings
-      ? selectedBuilding.conditions.buildings.includes(building)
-      : building === 0);
-  return (
-    (!landformOnly && buildCondition) ||
-    (landformOnly && (buildingBlocksMap.has(building) || buildCondition))
-  );
+  const buildingSid = getCellBlock(cell.buildings)?.sid ?? 0;
+  const buildCondition = selectedBuilding.conditions.buildings
+    ? selectedBuilding.conditions.buildings.includes(buildingSid)
+    : buildingSid === 0;
+  return buildCondition;
 }
 
 export function isLandCorrect(
   selectedBuilding: IBuildingBlock,
-  land = 0
+  cell: ICellBlock
 ): boolean {
+  const landBlock = getCellBlock(cell.land) as IBlock;
+  const landformBlockSid = getCellBlock(cell.landform)?.sid ?? 0;
   return (
-    land === 0 || (selectedBuilding.conditions.land?.includes(land) ?? true)
+    (selectedBuilding.conditions.land?.includes(landBlock.sid) ?? true) &&
+    (selectedBuilding.conditions.landform
+      ? selectedBuilding.conditions.landform.includes(landformBlockSid)
+      : landformBlockSid === 0) &&
+    (!selectedBuilding.conditions.hydrated || isHydrated(landBlock))
   );
 }
 
@@ -130,14 +152,15 @@ export function isBuildable(
   j: number,
   selectedBuilding: IBuildingBlock
 ): boolean {
-  const building = getCellBlock(board[i][j].buildings);
-  const land = getCellBlock(board[i][j].land);
-  const landformOnly =
+  if (
     POWER_LINES_SIDS.includes(selectedBuilding.sid) ||
-    PIPES_SIDS.includes(selectedBuilding.sid);
+    PIPES_SIDS.includes(selectedBuilding.sid)
+  ) {
+    return isLandCorrect(selectedBuilding, board[i][j]);
+  }
   return (
-    isBuildingCorrect(selectedBuilding, building?.sid, landformOnly) &&
-    isLandCorrect(selectedBuilding, land?.sid)
+    isBuildingCorrect(selectedBuilding, board[i][j]) &&
+    isLandCorrect(selectedBuilding, board[i][j])
   );
 }
 
@@ -171,15 +194,15 @@ export function getBuildingState(
   board: IBoardBlock,
   i: number,
   j: number
-): BlockState | undefined {
+): BlockError | undefined {
   const building = getCellBlock(board[i][j].buildings);
   if (
     building &&
     isBuildingBlock(building) &&
-    building.states &&
-    building.states?.length > 0
+    building.errors &&
+    building.errors?.length > 0
   ) {
-    return building.states[0];
+    return building.errors[0];
   }
   return undefined;
 }
