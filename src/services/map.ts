@@ -11,6 +11,7 @@ import type {
 } from "../types/map";
 
 import {
+  GROUND_HYDRATOR_SID,
   GROUND_SID,
   MOUNTAIN_SID,
   PIPES_SID,
@@ -20,6 +21,7 @@ import {
   REINFORCED_PIPES_SID,
   REINFORCED_POWER_LINES_SID,
   TUNNEL_SID,
+  WATER_DISPENSER_SID,
   WATER_SID,
   blockMap,
 } from "../constants/blocks";
@@ -28,7 +30,7 @@ import { BlockError, BlockState, Connection } from "../types/block";
 import { View } from "../types/game";
 import { CellType } from "../types/map";
 
-import { isBuildingBlock } from "./block";
+import { isBuildingBlock, isEnabled } from "./block";
 import { isLandCorrect } from "./board";
 import { isConnected } from "./connections";
 import { intersect } from "./utils";
@@ -163,25 +165,55 @@ export function removeBlockFromMap(
   };
 }
 
-export function transformAdjacentCells(
+export function transformCell(
   board: IBoardBlock,
   i: number,
   j: number,
   state: BlockState,
   sids?: number[]
 ): void {
-  for (let x = i - 1; x <= i + 1; x++) {
-    for (let y = j - 1; y <= j + 1; y++) {
-      const landformBlock = getCellBlock(board[x][y].landform);
-      const landBlock = getCellBlock(board[x][y].land) as ILandBlock;
-      if (
-        landBlock &&
-        (!sids || sids.includes(landBlock.sid)) &&
-        !landformBlock
-      ) {
-        landBlock.states ??= [];
-        landBlock.states.push(state);
+  const landformBlock = getCellBlock(board[i][j].landform);
+  const landBlock = getCellBlock(board[i][j].land) as ILandBlock;
+  if (landBlock && (!sids || sids.includes(landBlock.sid)) && !landformBlock) {
+    landBlock.states ??= [];
+    landBlock.states.push(state);
+  }
+}
+
+export function transformAdjacentCells(
+  board: IBoardBlock,
+  i: number,
+  j: number,
+  state: BlockState,
+  sids?: number[],
+  areaSize = 1,
+  maxDistance = 2
+): void {
+  for (let x = i - areaSize; x <= i + areaSize; x++) {
+    for (let y = j - areaSize; y <= j + areaSize; y++) {
+      const distance = Math.abs(i - x) + Math.abs(j - y);
+      if (distance <= maxDistance) {
+        transformCell(board, x, y, state, sids);
       }
+    }
+  }
+}
+
+export function transformBuildingBlock(
+  board: IBoardBlock,
+  i: number,
+  j: number,
+  buildingBlock: IBuildingBlock
+): void {
+  if (isEnabled(buildingBlock)) {
+    if (DRYERS.includes(buildingBlock.sid)) {
+      transformAdjacentCells(board, i, j, BlockState.Dry);
+    }
+    if (buildingBlock.sid === GROUND_HYDRATOR_SID) {
+      transformAdjacentCells(board, i, j, BlockState.Hydrated, [GROUND_SID], 0);
+    }
+    if (buildingBlock.sid === WATER_DISPENSER_SID) {
+      transformAdjacentCells(board, i, j, BlockState.Hydrated, [GROUND_SID]);
     }
   }
 }
@@ -198,7 +230,7 @@ export function checkBuildingConditions(
 ): void {
   const buildingBlock = getCellBlock(board[i][j].buildings);
   const landBlock = getCellBlock(board[i][j].land);
-  if (buildingBlock && landBlock && isBuildingBlock(buildingBlock)) {
+  if (landBlock && isBuildingBlock(buildingBlock)) {
     buildingBlock.errors ??= [];
     if (
       buildingBlock.connections?.includes(Connection.Tunnel) &&
@@ -298,15 +330,19 @@ export function getBoardBlock(
 
   for (let i = 0; i < newBoard.length; i++) {
     for (let j = 0; j < newBoard[i].length; j++) {
-      const buildingBlock = getCellBlock(newBoard[i][j].buildings);
       const landformBlock = getCellBlock(newBoard[i][j].landform);
-      if (buildingBlock && DRYERS.includes(buildingBlock.sid)) {
-        transformAdjacentCells(newBoard, i, j, BlockState.Dry);
-      }
       if (landformBlock?.sid === WATER_SID) {
         transformAdjacentCells(newBoard, i, j, BlockState.Hydrated, [
           GROUND_SID,
         ]);
+      }
+      const { buildings } = newBoard[i][j];
+      if (buildings instanceof Array) {
+        buildings.forEach((building) =>
+          transformBuildingBlock(newBoard, i, j, building as IBuildingBlock)
+        );
+      } else if (buildings) {
+        transformBuildingBlock(newBoard, i, j, buildings as IBuildingBlock);
       }
     }
   }

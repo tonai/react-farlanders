@@ -1,9 +1,4 @@
-import type {
-  BlockError,
-  IBlock,
-  IBuildingBlock,
-  ILandBlock,
-} from "../types/block";
+import type { BlockError, IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
 import type { IBoardBlock, ICellBlock, IMap } from "../types/map";
@@ -12,27 +7,17 @@ import {
   BASE_SID,
   BLOCK_SIZE,
   DISABLED_BLOCK_URL,
+  GROUND_HYDRATOR_SID,
   HYDRATED_BLOCK_URL,
   PIPES_SIDS,
   POWER_LINES_SIDS,
   buildingBlocksMap,
 } from "../constants/blocks";
-import { BlockState } from "../types/block";
 import { View } from "../types/game";
 import { DrawableCellType } from "../types/map";
 
-import { isBuildingBlock } from "./block";
+import { isBuildingBlock, isHydrated } from "./block";
 import { getCellBlock, getCellBlockSid } from "./map";
-
-function isHydrated(block: IBlock): boolean {
-  if (((block as ILandBlock)?.states?.length ?? 0) > 0) {
-    const states = (block as ILandBlock).states as BlockState[];
-    return (
-      states.includes(BlockState.Hydrated) && !states.includes(BlockState.Dry)
-    );
-  }
-  return false;
-}
 
 function getBlockBackground(
   imageMap: Map<number, IImage>,
@@ -127,7 +112,7 @@ export function isBuildingCorrect(
   const buildingSid = getCellBlock(cell.buildings)?.sid ?? 0;
   const buildCondition = selectedBuilding.conditions.buildings
     ? selectedBuilding.conditions.buildings.includes(buildingSid)
-    : buildingSid === 0;
+    : buildingSid === 0 || buildingSid === GROUND_HYDRATOR_SID;
   return buildCondition;
 }
 
@@ -197,7 +182,6 @@ export function getBuildingState(
 ): BlockError | undefined {
   const building = getCellBlock(board[i][j].buildings);
   if (
-    building &&
     isBuildingBlock(building) &&
     building.errors &&
     building.errors?.length > 0
