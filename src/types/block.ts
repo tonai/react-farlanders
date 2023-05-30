@@ -8,8 +8,11 @@ export enum BuildingTool {
 }
 
 export enum BlockState {
+  Anomaly = "anomaly",
+  Bio = "bio",
   Dry = "dry",
   Hydrated = "hydrated",
+  Platform = "platform",
 }
 
 export enum BlockError {
@@ -44,9 +47,9 @@ export interface IBlock {
 
 export interface IBuildingCondition {
   buildings?: number[];
-  hydrated?: boolean;
   land?: number[];
   landform?: number[];
+  state: BlockState;
 }
 
 export interface IBuildingBlock extends IBlock {

@@ -11,6 +11,9 @@ import type {
 } from "../types/map";
 
 import {
+  ANOMALY_SIDS,
+  BIO_STOREHOUSE_SID,
+  DRYERS,
   GROUND_HYDRATOR_SID,
   GROUND_SID,
   MOUNTAIN_SID,
@@ -20,12 +23,12 @@ import {
   POWER_LINES_SIDS,
   REINFORCED_PIPES_SID,
   REINFORCED_POWER_LINES_SID,
+  SPACEPORTS,
   TUNNEL_SID,
   WATER_DISPENSER_SID,
   WATER_SID,
   blockMap,
 } from "../constants/blocks";
-import { DRYERS } from "../constants/map";
 import { BlockError, BlockState, Connection } from "../types/block";
 import { View } from "../types/game";
 import { CellType } from "../types/map";
@@ -199,7 +202,13 @@ export function transformAdjacentCells(
   for (let x = i - areaSize; x <= i + areaSize; x++) {
     for (let y = j - areaSize; y <= j + areaSize; y++) {
       const distance = Math.abs(i - x) + Math.abs(j - y);
-      if (distance <= maxDistance) {
+      if (
+        x >= 0 &&
+        y >= 0 &&
+        x < board.length &&
+        y < board[0].length &&
+        distance <= maxDistance
+      ) {
         transformCell(board, x, y, state, sids);
       }
     }
@@ -216,11 +225,17 @@ export function transformBuildingBlock(
     if (DRYERS.includes(buildingBlock.sid)) {
       transformAdjacentCells(board, i, j, BlockState.Dry);
     }
+    if (SPACEPORTS.includes(buildingBlock.sid)) {
+      transformAdjacentCells(board, i, j, BlockState.Platform, undefined, 1, 1);
+    }
     if (buildingBlock.sid === GROUND_HYDRATOR_SID) {
       transformAdjacentCells(board, i, j, BlockState.Hydrated, [GROUND_SID], 0);
     }
     if (buildingBlock.sid === WATER_DISPENSER_SID) {
       transformAdjacentCells(board, i, j, BlockState.Hydrated, [GROUND_SID]);
+    }
+    if (buildingBlock.sid === BIO_STOREHOUSE_SID) {
+      transformAdjacentCells(board, i, j, BlockState.Bio, [GROUND_SID], 2, 3);
     }
   }
 }
@@ -337,11 +352,22 @@ export function getBoardBlock(
 
   for (let i = 0; i < newBoard.length; i++) {
     for (let j = 0; j < newBoard[i].length; j++) {
-      const landformBlock = getCellBlock(newBoard[i][j].landform);
-      if (landformBlock?.sid === WATER_SID) {
+      const landformBlockSid = getCellBlock(newBoard[i][j].landform)?.sid ?? 0;
+      if (landformBlockSid === WATER_SID) {
         transformAdjacentCells(newBoard, i, j, BlockState.Hydrated, [
           GROUND_SID,
         ]);
+      }
+      if (ANOMALY_SIDS.includes(landformBlockSid)) {
+        transformAdjacentCells(
+          newBoard,
+          i,
+          j,
+          BlockState.Anomaly,
+          undefined,
+          1,
+          1
+        );
       }
       const { buildings } = newBoard[i][j];
       if (buildings instanceof Array) {

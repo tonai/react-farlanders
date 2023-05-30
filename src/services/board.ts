@@ -12,10 +12,11 @@ import {
   PIPES_SIDS,
   POWER_LINES_SIDS,
 } from "../constants/blocks";
+import { BlockState } from "../types/block";
 import { View } from "../types/game";
 import { DrawableCellType } from "../types/map";
 
-import { isBlocks, isBuildingBlock, isHydrated, isSid } from "./block";
+import { hasState, isBlocks, isBuildingBlock, isSid } from "./block";
 import { getCellBlock, getCellBlockSid } from "./map";
 
 function getBlockBackground(
@@ -39,7 +40,7 @@ function getBlockBackground(
       }px no-repeat url(${DISABLED_BLOCK_URL})`
     );
   }
-  if (isHydrated(block)) {
+  if (hasState(block, BlockState.Hydrated)) {
     backgrounds.push(
       `${j * BLOCK_SIZE}px ${
         (i + 1) * BLOCK_SIZE
@@ -109,10 +110,9 @@ export function isBuildingCorrect(
   cell: ICellBlock
 ): boolean {
   const buildingSid = getCellBlock(cell.buildings)?.sid ?? 0;
-  const buildCondition = selectedBuilding.conditions.buildings
+  return selectedBuilding.conditions.buildings
     ? selectedBuilding.conditions.buildings.includes(buildingSid)
     : buildingSid === 0 || buildingSid === GROUND_HYDRATOR_SID;
-  return buildCondition;
 }
 
 export function isLandCorrect(
@@ -126,7 +126,8 @@ export function isLandCorrect(
     (selectedBuilding.conditions.landform
       ? selectedBuilding.conditions.landform.includes(landformBlockSid)
       : landformBlockSid === 0) &&
-    (!selectedBuilding.conditions.hydrated || isHydrated(landBlock))
+    (!selectedBuilding.conditions.state ||
+      hasState(landBlock, selectedBuilding.conditions.state))
   );
 }
 

@@ -9,12 +9,15 @@ export function isBuildingBlock(block?: IBlock): block is IBuildingBlock {
   return "category" in block;
 }
 
-export function isHydrated(block: IBlock): boolean {
+export function hasState(block: IBlock, state: BlockState): boolean {
   if (((block as ILandBlock)?.states?.length ?? 0) > 0) {
     const states = (block as ILandBlock).states as BlockState[];
-    return (
-      states.includes(BlockState.Hydrated) && !states.includes(BlockState.Dry)
-    );
+    if (state === BlockState.Hydrated) {
+      return (
+        states.includes(BlockState.Hydrated) && !states.includes(BlockState.Dry)
+      );
+    }
+    return states.includes(state);
   }
   return false;
 }

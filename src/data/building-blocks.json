@@ -143,7 +143,7 @@
     "title": "Greenhouse",
     "conditions": {
       "land": [2],
-      "hydrated": true
+      "state": "hydrated"
     },
     "connections": ["power-line", "pipe", "tunnel"],
     "needSun": true
@@ -313,7 +313,7 @@
     "title": "Park",
     "conditions": {
       "land": [2],
-      "hydrated": true
+      "state": "hydrated"
     },
     "connections": ["power-line", "reinforced-pipe", "tunnel"],
     "needSun": true
@@ -413,7 +413,8 @@
     "only": "ground",
     "title": "Landing platform",
     "conditions": {
-      "land": [1, 2]
+      "land": [1, 2],
+      "state": "platform"
     }
   },
   {
@@ -434,7 +435,8 @@
     "category": "expansion",
     "title": "Anomaly research camp",
     "conditions": {
-      "land": [1, 2, 3]
+      "land": [1, 2, 3],
+      "state": "anomaly"
     },
     "connections": ["power-line"]
   },
@@ -522,7 +524,8 @@
     "only": "ground",
     "title": "Bacteria",
     "conditions": {
-      "land": [2]
+      "land": [2],
+      "state": "bio"
     },
     "connections": ["power-line", "pipe"],
     "needSun": true
@@ -535,7 +538,8 @@
     "only": "ground",
     "title": "Moss",
     "conditions": {
-      "buildings": [181]
+      "buildings": [181],
+      "state": "bio"
     },
     "connections": ["power-line", "pipe"],
     "needSun": true
@@ -548,7 +552,8 @@
     "only": "ground",
     "title": "Grass",
     "conditions": {
-      "buildings": [182]
+      "buildings": [182],
+      "state": "bio"
     },
     "connections": ["power-line", "pipe"],
     "needSun": true
@@ -561,7 +566,8 @@
     "only": "ground",
     "title": "Aquatic ecosystem",
     "conditions": {
-      "buildings": [20]
+      "landform": [20],
+      "state": "bio"
     },
     "connections": ["power-line"]
   },
