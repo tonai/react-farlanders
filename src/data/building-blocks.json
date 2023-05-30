@@ -246,8 +246,7 @@
     "only": "ground",
     "title": "House",
     "conditions": {
-      "land": [2],
-      "buildings": [130]
+      "land": [2]
     },
     "connections": ["power-line", "pipe", "tunnel"]
   },
@@ -288,8 +287,7 @@
     "category": "habitats",
     "title": "Community center",
     "conditions": {
-      "land": [1, 2],
-      "buildings": [130, 131]
+      "land": [1, 2]
     },
     "connections": ["power-line", "pipe", "tunnel"]
   },

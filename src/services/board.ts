@@ -112,7 +112,9 @@ export function isBuildingCorrect(
   const buildingSid = getCellBlock(cell.buildings)?.sid ?? 0;
   return selectedBuilding.conditions.buildings
     ? selectedBuilding.conditions.buildings.includes(buildingSid)
-    : buildingSid === 0 || buildingSid === GROUND_HYDRATOR_SID;
+    : buildingSid === 0 ||
+        (buildingSid === GROUND_HYDRATOR_SID &&
+          selectedBuilding.sid !== GROUND_HYDRATOR_SID);
 }
 
 export function isLandCorrect(

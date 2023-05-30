@@ -106,14 +106,14 @@ export function addBlockToBoard(block: IBuildingBlock, cell: ICell): ICell {
   }
 
   if (type === CellType.Buildings) {
-    let newSids = [block.sid];
-    const sid = newCell.buildings;
-    if (sid instanceof Array) {
-      newSids = [...sid, ...newSids];
-    } else if (sid) {
-      newSids = [sid, ...newSids];
+    if (
+      newCell.buildings === GROUND_HYDRATOR_SID &&
+      block.sid !== GROUND_HYDRATOR_SID
+    ) {
+      newCell.buildings = [newCell.buildings, block.sid];
+    } else {
+      newCell.buildings = block.sid;
     }
-    newCell.buildings = newSids.length === 1 ? newSids[0] : newSids;
   } else if (
     type === CellType.Tunnel ||
     type === CellType.Power ||
@@ -166,7 +166,7 @@ export function removeBlockFromMap(
           }
           return {
             ...cell,
-            [view]: cellSids instanceof Array ? cellSids.slice(0, -1) : 0,
+            [view]: cellSids instanceof Array ? cellSids[0] : 0,
           };
         }
         return cell;

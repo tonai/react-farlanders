@@ -118,6 +118,7 @@ function BuildingsInterface(): JSX.Element {
                 alt={category.title}
                 className="BuildingsInterface__image"
                 src={category.images}
+                title={category.title}
               />
             </button>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
@@ -139,6 +140,7 @@ function BuildingsInterface(): JSX.Element {
                     alt={block.title}
                     className="BuildingsInterface__image"
                     src={block.images}
+                    title={block.title}
                   />
                 </button>
               ))}
@@ -157,7 +159,11 @@ function BuildingsInterface(): JSX.Element {
           onClick={handleActiveTool}
           type="button"
         >
-          <img alt="Remove" src="/assets/categories/remove.png" />
+          <img
+            alt="Remove"
+            src="/assets/categories/remove.png"
+            title="Remove"
+          />
         </button>
       </div>
     </div>
