@@ -22,3 +22,13 @@ export function isHydrated(block: IBlock): boolean {
 export function isEnabled(block: IBuildingBlock): boolean {
   return !block.errors || block.errors.length === 0;
 }
+
+export function isBlocks(
+  blocks?: IBlock | IBlock[] | number
+): blocks is IBlock | IBlock[] {
+  return typeof blocks !== "number" && typeof blocks !== "undefined";
+}
+
+export function isSid(blocks?: IBlock | IBlock[] | number): blocks is number {
+  return typeof blocks === "number";
+}

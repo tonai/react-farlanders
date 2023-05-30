@@ -154,6 +154,13 @@ export function removeBlockFromMap(
       row.map((cell, i) => {
         if (i === point.x && j === point.y - 1) {
           const cellSids = cell[view];
+          const sid = getCellBlockSid(cellSids);
+          if (sid === 0 && cell.tunnel) {
+            return {
+              ...cell,
+              tunnel: 0,
+            };
+          }
           return {
             ...cell,
             [view]: cellSids instanceof Array ? cellSids.slice(0, -1) : 0,

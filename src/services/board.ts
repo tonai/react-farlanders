@@ -11,12 +11,11 @@ import {
   HYDRATED_BLOCK_URL,
   PIPES_SIDS,
   POWER_LINES_SIDS,
-  buildingBlocksMap,
 } from "../constants/blocks";
 import { View } from "../types/game";
 import { DrawableCellType } from "../types/map";
 
-import { isBuildingBlock, isHydrated } from "./block";
+import { isBlocks, isBuildingBlock, isHydrated, isSid } from "./block";
 import { getCellBlock, getCellBlockSid } from "./map";
 
 function getBlockBackground(
@@ -155,12 +154,16 @@ export function isRemovable(
   j: number,
   type: View = View.Buildings
 ): boolean {
-  if (type === View.Buildings) {
-    const block = getCellBlock(board[i][j][type]);
-    return buildingBlocksMap.has(block?.sid ?? 0) && block?.sid !== BASE_SID;
+  const blocks = board[i][j][type];
+  if (isBlocks(blocks)) {
+    const blockSid = getCellBlock(blocks)?.sid ?? 0;
+    return blockSid !== 0 && blockSid !== BASE_SID;
+  } else if (isSid(blocks)) {
+    const sid = getCellBlockSid(blocks);
+    return sid !== 0;
   }
-  const sid = getCellBlockSid(board[i][j][type]);
-  return sid !== 0;
+  const tunnel = getCellBlock(board[i][j].tunnel);
+  return Boolean(tunnel);
 }
 
 export function getBase(map: IMap): IPoint | undefined {
