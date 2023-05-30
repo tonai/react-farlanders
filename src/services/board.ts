@@ -6,6 +6,7 @@ import type { IBoardBlock, ICellBlock, IMap } from "../types/map";
 import {
   BASE_SID,
   BLOCK_SIZE,
+  BUILDABLE_BLOCK_URL,
   DISABLED_BLOCK_URL,
   GROUND_HYDRATOR_SID,
   HYDRATED_BLOCK_URL,
@@ -18,92 +19,6 @@ import { DrawableCellType } from "../types/map";
 
 import { hasState, isBlocks, isBuildingBlock, isSid } from "./block";
 import { getCellBlock, getCellBlockSid } from "./map";
-
-function getBlockBackground(
-  imageMap: Map<number, IImage>,
-  i: number,
-  j: number,
-  block?: IBlock
-): string | null {
-  if (!block) {
-    return null;
-  }
-  const image = imageMap.get(block.sid);
-  if (!image) {
-    return null;
-  }
-  const backgrounds = [];
-  if (isBuildingBlock(block) && (block.errors?.length ?? 0) > 0) {
-    backgrounds.push(
-      `${j * BLOCK_SIZE}px ${
-        (i + 1) * BLOCK_SIZE
-      }px no-repeat url(${DISABLED_BLOCK_URL})`
-    );
-  }
-  if (hasState(block, BlockState.Hydrated)) {
-    backgrounds.push(
-      `${j * BLOCK_SIZE}px ${
-        (i + 1) * BLOCK_SIZE
-      }px no-repeat url(${HYDRATED_BLOCK_URL})`
-    );
-  }
-  backgrounds.push(
-    `${j * BLOCK_SIZE}px ${
-      (i + 2) * BLOCK_SIZE - image.height
-    }px no-repeat url(${block.images})`
-  );
-  return backgrounds.join(",");
-}
-
-function getBlocksBackground(
-  imageMap: Map<number, IImage>,
-  i: number,
-  j: number,
-  blocks?: IBlock | IBlock[]
-): string | null {
-  if (!blocks) {
-    return null;
-  }
-  if (blocks instanceof Array) {
-    return blocks
-      .slice()
-      .reverse()
-      .map((block) => getBlockBackground(imageMap, i, j, block))
-      .filter((x) => x)
-      .join(",");
-  }
-  return getBlockBackground(imageMap, i, j, blocks);
-}
-
-function getCellBackground(
-  imageMap: Map<number, IImage>,
-  board: IBoardBlock,
-  i: number,
-  j: number,
-  types: DrawableCellType[] = [DrawableCellType.Land]
-): string | null {
-  const cell = board[i][j];
-  return types
-    .map((type) => getBlocksBackground(imageMap, i, j, cell[type]))
-    .filter((x) => x)
-    .join(",");
-}
-
-export function getBackgroundArray(
-  imageMap: Map<number, IImage>,
-  board: IBoardBlock,
-  types: DrawableCellType[] = [DrawableCellType.Land]
-): string[] {
-  const land = [...board];
-  return land
-    .map((row, i) =>
-      row.map((_, j: number) =>
-        getCellBackground(imageMap, board, land.length - i - 1, j, types)
-      )
-    )
-    .flat()
-    .filter((x) => x) as string[];
-}
 
 export function isBuildingCorrect(
   selectedBuilding: IBuildingBlock,
@@ -149,6 +64,116 @@ export function isBuildable(
     isBuildingCorrect(selectedBuilding, board[i][j]) &&
     isLandCorrect(selectedBuilding, board[i][j])
   );
+}
+
+function getBlockBackground(
+  imageMap: Map<number, IImage>,
+  board: IBoardBlock,
+  i: number,
+  j: number,
+  selectedBuilding?: IBuildingBlock,
+  block?: IBlock
+): string | null {
+  if (!block) {
+    return null;
+  }
+  const image = imageMap.get(block.sid);
+  if (!image) {
+    return null;
+  }
+  const backgrounds = [];
+  if (selectedBuilding && isBuildable(board, i, j, selectedBuilding)) {
+    backgrounds.push(
+      `${j * BLOCK_SIZE}px ${
+        (i + 1) * BLOCK_SIZE
+      }px no-repeat url(${BUILDABLE_BLOCK_URL})`
+    );
+  }
+  if (isBuildingBlock(block) && (block.errors?.length ?? 0) > 0) {
+    backgrounds.push(
+      `${j * BLOCK_SIZE}px ${
+        (i + 1) * BLOCK_SIZE
+      }px no-repeat url(${DISABLED_BLOCK_URL})`
+    );
+  }
+  if (hasState(block, BlockState.Hydrated)) {
+    backgrounds.push(
+      `${j * BLOCK_SIZE}px ${
+        (i + 1) * BLOCK_SIZE
+      }px no-repeat url(${HYDRATED_BLOCK_URL})`
+    );
+  }
+  backgrounds.push(
+    `${j * BLOCK_SIZE}px ${
+      (i + 2) * BLOCK_SIZE - image.height
+    }px no-repeat url(${block.images})`
+  );
+  return backgrounds.join(",");
+}
+
+function getBlocksBackground(
+  imageMap: Map<number, IImage>,
+  board: IBoardBlock,
+  i: number,
+  j: number,
+  selectedBuilding?: IBuildingBlock,
+  blocks?: IBlock | IBlock[]
+): string | null {
+  if (!blocks) {
+    return null;
+  }
+  if (blocks instanceof Array) {
+    return blocks
+      .slice()
+      .reverse()
+      .map((block) =>
+        getBlockBackground(imageMap, board, i, j, selectedBuilding, block)
+      )
+      .filter((x) => x)
+      .join(",");
+  }
+  return getBlockBackground(imageMap, board, i, j, selectedBuilding, blocks);
+}
+
+function getCellBackground(
+  imageMap: Map<number, IImage>,
+  board: IBoardBlock,
+  i: number,
+  j: number,
+  selectedBuilding?: IBuildingBlock,
+  types: DrawableCellType[] = [DrawableCellType.Land]
+): string | null {
+  const cell = board[i][j];
+  return types
+    .map((type) =>
+      getBlocksBackground(imageMap, board, i, j, selectedBuilding, cell[type])
+    )
+    .filter((x) => x)
+    .join(",");
+}
+
+export function getBackgroundArray(
+  imageMap: Map<number, IImage>,
+  board: IBoardBlock,
+  selectedBuilding?: IBuildingBlock,
+  types: DrawableCellType[] = [DrawableCellType.Land]
+): string[] {
+  const land = [...board];
+  return land
+    .map((row, i) =>
+      row.map((_, j: number) =>
+        getCellBackground(
+          imageMap,
+          board,
+          land.length - i - 1,
+          j,
+          selectedBuilding,
+          types
+        )
+      )
+    )
+    .flat()
+    .filter((x) => x) as string[];
 }
 
 export function isRemovable(

@@ -41,12 +41,12 @@ function Board(props: IBoardProps): JSX.Element {
   const rows = mapLevel.length;
   const cols = mapLevel[0].length;
 
-  const buildingsBg = getBackgroundArray(imageMap, mapLevel, [
+  const buildingsBg = getBackgroundArray(imageMap, mapLevel, selectedBuilding, [
     DrawableCellType.Buildings,
     DrawableCellType.Tunnel,
     DrawableCellType.Landform,
   ]);
-  const landBg = getBackgroundArray(imageMap, mapLevel);
+  const landBg = getBackgroundArray(imageMap, mapLevel, selectedBuilding);
 
   const background = [...buildingsBg, ...landBg].join(",");
   const height = (rows + 1) * BLOCK_SIZE;

@@ -9,6 +9,7 @@ import rawBuildingCategories from "../data/buildings-categories.json";
 import rawLandBlocks from "../data/land-blocks.json";
 
 export const DISABLED_BLOCK_URL = "/assets/disabled.png";
+export const BUILDABLE_BLOCK_URL = "/assets/buildable.png";
 export const HYDRATED_BLOCK_URL = "/assets/natural/land/fertile-soil1.png";
 
 export const BLOCK_SIZE = 64;
