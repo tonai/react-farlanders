@@ -34,6 +34,7 @@
 .BuildingsInterface__image {
   display: block;
   position: relative;
+  pointer-events: none;
 }
 
 .BuildingsInterface__blocks {

@@ -161,6 +161,7 @@ function BuildingsInterface(): JSX.Element {
         >
           <img
             alt="Remove"
+            className="BuildingsInterface__image"
             src="/assets/categories/remove.png"
             title="Remove"
           />

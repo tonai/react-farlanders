@@ -46,4 +46,5 @@
 .VisualizationInterface__image {
   display: block;
   position: relative;
+  pointer-events: none;
 }
