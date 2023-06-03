@@ -7,9 +7,9 @@ import water from "../../../../public/assets/visualization/water.png";
 import { gameContext } from "../../../contexts/game";
 import { View } from "../../../types/game";
 
-import "./VisualizationInterface.css";
+import "./Visualization.css";
 
-function VisualizationInterface(): JSX.Element {
+function Visualization(): JSX.Element {
   const { setView, view } = useContext(gameContext);
 
   function handleToggleView(view: View): void {
@@ -17,43 +17,43 @@ function VisualizationInterface(): JSX.Element {
   }
 
   return (
-    <div className="VisualizationInterface">
+    <div className="Visualization">
       <button
-        className={classNames("VisualizationInterface__button", {
-          "VisualizationInterface__button--active": view === View.Buildings,
+        className={classNames("Visualization__button", {
+          "Visualization__button--active": view === View.Buildings,
         })}
         onClick={() => handleToggleView(View.Buildings)}
         type="button"
       >
         <img
           alt="Toogle full view"
-          className="VisualizationInterface__image"
+          className="Visualization__image"
           src={buildings}
         />
       </button>
       <button
-        className={classNames("VisualizationInterface__button", {
-          "VisualizationInterface__button--active": view === View.Power,
+        className={classNames("Visualization__button", {
+          "Visualization__button--active": view === View.Power,
         })}
         onClick={() => handleToggleView(View.Power)}
         type="button"
       >
         <img
           alt="Toogle power view"
-          className="VisualizationInterface__image"
+          className="Visualization__image"
           src={power}
         />
       </button>
       <button
-        className={classNames("VisualizationInterface__button", {
-          "VisualizationInterface__button--active": view === View.Water,
+        className={classNames("Visualization__button", {
+          "Visualization__button--active": view === View.Water,
         })}
         onClick={() => handleToggleView(View.Water)}
         type="button"
       >
         <img
           alt="Toogle water view"
-          className="VisualizationInterface__image"
+          className="Visualization__image"
           src={water}
         />
       </button>
@@ -61,4 +61,4 @@ function VisualizationInterface(): JSX.Element {
   );
 }
 
-export default VisualizationInterface;
+export default Visualization;

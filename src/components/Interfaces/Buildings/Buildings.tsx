@@ -13,9 +13,9 @@ import { ESCAPE } from "../../../constants/keys";
 import { gameContext } from "../../../contexts/game";
 import { BuildingTool, GroundType } from "../../../types/block";
 
-import "./BuildingsInterface.css";
+import "./Buildings.css";
 
-function BuildingsInterface(): JSX.Element {
+function Buildings(): JSX.Element {
   const [activeCategory, setActiveCategory] = useState<string>();
   const {
     colonyLevel,
@@ -90,7 +90,7 @@ function BuildingsInterface(): JSX.Element {
   }, [colonyLevel, selectedBuilding, unselect]);
 
   return (
-    <div className="BuildingsInterface">
+    <div className="Buildings">
       {categories.map((category) => {
         const categoryBlocks = blockCategoryMap
           .get(category.id)
@@ -103,34 +103,30 @@ function BuildingsInterface(): JSX.Element {
         return (
           <div
             key={category.id}
-            className={classNames("BuildingsInterface__category", {
-              "BuildingsInterface__category--active":
-                activeCategory === category.id,
+            className={classNames("Buildings__category", {
+              "Buildings__category--active": activeCategory === category.id,
             })}
           >
             <button
-              className="BuildingsInterface__button"
+              className="Buildings__button"
               disabled={!categoryBlocks || categoryBlocks.length === 0}
               onClick={(e) => handleActiveCategory(e, category.id)}
               type="button"
             >
               <img
                 alt={category.title}
-                className="BuildingsInterface__image"
+                className="Buildings__image"
                 src={category.images}
                 title={category.title}
               />
             </button>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div
-              className="BuildingsInterface__blocks"
-              onClick={handlePropagation}
-            >
+            <div className="Buildings__blocks" onClick={handlePropagation}>
               {categoryBlocks?.map((block) => (
                 <button
                   key={block.id}
-                  className={classNames("BuildingsInterface__blocks-button", {
-                    "BuildingsInterface__blocks-button--active":
+                  className={classNames("Buildings__blocks-button", {
+                    "Buildings__blocks-button--active":
                       selectedBuilding === block,
                   })}
                   onClick={(e) => handleActiveBuilding(e, block)}
@@ -138,7 +134,7 @@ function BuildingsInterface(): JSX.Element {
                 >
                   <img
                     alt={block.title}
-                    className="BuildingsInterface__image"
+                    className="Buildings__image"
                     src={block.images}
                     title={block.title}
                   />
@@ -149,19 +145,18 @@ function BuildingsInterface(): JSX.Element {
         );
       })}
       <div
-        className={classNames("BuildingsInterface__category", {
-          "BuildingsInterface__category--active":
-            selectedTool === BuildingTool.Remove,
+        className={classNames("Buildings__category", {
+          "Buildings__category--active": selectedTool === BuildingTool.Remove,
         })}
       >
         <button
-          className="BuildingsInterface__button BuildingsInterface__button--tool"
+          className="Buildings__button Buildings__button--tool"
           onClick={handleActiveTool}
           type="button"
         >
           <img
             alt="Remove"
-            className="BuildingsInterface__image"
+            className="Buildings__image"
             src="/assets/categories/remove.png"
             title="Remove"
           />
@@ -171,4 +166,4 @@ function BuildingsInterface(): JSX.Element {
   );
 }
 
-export default BuildingsInterface;
+export default Buildings;
