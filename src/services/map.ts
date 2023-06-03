@@ -59,20 +59,9 @@ export function getCellType(block: IBuildingBlock): CellType {
   return CellType.Buildings;
 }
 
-export function cloneCell(cell: ICell): ICell {
-  return {
-    ...cell,
-    buildings:
-      cell.buildings instanceof Array ? [...cell.buildings] : cell.buildings,
-    land: cell.land instanceof Array ? [...cell.land] : cell.land,
-    landform:
-      cell.landform instanceof Array ? [...cell.landform] : cell.landform,
-  };
-}
-
 export function addBlockToBoard(block: IBuildingBlock, cell: ICell): ICell {
   const type = getCellType(block);
-  const newCell = cloneCell(cell);
+  const newCell = structuredClone(cell);
 
   if (
     block.connections?.includes(Connection.Tunnel) &&
