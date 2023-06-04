@@ -1,3 +1,5 @@
+import type { IResources, IStorages } from "./resources";
+
 export enum GroundType {
   Ground = "ground",
   Underground = "underground",
@@ -57,8 +59,11 @@ export interface IBuildingBlock extends IBlock {
   conditions: IBuildingCondition;
   connections?: Connection[];
   errors?: BlockError[];
+  income?: Partial<IResources>;
   needSun?: boolean;
   only?: GroundType;
+  resources?: Partial<IResources>;
+  storage?: Partial<IStorages>;
   title: string;
 }
 

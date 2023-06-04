@@ -11,6 +11,7 @@ import rawLandBlocks from "../data/land-blocks.json";
 export const DISABLED_BLOCK_URL = "/assets/disabled.png";
 export const BUILDABLE_BLOCK_URL = "/assets/buildable.png";
 export const HYDRATED_BLOCK_URL = "/assets/natural/land/fertile-soil1.png";
+export const RESOURCE_PATH = "/assets/resources/";
 
 export const BLOCK_SIZE = 64;
 

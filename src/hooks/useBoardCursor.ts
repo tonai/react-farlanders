@@ -8,6 +8,7 @@ import { BLOCK_SIZE } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
 import { getBuildingState, isBuildable, isRemovable } from "../services/board";
 import { addBlockToMap, removeBlockFromMap } from "../services/map";
+import { addResources } from "../services/resources";
 
 export interface IBoardCursorHook {
   onClick: (event: ReactMouseEvent<HTMLDivElement>) => void;
@@ -22,8 +23,15 @@ export function useBoardCursor(
   imageMap: Map<number, IImage>,
   level = 0
 ): IBoardCursorHook {
-  const { map, selectedBuilding, selectedTool, setMap, setSelectedTile, view } =
-    useContext(gameContext);
+  const {
+    map,
+    selectedBuilding,
+    selectedTool,
+    setMap,
+    setResources,
+    setSelectedTile,
+    view,
+  } = useContext(gameContext);
 
   useEffect(() => {
     if (cursorEl.current) {
@@ -139,6 +147,12 @@ export function useBoardCursor(
       if (selectedBuilding) {
         if (isBuildable(map[level], y - 1, x, selectedBuilding)) {
           setMap((map) => addBlockToMap(map, selectedBuilding, point));
+          const { resources } = selectedBuilding;
+          if (resources) {
+            setResources((prevResources) =>
+              addResources(prevResources, resources)
+            );
+          }
         }
       } else if (selectedTool) {
         if (isRemovable(map[level], y - 1, x, view)) {

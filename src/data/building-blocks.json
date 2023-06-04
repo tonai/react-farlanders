@@ -63,7 +63,10 @@
     "conditions": {
       "land": [1, 2]
     },
-    "connections": ["power-line"]
+    "connections": ["power-line"],
+    "income": {
+      "power": 3
+    }
   },
   {
     "id": "solar-panel",
@@ -76,7 +79,10 @@
       "land": [1, 2]
     },
     "connections": ["power-line"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "power": 3
+    }
   },
   {
     "id": "capacitor",
@@ -87,7 +93,10 @@
     "conditions": {
       "land": [1, 2]
     },
-    "connections": ["power-line"]
+    "connections": ["power-line"],
+    "storage": {
+      "power": 40
+    }
   },
   {
     "id": "geothermal-power-plant",
@@ -98,7 +107,10 @@
     "conditions": {
       "landform": [12]
     },
-    "connections": ["reinforced-power-line"]
+    "connections": ["reinforced-power-line"],
+    "income": {
+      "power": 60
+    }
   },
   {
     "id": "water-condenser",
@@ -110,7 +122,10 @@
     "conditions": {
       "land": [1, 2]
     },
-    "connections": ["pipe"]
+    "connections": ["pipe"],
+    "income": {
+      "water": 2
+    }
   },
   {
     "id": "water-pump",
@@ -121,7 +136,10 @@
     "conditions": {
       "landform": [20]
     },
-    "connections": ["power-line", "reinforced-pipe"]
+    "connections": ["power-line", "reinforced-pipe"],
+    "income": {
+      "water": 32
+    }
   },
   {
     "id": "water-tank",
@@ -132,7 +150,10 @@
     "conditions": {
       "land": [2]
     },
-    "connections": ["pipe"]
+    "connections": ["pipe"],
+    "storage": {
+      "water": 100
+    }
   },
   {
     "id": "greenhouse",
@@ -146,7 +167,10 @@
       "state": "hydrated"
     },
     "connections": ["power-line", "pipe", "tunnel"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "food": 5
+    }
   },
   {
     "id": "food-silo",
@@ -157,7 +181,10 @@
     "conditions": {
       "land": [2]
     },
-    "connections": ["power-line", "tunnel"]
+    "connections": ["power-line", "tunnel"],
+    "storage": {
+      "food": 5
+    }
   },
   {
     "id": "spice-greenhouse",
@@ -170,7 +197,10 @@
       "buildings": [123]
     },
     "connections": ["power-line", "pipe", "tunnel"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "spices": 6
+    }
   },
   {
     "id": "ground-hydrator",
@@ -203,7 +233,10 @@
     "category": "water-agriculture",
     "only": "underground",
     "title": "Hydroponic farm",
-    "connections": ["power-line", "pipe", "tunnel"]
+    "connections": ["power-line", "pipe", "tunnel"],
+    "income": {
+      "food": 5
+    }
   },
   {
     "id": "hydro-fertilizer",
@@ -224,7 +257,28 @@
     "conditions": {
       "land": [1, 2]
     },
-    "connections": ["reinforced-power-line", "reinforced-pipe", "tunnel"]
+    "connections": ["reinforced-power-line", "reinforced-pipe", "tunnel"],
+    "income": {
+      "power": 10,
+      "water": 10,
+      "food": 10,
+      "refined-metal": 10,
+      "glass": 5
+    },
+    "storage": {
+      "power": 20,
+      "water": 50,
+      "food": 50,
+      "refined-metal": 200,
+      "glass": 100
+    },
+    "resources": {
+      "money": 5000,
+      "water": 50,
+      "food": 50,
+      "refined-metal": 200,
+      "glass": 100
+    }
   },
   {
     "id": "basic-house",
@@ -300,7 +354,10 @@
     "conditions": {
       "land": [1, 2]
     },
-    "connections": ["reinforced-power-line", "pipe", "tunnel"]
+    "connections": ["reinforced-power-line", "pipe", "tunnel"],
+    "income": {
+      "money": 300
+    }
   },
   {
     "id": "park",
@@ -314,7 +371,10 @@
       "state": "hydrated"
     },
     "connections": ["power-line", "reinforced-pipe", "tunnel"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "money": 150
+    }
   },
   {
     "id": "statue",
@@ -357,7 +417,10 @@
     "conditions": {
       "landform": [14]
     },
-    "connections": ["power-line", "tunnel"]
+    "connections": ["power-line", "tunnel"],
+    "income": {
+      "refined-metal": 30
+    }
   },
   {
     "id": "mineral-deposit",
@@ -368,7 +431,10 @@
     "conditions": {
       "land": [2]
     },
-    "connections": ["tunnel"]
+    "connections": ["tunnel"],
+    "storage": {
+      "refined-metal": 100
+    }
   },
   {
     "id": "glass-refinery",
@@ -379,7 +445,10 @@
     "conditions": {
       "landform": [13]
     },
-    "connections": ["power-line", "tunnel"]
+    "connections": ["power-line", "tunnel"],
+    "income": {
+      "glass": 15
+    }
   },
   {
     "id": "glass-deposit",
@@ -390,7 +459,10 @@
     "conditions": {
       "land": [2]
     },
-    "connections": ["tunnel"]
+    "connections": ["tunnel"],
+    "storage": {
+      "glass": 50
+    }
   },
   {
     "id": "electronics-fabricator",
@@ -401,7 +473,10 @@
     "conditions": {
       "landform": [21]
     },
-    "connections": ["reinforced-power-line", "tunnel"]
+    "connections": ["reinforced-power-line", "tunnel"],
+    "income": {
+      "electronics": 4
+    }
   },
   {
     "id": "landing-platform",
@@ -526,7 +601,10 @@
       "state": "bio"
     },
     "connections": ["power-line", "pipe"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "money": 10
+    }
   },
   {
     "id": "moss",
@@ -540,7 +618,10 @@
       "state": "bio"
     },
     "connections": ["power-line", "pipe"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "money": 25
+    }
   },
   {
     "id": "grass",
@@ -554,7 +635,10 @@
       "state": "bio"
     },
     "connections": ["power-line", "pipe"],
-    "needSun": true
+    "needSun": true,
+    "income": {
+      "money": 100
+    }
   },
   {
     "id": "aquatic-ecosystem",
@@ -567,7 +651,10 @@
       "landform": [20],
       "state": "bio"
     },
-    "connections": ["power-line"]
+    "connections": ["power-line"],
+    "income": {
+      "money": 100
+    }
   },
   {
     "id": "fungi",
@@ -576,6 +663,9 @@
     "category": "biomatter",
     "only": "underground",
     "title": "Fungi",
-    "connections": ["power-line", "pipe"]
+    "connections": ["power-line", "pipe"],
+    "income": {
+      "money": 10
+    }
   }
 ]

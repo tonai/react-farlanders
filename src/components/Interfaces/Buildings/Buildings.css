@@ -1,12 +1,12 @@
 .Buildings {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 0;
+  left: 0;
   padding: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
-  border-radius: 10px;
+  border-radius: 0 10px 0 0;
   background: rgb(34 34 34 / 80%);
 }
 
