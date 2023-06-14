@@ -1,6 +1,6 @@
 import type { BuildingTool, IBuildingBlock } from "./block";
 import type { IConnectionBoard, IMap, IMapBlock } from "./map";
-import type { IResources, IStorages } from "./resources";
+import type { IConsumptions, IResources, IStorages } from "./resources";
 import type { Dispatch, SetStateAction } from "react";
 
 export enum View {
@@ -16,8 +16,9 @@ export interface IPoint {
 
 export interface IGameContext {
   colonyLevel: number;
+  consumptions: IConsumptions;
   depth: number;
-  income: IResources;
+  incomes: IResources;
   map: IMapBlock;
   power: IConnectionBoard;
   resources: IResources;
@@ -30,7 +31,7 @@ export interface IGameContext {
   setSelectedTile: Dispatch<SetStateAction<IPoint | undefined>>;
   setSelectedTool: Dispatch<SetStateAction<BuildingTool | undefined>>;
   setView: Dispatch<SetStateAction<View>>;
-  storage: IStorages;
+  storages: IStorages;
   tunnels: IConnectionBoard;
   view: View;
   water: IConnectionBoard;

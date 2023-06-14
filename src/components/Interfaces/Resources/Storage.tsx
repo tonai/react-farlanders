@@ -15,7 +15,7 @@ function Storage(props: IStorageProps): JSX.Element {
 
   return (
     <div className="Resources__item">
-      <img alt="Money" src={`${RESOURCE_PATH}${type}.png`} />
+      <img alt={type} src={`${RESOURCE_PATH}${type}.png`} />
       <div className="Resources__group">
         <div className="Resources__resource">
           <div className="Resources__total">{resource}</div>

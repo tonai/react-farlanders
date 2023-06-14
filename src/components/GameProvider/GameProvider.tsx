@@ -17,7 +17,11 @@ import testMap from "../../data/map.json";
 import { getBase } from "../../services/board";
 import { getConnections } from "../../services/connections";
 import { getMapBlock } from "../../services/map";
-import { getIncome, getStorage } from "../../services/resources";
+import {
+  getConsumptions,
+  getIncomes,
+  getStorages,
+} from "../../services/resources";
 import { BuildingTool } from "../../types/block";
 import { View } from "../../types/game";
 import { CellType } from "../../types/map";
@@ -37,6 +41,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
     electronics: 0,
     food: 0,
     glass: 0,
+    house: 0,
     money: 0,
     power: 0,
     "refined-metal": 0,
@@ -88,13 +93,15 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       getMapBlock(map, tunnels, power, reinforcedPower, water, reinforcedWater),
     [map, tunnels, power, reinforcedPower, reinforcedWater, water]
   );
-  const income = useMemo(() => getIncome(blockMap), [blockMap]);
-  const storage = useMemo(() => getStorage(blockMap), [blockMap]);
+  const incomes = useMemo(() => getIncomes(blockMap), [blockMap]);
+  const storages = useMemo(() => getStorages(blockMap), [blockMap]);
+  const consumptions = useMemo(() => getConsumptions(blockMap), [blockMap]);
   const contextValue = useMemo(
     () => ({
       colonyLevel,
+      consumptions,
       depth,
-      income,
+      incomes,
       map: blockMap,
       power,
       resources,
@@ -107,7 +114,7 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       setSelectedTile,
       setSelectedTool,
       setView,
-      storage,
+      storages,
       tunnels,
       view,
       water,
@@ -115,13 +122,14 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
     [
       blockMap,
       colonyLevel,
-      income,
+      consumptions,
+      incomes,
       power,
       resources,
       selectedBuilding,
       selectedTile,
       selectedTool,
-      storage,
+      storages,
       tunnels,
       view,
       water,

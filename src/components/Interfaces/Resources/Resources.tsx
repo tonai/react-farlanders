@@ -1,70 +1,73 @@
 import { useContext } from "react";
 
-import electronics from "../../../../public/assets/resources/electronics.png";
-import money from "../../../../public/assets/resources/money.png";
-import spices from "../../../../public/assets/resources/spices.png";
-import terraTech from "../../../../public/assets/resources/terra-tech.png";
+import electronicsImg from "../../../../public/assets/resources/electronics.png";
+import moneyImg from "../../../../public/assets/resources/money.png";
+import spicesImg from "../../../../public/assets/resources/spices.png";
+import terraTechImg from "../../../../public/assets/resources/terra-tech.png";
 import { gameContext } from "../../../contexts/game";
 
 import "./Resources.css";
 import Storage from "./Storage";
 
 function Resources(): JSX.Element {
-  const { income, resources, storage } = useContext(gameContext);
+  const { consumptions, incomes, resources, storages } =
+    useContext(gameContext);
 
   return (
     <div className="Resources">
       <div className="Resources__row">
         <div className="Resources__item Resources__item--big">
-          <img alt="Money" src={money} />
+          <img alt="Money" src={moneyImg} />
           <div className="Resources__total">{resources.money}</div>
-          <div className="Resources__income">{income.money}</div>
+          <div className="Resources__income">{incomes.money}</div>
         </div>
         <div className="Resources__item">
-          <img alt="Money" src={terraTech} />
+          <img alt="TerraTech" src={terraTechImg} />
           <div className="Resources__total">{resources["terra-tech"]}</div>
-          <div className="Resources__income">{income["terra-tech"]}</div>
+          <div className="Resources__income">{incomes["terra-tech"]}</div>
         </div>
         <div className="Resources__item">
-          <img alt="Money" src={spices} />
+          <img alt="Spices" src={spicesImg} />
           <div className="Resources__total">{resources.spices}</div>
-          <div className="Resources__income">{income.spices}</div>
+          <div className="Resources__income">
+            {incomes.spices - consumptions.spices}
+          </div>
         </div>
         <div className="Resources__item">
-          <img alt="Money" src={electronics} />
+          <img alt="Electronics" src={electronicsImg} />
           <div className="Resources__total">{resources.electronics}</div>
-          <div className="Resources__income">{income.electronics}</div>
+          <div className="Resources__income">{incomes.electronics}</div>
         </div>
       </div>
       <div className="Resources__row">
         <Storage
-          income={income.power}
+          income={incomes.power - consumptions.power - resources.house}
           resource={resources.power}
-          storage={storage.power}
+          storage={storages.power}
           type="power"
         />
         <Storage
-          income={income.water}
+          income={incomes.water - consumptions.water - resources.house}
           resource={resources.water}
-          storage={storage.water}
+          storage={storages.water}
           type="water"
         />
         <Storage
-          income={income.food}
+          income={incomes.food - resources.house}
           resource={resources.food}
-          storage={storage.food}
+          storage={storages.food}
           type="food"
         />
         <Storage
-          income={income["refined-metal"]}
+          income={incomes["refined-metal"]}
           resource={resources["refined-metal"]}
-          storage={storage["refined-metal"]}
+          storage={storages["refined-metal"]}
           type="refined-metal"
         />
         <Storage
-          income={income.glass}
+          income={incomes.glass}
           resource={resources.glass}
-          storage={storage.glass}
+          storage={storages.glass}
           type="glass"
         />
       </div>

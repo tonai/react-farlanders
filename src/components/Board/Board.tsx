@@ -85,8 +85,4 @@ function Board(props: IBoardProps): JSX.Element {
   );
 }
 
-Board.defaultProps = {
-  level: 0,
-};
-
 export default Board;

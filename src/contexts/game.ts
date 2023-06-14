@@ -6,11 +6,18 @@ import { View } from "../types/game";
 
 export const gameContext = createContext<IGameContext>({
   colonyLevel: 0,
+  consumptions: {
+    power: 0,
+    spices: 0,
+    water: 0,
+    worker: 0,
+  },
   depth: 0,
-  income: {
+  incomes: {
     electronics: 0,
     food: 0,
     glass: 0,
+    house: 0,
     money: 0,
     power: 0,
     "refined-metal": 0,
@@ -26,6 +33,7 @@ export const gameContext = createContext<IGameContext>({
     electronics: 0,
     food: 0,
     glass: 0,
+    house: 0,
     money: 0,
     power: 0,
     "refined-metal": 0,
@@ -39,9 +47,10 @@ export const gameContext = createContext<IGameContext>({
   setSelectedTile: () => undefined,
   setSelectedTool: () => undefined,
   setView: () => undefined,
-  storage: {
+  storages: {
     food: 0,
     glass: 0,
+    house: 0,
     power: 0,
     "refined-metal": 0,
     water: 0,

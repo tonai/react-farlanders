@@ -1,5 +1,13 @@
+import type { IBuildingBlock } from "../types/block";
 import type { IMapBlock } from "../types/map";
-import type { IResources, IStorages } from "../types/resources";
+import type {
+  Consumption,
+  IConsumptions,
+  IResources,
+  IStorages,
+  Resource,
+  Storage,
+} from "../types/resources";
 
 import { isBuildingBlock, isEnabled } from "./block";
 import { getCellBlock } from "./map";
@@ -16,36 +24,29 @@ export function addResources<T extends Record<string, number>>(
   ) as T;
 }
 
-export function addBoardResources<T extends Record<string, number>>(
+export function addBoardResources(
   map: IMapBlock,
-  resources: T,
-  type: "income" | "storage"
+  addFn: (buildingBlock: IBuildingBlock) => void
 ): void {
   const boards = Object.values(map);
   for (const board of boards) {
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
         const buildingBlock = getCellBlock(board[i][j].buildings);
-        if (
-          isBuildingBlock(buildingBlock) &&
-          isEnabled(buildingBlock) &&
-          buildingBlock[type]
-        ) {
-          for (const storage in buildingBlock[type]) {
-            // @ts-expect-error complex typing
-            resources[storage] += buildingBlock[type][storage];
-          }
+        if (isBuildingBlock(buildingBlock) && isEnabled(buildingBlock)) {
+          addFn(buildingBlock);
         }
       }
     }
   }
 }
 
-export function getIncome(map: IMapBlock): IResources {
-  const income: IResources = {
+export function getIncomes(map: IMapBlock): IResources {
+  const incomes: IResources = {
     electronics: 0,
     food: 0,
     glass: 0,
+    house: 0,
     money: 0,
     power: 0,
     "refined-metal": 0,
@@ -53,18 +54,49 @@ export function getIncome(map: IMapBlock): IResources {
     "terra-tech": 0,
     water: 0,
   };
-  addBoardResources(map, income, "income");
-  return income;
+  addBoardResources(map, (buildingBlock: IBuildingBlock) => {
+    if (buildingBlock.income) {
+      for (const key in buildingBlock.income) {
+        incomes[key as Resource] += buildingBlock.income[key as Resource] ?? 0;
+      }
+    }
+  });
+  return incomes;
 }
 
-export function getStorage(map: IMapBlock): IStorages {
+export function getStorages(map: IMapBlock): IStorages {
   const storages: IStorages = {
     food: 0,
     glass: 0,
+    house: 0,
     power: 0,
     "refined-metal": 0,
     water: 0,
   };
-  addBoardResources(map, storages, "storage");
+  addBoardResources(map, (buildingBlock: IBuildingBlock) => {
+    if (buildingBlock.storage) {
+      for (const key in buildingBlock.storage) {
+        storages[key as Storage] += buildingBlock.storage[key as Storage] ?? 0;
+      }
+    }
+  });
   return storages;
+}
+
+export function getConsumptions(map: IMapBlock): IConsumptions {
+  const consumptions: IConsumptions = {
+    power: 0,
+    spices: 0,
+    water: 0,
+    worker: 0,
+  };
+  addBoardResources(map, (buildingBlock: IBuildingBlock) => {
+    if (buildingBlock.consumption) {
+      for (const key in buildingBlock.consumption) {
+        consumptions[key as Consumption] +=
+          buildingBlock.consumption[key as Consumption] ?? 0;
+      }
+    }
+  });
+  return consumptions;
 }

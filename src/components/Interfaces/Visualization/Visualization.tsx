@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { useContext } from "react";
 
-import buildings from "../../../../public/assets/visualization/buildings.png";
-import power from "../../../../public/assets/visualization/power.png";
-import water from "../../../../public/assets/visualization/water.png";
+import buildingsImg from "../../../../public/assets/visualization/buildings.png";
+import powerImg from "../../../../public/assets/visualization/power.png";
+import waterImg from "../../../../public/assets/visualization/water.png";
 import { gameContext } from "../../../contexts/game";
 import { View } from "../../../types/game";
 
@@ -28,7 +28,7 @@ function Visualization(): JSX.Element {
         <img
           alt="Toogle full view"
           className="Visualization__image"
-          src={buildings}
+          src={buildingsImg}
         />
       </button>
       <button
@@ -41,7 +41,7 @@ function Visualization(): JSX.Element {
         <img
           alt="Toogle power view"
           className="Visualization__image"
-          src={power}
+          src={powerImg}
         />
       </button>
       <button
@@ -54,7 +54,7 @@ function Visualization(): JSX.Element {
         <img
           alt="Toogle water view"
           className="Visualization__image"
-          src={water}
+          src={waterImg}
         />
       </button>
     </div>

@@ -1,22 +1,32 @@
 export enum Resource {
-  Money = "money",
-  TerraTech = "terra-tech",
-  Spices = "spices",
   Electronic = "electronics",
-  Power = "power",
-  Water = "water",
   Food = "food",
-  RefinedMetal = "refined-metal",
+  House = "house",
   Glass = "glass",
+  Power = "power",
+  Money = "money",
+  RefinedMetal = "refined-metal",
+  Spices = "spices",
+  TerraTech = "terra-tech",
+  Water = "water",
 }
 
 export enum Storage {
-  Power = "power",
-  Water = "water",
   Food = "food",
-  RefinedMetal = "refined-metal",
   Glass = "glass",
+  House = "house",
+  Power = "power",
+  RefinedMetal = "refined-metal",
+  Water = "water",
+}
+
+export enum Consumption {
+  Power = "power",
+  Spices = "spices",
+  Water = "water",
+  Worker = "worker",
 }
 
 export type IResources = Record<Resource, number>;
 export type IStorages = Record<Storage, number>;
+export type IConsumptions = Record<Consumption, number>;
