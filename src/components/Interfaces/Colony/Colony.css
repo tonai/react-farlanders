@@ -1,0 +1,71 @@
+.Colony {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.Colony__group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgb(34 34 34 / 80%);
+}
+
+.Colony__level {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.Colony__level::before {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 5px;
+  left: 5px;
+  border-radius: 50%;
+  background-color: #000;
+}
+
+.Colony__level > span {
+  position: relative;
+  font-size: 2rem;
+}
+
+.Colony__row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.Colony__col {
+  display: flex;
+  flex-direction: column;
+}
+
+.Colony__big {
+  font-size: 1.5rem;
+}
+
+.Colony__houses {
+  min-width: 130px;
+}
+
+.Colony__workers {
+  min-width: 80px;
+}
+
+.Colony--error {
+  color: #f00;
+}
