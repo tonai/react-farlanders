@@ -8,6 +8,9 @@
     "conditions": {
       "land": [1, 2, 3],
       "landform": [0, 12, 13, 14, 17, 20, 21]
+    },
+    "cost": {
+      "refined-metal": 3
     }
   },
   {
@@ -19,6 +22,10 @@
     "conditions": {
       "land": [1, 2, 3],
       "landform": [0, 12, 13, 14, 17, 20, 21]
+    },
+    "cost": {
+      "glass": 1,
+      "refined-metal": 4
     }
   },
   {
@@ -30,6 +37,9 @@
     "conditions": {
       "land": [1, 2, 3],
       "landform": [0, 12, 13, 14, 17, 20, 21]
+    },
+    "cost": {
+      "refined-metal": 3
     }
   },
   {
@@ -41,6 +51,10 @@
     "conditions": {
       "land": [1, 2, 3],
       "landform": [0, 12, 13, 14, 17, 20, 21]
+    },
+    "cost": {
+      "glass": 1,
+      "refined-metal": 4
     }
   },
   {
@@ -51,6 +65,9 @@
     "title": "Tunnel",
     "conditions": {
       "land": [1, 2]
+    },
+    "cost": {
+      "refined-metal": 8
     }
   },
   {
@@ -66,6 +83,9 @@
     "connections": ["power-line"],
     "income": {
       "power": 3
+    },
+    "cost": {
+      "refined-metal": 18
     }
   },
   {
@@ -82,6 +102,10 @@
     "needSun": true,
     "income": {
       "power": 3
+    },
+    "cost": {
+      "glass": 7,
+      "refined-metal": 4
     }
   },
   {
@@ -96,6 +120,10 @@
     "connections": ["power-line"],
     "storage": {
       "power": 40
+    },
+    "cost": {
+      "glass": 4,
+      "refined-metal": 12
     }
   },
   {
@@ -110,6 +138,12 @@
     "connections": ["reinforced-power-line"],
     "income": {
       "power": 60
+    },
+    "cost": {
+      "electronics": 6,
+      "glass": 10,
+      "refined-metal": 30,
+      "terra-tech": 1
     }
   },
   {
@@ -125,6 +159,10 @@
     "connections": ["pipe"],
     "income": {
       "water": 2
+    },
+    "cost": {
+      "glass": 10,
+      "refined-metal": 4
     }
   },
   {
@@ -143,6 +181,10 @@
     "consumption": {
       "power": 8,
       "worker": 1
+    },
+    "cost": {
+      "glass": 5,
+      "refined-metal": 35
     }
   },
   {
@@ -157,6 +199,10 @@
     "connections": ["pipe"],
     "storage": {
       "water": 100
+    },
+    "cost": {
+      "glass": 2,
+      "refined-metal": 21
     }
   },
   {
@@ -179,6 +225,9 @@
       "power": 2,
       "worker": 4,
       "water": 1
+    },
+    "cost": {
+      "refined-metal": 20
     }
   },
   {
@@ -193,6 +242,10 @@
     "connections": ["power-line", "tunnel"],
     "storage": {
       "food": 5
+    },
+    "cost": {
+      "glass": 5,
+      "refined-metal": 15
     }
   },
   {
@@ -214,6 +267,11 @@
       "power": 4,
       "worker": 6,
       "water": 2
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 4,
+      "refined-metal": 20
     }
   },
   {
@@ -230,6 +288,11 @@
     "consumption": {
       "power": 1,
       "water": 8
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 2,
+      "refined-metal": 10
     }
   },
   {
@@ -246,6 +309,11 @@
     "consumption": {
       "power": 10,
       "water": 40
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 5,
+      "refined-metal": 20
     }
   },
   {
@@ -300,7 +368,8 @@
       "food": 50,
       "refined-metal": 200,
       "glass": 100
-    }
+    },
+    "cost": {}
   },
   {
     "id": "basic-house",
@@ -318,6 +387,9 @@
     },
     "consumption": {
       "power": 4
+    },
+    "cost": {
+      "refined-metal": 18
     }
   },
   {
@@ -336,6 +408,10 @@
     },
     "consumption": {
       "power": 2
+    },
+    "cost": {
+      "glass": 8,
+      "refined-metal": 18
     }
   },
   {
@@ -354,6 +430,11 @@
     },
     "consumption": {
       "power": 2
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 11,
+      "refined-metal": 18
     }
   },
   {
@@ -388,6 +469,10 @@
       "power": 4,
       "worker": 4,
       "water": 2
+    },
+    "cost": {
+      "glass": 12,
+      "refined-metal": 21
     }
   },
   {
@@ -408,6 +493,12 @@
       "spices": 6,
       "worker": 8,
       "water": 4
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 20,
+      "refined-metal": 40,
+      "spices": 4
     }
   },
   {
@@ -431,6 +522,12 @@
       "worker": 8,
       "water": 10,
       "spices": 3
+    },
+    "cost": {
+      "electronics": 4,
+      "glass": 25,
+      "refined-metal": 20,
+      "terra-tech": 1
     }
   },
   {
@@ -446,6 +543,12 @@
     "connections": ["power-line"],
     "consumption": {
       "power": 4
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 20,
+      "refined-metal": 40,
+      "terra-tech": 1
     }
   },
   {
@@ -461,6 +564,12 @@
     "consumption": {
       "power": 10,
       "worker": 2
+    },
+    "cost": {
+      "electronics": 4,
+      "glass": 35,
+      "refined-metal": 40,
+      "terra-tech": 1
     }
   },
   {
@@ -488,6 +597,9 @@
     "consumption": {
       "power": 4,
       "worker": 5
+    },
+    "cost": {
+      "refined-metal": 30
     }
   },
   {
@@ -502,6 +614,10 @@
     "connections": ["tunnel"],
     "storage": {
       "refined-metal": 100
+    },
+    "cost": {
+      "glass": 5,
+      "refined-metal": 15
     }
   },
   {
@@ -520,6 +636,9 @@
     "consumption": {
       "power": 4,
       "worker": 5
+    },
+    "cost": {
+      "refined-metal": 30
     }
   },
   {
@@ -534,6 +653,10 @@
     "connections": ["tunnel"],
     "storage": {
       "glass": 50
+    },
+    "cost": {
+      "glass": 5,
+      "refined-metal": 15
     }
   },
   {
@@ -552,6 +675,10 @@
     "consumption": {
       "power": 10,
       "worker": 5
+    },
+    "cost": {
+      "glass": 10,
+      "refined-metal": 20
     }
   },
   {
@@ -564,6 +691,9 @@
     "conditions": {
       "land": [1, 2],
       "state": "platform"
+    },
+    "cost": {
+      "refined-metal": 25
     }
   },
   {
@@ -578,6 +708,11 @@
     "connections": ["power-line"],
     "consumption": {
       "power": 1
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 3,
+      "refined-metal": 4
     }
   },
   {
@@ -594,6 +729,11 @@
     "consumption": {
       "power": 1,
       "worker": 2
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 5,
+      "refined-metal": 10
     }
   },
   {
@@ -609,6 +749,11 @@
     "connections": ["power-line", "tunnel"],
     "consumption": {
       "power": 2
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 10,
+      "refined-metal": 30
     }
   },
   {
@@ -623,6 +768,11 @@
     "connections": ["reinforced-power-line", "tunnel"],
     "consumption": {
       "power": 8
+    },
+    "cost": {
+      "electronics": 4,
+      "glass": 22,
+      "refined-metal": 25
     }
   },
   {
@@ -639,6 +789,12 @@
     "consumption": {
       "power": 2,
       "water": 6
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 5,
+      "refined-metal": 10,
+      "terra-tech": 1
     }
   },
   {
@@ -654,6 +810,12 @@
     "needSun": true,
     "consumption": {
       "power": 8
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 5,
+      "refined-metal": 10,
+      "terra-tech": 1
     }
   },
   {
@@ -664,6 +826,12 @@
     "title": "Explosives",
     "conditions": {
       "land": [1, 2, 3]
+    },
+    "cost": {
+      "electronics": 1,
+      "glass": 1,
+      "refined-metal": 8,
+      "terra-tech": 1
     }
   },
   {
@@ -672,7 +840,13 @@
     "sid": 173,
     "category": "terraformation",
     "only": "underground",
-    "title": "Drill"
+    "title": "Drill",
+    "cost": {
+      "electronics": 2,
+      "glass": 6,
+      "refined-metal": 12,
+      "terra-tech": 1
+    }
   },
   {
     "id": "bio-storehouse",
@@ -687,6 +861,11 @@
     "consumption": {
       "power": 2,
       "worker": 2
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 5,
+      "refined-metal": 20
     }
   },
   {
@@ -729,6 +908,10 @@
     "consumption": {
       "power": 1,
       "water": 1
+    },
+    "cost": {
+      "refined-metal": 6,
+      "spices": 2
     }
   },
   {
@@ -751,6 +934,10 @@
       "power": 1,
       "spices": 1,
       "water": 1
+    },
+    "cost": {
+      "refined-metal": 6,
+      "spices": 2
     }
   },
   {
@@ -770,6 +957,12 @@
     },
     "consumption": {
       "power": 4
+    },
+    "cost": {
+      "electronics": 2,
+      "glass": 5,
+      "refined-metal": 40,
+      "terra-tech": 1
     }
   },
   {

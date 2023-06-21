@@ -24,3 +24,27 @@ export function intersect(cellSids?: ISid, sids?: ISid): boolean {
   }
   return cellSids === sids;
 }
+
+export function addResources<T extends Record<string, number>>(
+  resources: T,
+  addResources: Partial<T>
+): T {
+  return Object.fromEntries(
+    Object.entries(resources).map(([resource, value]) => [
+      resource,
+      value + (addResources[resource] ?? 0),
+    ])
+  ) as T;
+}
+
+export function subtractResources<T extends Record<string, number>>(
+  resources: T,
+  subtractResources: T
+): T {
+  return Object.fromEntries(
+    Object.entries(resources).map(([key, value]) => [
+      key,
+      value - (subtractResources[key] ?? 0),
+    ])
+  ) as T;
+}

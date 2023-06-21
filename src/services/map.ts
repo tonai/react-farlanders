@@ -133,10 +133,25 @@ export function addBlockToMap(
   };
 }
 
-export function removeBlockFromMap(
+export function getRemovedBlockInfo(
   map: IMap,
   point: IPoint,
   view: View = View.Buildings,
+  depth = 0
+): [number, CellType] {
+  const cell = map[depth][point.y - 1][point.x];
+  const cellSids = cell[view];
+  const sid = getCellBlockSid(cellSids);
+  if (sid === 0 && cell.tunnel) {
+    return [cell.tunnel, CellType.Tunnel];
+  }
+  return [sid ?? 0, view as unknown as CellType];
+}
+
+export function removeBlockFromMap(
+  map: IMap,
+  point: IPoint,
+  cellType: CellType = CellType.Buildings,
   depth = 0
 ): IMap {
   const board = map[depth];
@@ -145,17 +160,10 @@ export function removeBlockFromMap(
     [depth]: board.map((row, j) =>
       row.map((cell, i) => {
         if (i === point.x && j === point.y - 1) {
-          const cellSids = cell[view];
-          const sid = getCellBlockSid(cellSids);
-          if (sid === 0 && cell.tunnel) {
-            return {
-              ...cell,
-              tunnel: 0,
-            };
-          }
+          const cellSids = cell[cellType];
           return {
             ...cell,
-            [view]: cellSids instanceof Array ? cellSids[0] : 0,
+            [cellType]: cellSids instanceof Array ? cellSids[0] : 0,
           };
         }
         return cell;

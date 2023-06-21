@@ -33,15 +33,12 @@
 }
 
 .Resources__income--positive {
+  content: "+";
   color: #0f0;
 }
 
 .Resources__income--negative {
   color: #f00;
-}
-
-.Resources__income::before {
-  content: "+";
 }
 
 .Resources__group {
@@ -75,6 +72,7 @@
 
 .Resources__bar {
   background: #00f;
+  transition: all ease 500ms;
 }
 
 .Resources__bar--overflow {

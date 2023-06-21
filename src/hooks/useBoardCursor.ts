@@ -1,14 +1,20 @@
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
+import type { IResources } from "../types/resources";
 import type { MouseEvent as ReactMouseEvent, RefObject } from "react";
 
 import { useCallback, useContext, useEffect } from "react";
 
-import { BLOCK_SIZE } from "../constants/blocks";
+import { BLOCK_SIZE, buildingBlocksMap } from "../constants/blocks";
 import { gameContext } from "../contexts/game";
 import { getBuildingState, isBuildable, isRemovable } from "../services/board";
-import { addBlockToMap, removeBlockFromMap } from "../services/map";
-import { addResources } from "../services/resources";
+import {
+  addBlockToMap,
+  getRemovedBlockInfo,
+  removeBlockFromMap,
+} from "../services/map";
+import { getCost, getRefund } from "../services/resources";
+import { addResources, subtractResources } from "../services/utils";
 
 export interface IBoardCursorHook {
   onClick: (event: ReactMouseEvent<HTMLDivElement>) => void;
@@ -25,6 +31,7 @@ export function useBoardCursor(
 ): IBoardCursorHook {
   const {
     map,
+    resources,
     selectedBuilding,
     selectedTool,
     setMap,
@@ -101,15 +108,16 @@ export function useBoardCursor(
     if (point && cursorEl.current && stateEl.current) {
       const { x, y } = point;
       cursorEl.current.style.display = "block";
+      const cell = map[level][y - 1][x];
       if (selectedBuilding) {
-        if (isBuildable(map[level], y - 1, x, selectedBuilding)) {
+        if (isBuildable(cell, selectedBuilding, resources)) {
           cursorEl.current.style.filter = "none";
         } else {
           cursorEl.current.style.filter =
             "saturate(0) sepia(1) hue-rotate(-50deg) saturate(4)";
         }
       } else if (selectedTool) {
-        if (isRemovable(map[level], y - 1, x, view)) {
+        if (isRemovable(cell, view)) {
           cursorEl.current.style.backgroundColor = "transparent";
         } else {
           cursorEl.current.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
@@ -144,19 +152,38 @@ export function useBoardCursor(
     const point = getPoint(event.nativeEvent);
     if (point) {
       const { x, y } = point;
+      const cell = map[level][y - 1][x];
       if (selectedBuilding) {
-        if (isBuildable(map[level], y - 1, x, selectedBuilding)) {
+        if (isBuildable(cell, selectedBuilding, resources)) {
           setMap((map) => addBlockToMap(map, selectedBuilding, point));
           const { resources } = selectedBuilding;
+          const cost = getCost(selectedBuilding, cell) as IResources;
           if (resources) {
             setResources((prevResources) =>
-              addResources(prevResources, resources)
+              subtractResources(addResources(prevResources, resources), cost)
+            );
+          } else {
+            setResources((prevResources) =>
+              subtractResources(prevResources, cost)
             );
           }
         }
       } else if (selectedTool) {
-        if (isRemovable(map[level], y - 1, x, view)) {
-          setMap((map) => removeBlockFromMap(map, point, view));
+        if (isRemovable(cell, view)) {
+          setMap((map) => {
+            const [sid, cellType] = getRemovedBlockInfo(map, point, view);
+            const block = buildingBlocksMap.get(sid);
+            if (block) {
+              setResources((prevResources) =>
+                addResources(
+                  prevResources,
+                  getRefund(block, cell) as IResources
+                )
+              );
+            }
+            return removeBlockFromMap(map, point, cellType);
+          });
+          // const cost = getCost(selectedBuilding, cell) as IResources;
         }
       } else {
         showHideElement(selectEl, point);

@@ -1,6 +1,7 @@
 import type {
   IBlockCategories,
   IBlocks,
+  IBuildingBlock,
   IBuildingBlocks,
 } from "../types/block";
 
@@ -53,3 +54,15 @@ export const blockCategoryMap = buildingBlocks.reduce((acc, block) => {
   }
   return acc;
 }, new Map<string, IBuildingBlocks>());
+
+export const powerLinesBlock = buildingBlocksMap.get(
+  POWER_LINES_SID
+) as IBuildingBlock;
+export const reinforcedPowerLinesBlock = buildingBlocksMap.get(
+  REINFORCED_POWER_LINES_SID
+) as IBuildingBlock;
+export const pipesBlock = buildingBlocksMap.get(PIPES_SID) as IBuildingBlock;
+export const reinforcedPipesBlock = buildingBlocksMap.get(
+  REINFORCED_PIPES_SID
+) as IBuildingBlock;
+export const tunnelBlock = buildingBlocksMap.get(TUNNEL_SID) as IBuildingBlock;

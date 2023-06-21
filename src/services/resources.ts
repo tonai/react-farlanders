@@ -1,28 +1,33 @@
 import type { IBuildingBlock } from "../types/block";
-import type { IMapBlock } from "../types/map";
+import type { ICellBlock, IMapBlock } from "../types/map";
 import type {
   Consumption,
   IConsumptions,
+  ICosts,
   IResources,
   IStorages,
   Resource,
   Storage,
 } from "../types/resources";
 
+import {
+  PIPES_SID,
+  PIPES_SIDS,
+  POWER_LINES_SID,
+  POWER_LINES_SIDS,
+  REINFORCED_PIPES_SID,
+  REINFORCED_POWER_LINES_SID,
+  TUNNEL_SID,
+  pipesBlock,
+  powerLinesBlock,
+  reinforcedPipesBlock,
+  reinforcedPowerLinesBlock,
+  tunnelBlock,
+} from "../constants/blocks";
+
 import { isBuildingBlock, isEnabled } from "./block";
 import { getCellBlock } from "./map";
-
-export function addResources<T extends Record<string, number>>(
-  prevResources: T,
-  addResources: Partial<T>
-): T {
-  return Object.fromEntries(
-    Object.entries(prevResources).map(([resource, value]) => [
-      resource,
-      addResources[resource] ?? 0 + value,
-    ])
-  ) as T;
-}
+import { subtractResources } from "./utils";
 
 export function addBoardResources(
   map: IMapBlock,
@@ -99,4 +104,39 @@ export function getConsumptions(map: IMapBlock): IConsumptions {
     }
   });
   return consumptions;
+}
+
+export function getCost(
+  selectedBuilding: IBuildingBlock,
+  cell: ICellBlock
+): Partial<ICosts> {
+  let { cost } = selectedBuilding;
+  if (cell.power && cell.power === POWER_LINES_SID) {
+    cost = subtractResources(cost, powerLinesBlock.cost);
+  } else if (cell.power && cell.power === REINFORCED_POWER_LINES_SID) {
+    cost = subtractResources(cost, reinforcedPowerLinesBlock.cost);
+  }
+  if (cell.water && cell.water === PIPES_SID) {
+    cost = subtractResources(cost, pipesBlock.cost);
+  } else if (cell.water && cell.water === REINFORCED_PIPES_SID) {
+    cost = subtractResources(cost, reinforcedPipesBlock.cost);
+  }
+  if (cell.tunnel) {
+    cost = subtractResources(cost, tunnelBlock.cost);
+  }
+  return cost;
+}
+
+export function getRefund(
+  block: IBuildingBlock,
+  cell: ICellBlock
+): Partial<ICosts> {
+  if (
+    block.sid === TUNNEL_SID ||
+    POWER_LINES_SIDS.includes(block.sid) ||
+    PIPES_SIDS.includes(block.sid)
+  ) {
+    return block.cost;
+  }
+  return getCost(block, cell);
 }

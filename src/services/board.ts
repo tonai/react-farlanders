@@ -2,6 +2,7 @@ import type { BlockError, IBlock, IBuildingBlock } from "../types/block";
 import type { IPoint } from "../types/game";
 import type { IImage } from "../types/image";
 import type { IBoardBlock, ICellBlock, IMap } from "../types/map";
+import type { IResources } from "../types/resources";
 
 import {
   BASE_SID,
@@ -19,6 +20,8 @@ import { DrawableCellType } from "../types/map";
 
 import { hasState, isBlocks, isBuildingBlock, isSid } from "./block";
 import { getCellBlock, getCellBlockSid } from "./map";
+import { getCost } from "./resources";
+import { subtractResources } from "./utils";
 
 export function isBuildingCorrect(
   selectedBuilding: IBuildingBlock,
@@ -48,22 +51,33 @@ export function isLandCorrect(
   );
 }
 
-export function isBuildable(
-  board: IBoardBlock,
-  i: number,
-  j: number,
-  selectedBuilding: IBuildingBlock
+export function hasResources(
+  selectedBuilding: IBuildingBlock,
+  cell: ICellBlock,
+  resources: IResources
 ): boolean {
-  if (
-    POWER_LINES_SIDS.includes(selectedBuilding.sid) ||
-    PIPES_SIDS.includes(selectedBuilding.sid)
-  ) {
-    return isLandCorrect(selectedBuilding, board[i][j]);
-  }
-  return (
-    isBuildingCorrect(selectedBuilding, board[i][j]) &&
-    isLandCorrect(selectedBuilding, board[i][j])
+  const cost = getCost(selectedBuilding, cell);
+  return Object.values(subtractResources(resources, cost)).every(
+    (value) => value >= 0
   );
+}
+
+export function isBuildable(
+  cell: ICellBlock,
+  selectedBuilding: IBuildingBlock,
+  resources?: IResources
+): boolean {
+  let isBuildable = isLandCorrect(selectedBuilding, cell);
+  if (
+    !POWER_LINES_SIDS.includes(selectedBuilding.sid) &&
+    !PIPES_SIDS.includes(selectedBuilding.sid)
+  ) {
+    isBuildable &&= isBuildingCorrect(selectedBuilding, cell);
+  }
+  if (resources) {
+    isBuildable &&= hasResources(selectedBuilding, cell, resources);
+  }
+  return isBuildable;
 }
 
 function getBlockBackground(
@@ -82,7 +96,7 @@ function getBlockBackground(
     return null;
   }
   const backgrounds = [];
-  if (selectedBuilding && isBuildable(board, i, j, selectedBuilding)) {
+  if (selectedBuilding && isBuildable(board[i][j], selectedBuilding)) {
     backgrounds.push(
       `${j * BLOCK_SIZE}px ${
         (i + 1) * BLOCK_SIZE
@@ -177,12 +191,10 @@ export function getBackgroundArray(
 }
 
 export function isRemovable(
-  board: IBoardBlock,
-  i: number,
-  j: number,
+  cell: ICellBlock,
   type: View = View.Buildings
 ): boolean {
-  const blocks = board[i][j][type];
+  const blocks = cell[type];
   if (isBlocks(blocks)) {
     const blockSid = getCellBlock(blocks)?.sid ?? 0;
     return blockSid !== 0 && blockSid !== BASE_SID;
@@ -190,7 +202,7 @@ export function isRemovable(
     const sid = getCellBlockSid(blocks);
     return sid !== 0;
   }
-  const tunnel = getCellBlock(board[i][j].tunnel);
+  const tunnel = getCellBlock(cell.tunnel);
   return Boolean(tunnel);
 }
 
