@@ -1,3 +1,5 @@
+import type { MouseEvent } from "react";
+
 import classNames from "classnames";
 import { useContext } from "react";
 
@@ -10,9 +12,15 @@ import { View } from "../../../types/game";
 import "./Visualization.css";
 
 function Visualization(): JSX.Element {
-  const { setView, view } = useContext(gameContext);
+  const { selectedTool, setView, view } = useContext(gameContext);
 
-  function handleToggleView(view: View): void {
+  function handleToggleView(
+    event: MouseEvent<HTMLButtonElement>,
+    view: View
+  ): void {
+    if (selectedTool) {
+      event.stopPropagation();
+    }
     setView(view);
   }
 
@@ -22,7 +30,7 @@ function Visualization(): JSX.Element {
         className={classNames("Visualization__button", {
           "Visualization__button--active": view === View.Buildings,
         })}
-        onClick={() => handleToggleView(View.Buildings)}
+        onClick={(e) => handleToggleView(e, View.Buildings)}
         type="button"
       >
         <img
@@ -35,7 +43,7 @@ function Visualization(): JSX.Element {
         className={classNames("Visualization__button", {
           "Visualization__button--active": view === View.Power,
         })}
-        onClick={() => handleToggleView(View.Power)}
+        onClick={(e) => handleToggleView(e, View.Power)}
         type="button"
       >
         <img
@@ -48,7 +56,7 @@ function Visualization(): JSX.Element {
         className={classNames("Visualization__button", {
           "Visualization__button--active": view === View.Water,
         })}
-        onClick={() => handleToggleView(View.Water)}
+        onClick={(e) => handleToggleView(e, View.Water)}
         type="button"
       >
         <img

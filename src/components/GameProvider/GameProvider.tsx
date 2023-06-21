@@ -1,4 +1,4 @@
-import type { IBuildingBlock } from "../../types/block";
+import type { BuildingTool, IBuildingBlock } from "../../types/block";
 import type { IPoint } from "../../types/game";
 import type { IMap } from "../../types/map";
 import type { IResources } from "../../types/resources";
@@ -22,7 +22,6 @@ import {
   getIncomes,
   getStorages,
 } from "../../services/resources";
-import { BuildingTool } from "../../types/block";
 import { View } from "../../types/game";
 import { CellType } from "../../types/map";
 
@@ -141,10 +140,10 @@ function GameProvider(props: IGameProviderProps): JSX.Element {
       setView(View.Power);
     } else if (selectedBuilding && PIPES_SIDS.includes(selectedBuilding.sid)) {
       setView(View.Water);
-    } else if (selectedTool !== BuildingTool.Remove) {
+    } else if (selectedBuilding) {
       setView(View.Buildings);
     }
-  }, [selectedBuilding, selectedTool]);
+  }, [selectedBuilding]);
 
   useEffect(() => {
     if (colonyLevel === 0 && basePoint) {
