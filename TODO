@@ -1,0 +1,25 @@
+1. Manage map, board and camera
+2. Manage Buildings and conditions
+3. Manage Tunnels / Power lines / Pipes / Sunlight
+4. Manage resources
+
+Turn
+Residents
+Shortage
+proximity bonuses
+Enable house only if occupied
+Add option to disable a building
+timed and disposables terraforming buildings
+
+Manage colony level
+Manage tech
+Manage trades
+Manage terraforming
+Manage map generation
+
+transform Map into MapBlock at the beginning ?
+
+
+Cons:
+- mutation
+- global state access (context) only possible in components and hooks and not in functions

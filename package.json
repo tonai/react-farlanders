@@ -62,5 +62,8 @@
     "*": "prettier --write --ignore-unknown --ignore-path .gitignore",
     "*.{js,jsx,ts,tsx}": "eslint --fix --max-warnings=0 --ignore-path .gitignore",
     "*.{css,scss,sass}": "stylelint --fix --max-warnings=0 --ignore-path .gitignore"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
