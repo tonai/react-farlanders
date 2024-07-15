@@ -1,77 +1,77 @@
 [
   {
     "id": "sand",
-    "images": "/assets/natural/land/sand1.png",
+    "images": "assets/natural/land/sand1.png",
     "sid": 1
   },
   {
     "id": "ground",
-    "images": "/assets/natural/land/ground1.png",
+    "images": "assets/natural/land/ground1.png",
     "sid": 2
   },
   {
     "id": "wasteland",
-    "images": "/assets/natural/land/wasteland1.png",
+    "images": "assets/natural/land/wasteland1.png",
     "sid": 3
   },
   {
     "id": "canyon",
-    "images": "/assets/natural/landform/canyon1.png",
+    "images": "assets/natural/landform/canyon1.png",
     "sid": 10
   },
   {
     "id": "debris",
-    "images": "/assets/natural/landform/debris1.png",
+    "images": "assets/natural/landform/debris1.png",
     "sid": 11
   },
   {
     "id": "geothermal-source",
-    "images": "/assets/natural/landform/geothermal-source1.png",
+    "images": "assets/natural/landform/geothermal-source1.png",
     "sid": 12
   },
   {
     "id": "glass-deposit",
-    "images": "/assets/natural/landform/glass-deposit1.png",
+    "images": "assets/natural/landform/glass-deposit1.png",
     "sid": 13
   },
   {
     "id": "mineral-deposit",
-    "images": "/assets/natural/landform/mineral-deposit1.png",
+    "images": "assets/natural/landform/mineral-deposit1.png",
     "sid": 14
   },
   {
     "id": "mineral-surface-deposit",
-    "images": "/assets/natural/landform/mineral-surface-deposit1.png",
+    "images": "assets/natural/landform/mineral-surface-deposit1.png",
     "sid": 15
   },
   {
     "id": "mountain",
-    "images": "/assets/natural/landform/mountain1.png",
+    "images": "assets/natural/landform/mountain1.png",
     "sid": 16
   },
   {
     "id": "permanent-ice",
-    "images": "/assets/natural/landform/permanent-ice1.png",
+    "images": "assets/natural/landform/permanent-ice1.png",
     "sid": 17
   },
   {
     "id": "silicon-surface-deposit",
-    "images": "/assets/natural/landform/silicon-surface-deposit1.png",
+    "images": "assets/natural/landform/silicon-surface-deposit1.png",
     "sid": 18
   },
   {
     "id": "underground-passage",
-    "images": "/assets/natural/landform/underground-passage1.png",
+    "images": "assets/natural/landform/underground-passage1.png",
     "sid": 19
   },
   {
     "id": "water",
-    "images": "/assets/natural/landform/water1.png",
+    "images": "assets/natural/landform/water1.png",
     "sid": 20
   },
   {
     "id": "rare-metal-deposit",
-    "images": "/assets/natural/landform/rare-metal-deposit.png",
+    "images": "assets/natural/landform/rare-metal-deposit.png",
     "sid": 21
   }
 ]

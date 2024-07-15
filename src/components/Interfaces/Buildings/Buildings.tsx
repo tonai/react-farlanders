@@ -4,6 +4,7 @@ import type { MouseEvent } from "react";
 import classNames from "classnames";
 import { useCallback, useContext, useEffect, useState } from "react";
 
+import removeImg from "../../../../public/assets/categories/remove.png";
 import {
   BASE_SID,
   blockCategoryMap,
@@ -157,7 +158,7 @@ function Buildings(): JSX.Element {
           <img
             alt="Remove"
             className="Buildings__image"
-            src="/assets/categories/remove.png"
+            src={removeImg}
             title="Remove"
           />
         </button>

@@ -1,7 +1,7 @@
 [
   {
     "id": "power-line",
-    "images": "/assets/buildings/utilities/power-line.png",
+    "images": "assets/buildings/utilities/power-line.png",
     "sid": 100,
     "category": "utilities",
     "title": "Power line",
@@ -15,7 +15,7 @@
   },
   {
     "id": "reinforced-power-line",
-    "images": "/assets/buildings/utilities/reinforced-power-line.png",
+    "images": "assets/buildings/utilities/reinforced-power-line.png",
     "sid": 101,
     "category": "utilities",
     "title": "Reinforced power line",
@@ -30,7 +30,7 @@
   },
   {
     "id": "pipe",
-    "images": "/assets/buildings/utilities/pipe.png",
+    "images": "assets/buildings/utilities/pipe.png",
     "sid": 102,
     "category": "utilities",
     "title": "Pipe",
@@ -44,7 +44,7 @@
   },
   {
     "id": "reinforced-pipe",
-    "images": "/assets/buildings/utilities/reinforced-pipe.png",
+    "images": "assets/buildings/utilities/reinforced-pipe.png",
     "sid": 103,
     "category": "utilities",
     "title": "Reinforced pipe",
@@ -59,7 +59,7 @@
   },
   {
     "id": "tunnel",
-    "images": "/assets/buildings/utilities/tunnel.png",
+    "images": "assets/buildings/utilities/tunnel.png",
     "sid": 104,
     "category": "utilities",
     "title": "Tunnel",
@@ -72,7 +72,7 @@
   },
   {
     "id": "wind-turbine",
-    "images": "/assets/buildings/energy/wind-turbine.png",
+    "images": "assets/buildings/energy/wind-turbine.png",
     "sid": 110,
     "category": "energy",
     "only": "ground",
@@ -90,7 +90,7 @@
   },
   {
     "id": "solar-panel",
-    "images": "/assets/buildings/energy/solar-panel.png",
+    "images": "assets/buildings/energy/solar-panel.png",
     "sid": 111,
     "category": "energy",
     "only": "ground",
@@ -110,7 +110,7 @@
   },
   {
     "id": "capacitor",
-    "images": "/assets/buildings/energy/capacitor.png",
+    "images": "assets/buildings/energy/capacitor.png",
     "sid": 112,
     "category": "energy",
     "title": "Capacitor",
@@ -128,7 +128,7 @@
   },
   {
     "id": "geothermal-power-plant",
-    "images": "/assets/buildings/energy/geothermal-power-plant.png",
+    "images": "assets/buildings/energy/geothermal-power-plant.png",
     "sid": 113,
     "category": "energy",
     "title": "Geothermal power plant",
@@ -148,7 +148,7 @@
   },
   {
     "id": "water-condenser",
-    "images": "/assets/buildings/water-agriculture/water-condenser.png",
+    "images": "assets/buildings/water-agriculture/water-condenser.png",
     "sid": 120,
     "category": "water-agriculture",
     "only": "ground",
@@ -167,7 +167,7 @@
   },
   {
     "id": "water-pump",
-    "images": "/assets/buildings/water-agriculture/water-pump.png",
+    "images": "assets/buildings/water-agriculture/water-pump.png",
     "sid": 121,
     "category": "water-agriculture",
     "title": "Water pump",
@@ -189,7 +189,7 @@
   },
   {
     "id": "water-tank",
-    "images": "/assets/buildings/water-agriculture/water-tank.png",
+    "images": "assets/buildings/water-agriculture/water-tank.png",
     "sid": 122,
     "category": "water-agriculture",
     "title": "Water tank",
@@ -207,7 +207,7 @@
   },
   {
     "id": "greenhouse",
-    "images": "/assets/buildings/water-agriculture/greenhouse.png",
+    "images": "assets/buildings/water-agriculture/greenhouse.png",
     "sid": 123,
     "category": "water-agriculture",
     "only": "ground",
@@ -232,7 +232,7 @@
   },
   {
     "id": "food-silo",
-    "images": "/assets/buildings/water-agriculture/food-silo.png",
+    "images": "assets/buildings/water-agriculture/food-silo.png",
     "sid": 124,
     "category": "water-agriculture",
     "title": "Food-silo",
@@ -250,7 +250,7 @@
   },
   {
     "id": "spice-greenhouse",
-    "images": "/assets/buildings/water-agriculture/spice-greenhouse.png",
+    "images": "assets/buildings/water-agriculture/spice-greenhouse.png",
     "sid": 125,
     "category": "water-agriculture",
     "only": "ground",
@@ -276,7 +276,7 @@
   },
   {
     "id": "ground-hydrator",
-    "images": "/assets/buildings/water-agriculture/ground-hydrator.png",
+    "images": "assets/buildings/water-agriculture/ground-hydrator.png",
     "sid": 126,
     "category": "water-agriculture",
     "only": "ground",
@@ -297,7 +297,7 @@
   },
   {
     "id": "water-dispenser",
-    "images": "/assets/buildings/water-agriculture/water-dispenser.png",
+    "images": "assets/buildings/water-agriculture/water-dispenser.png",
     "sid": 127,
     "category": "water-agriculture",
     "only": "ground",
@@ -318,7 +318,7 @@
   },
   {
     "id": "hydroponic-farm",
-    "images": "/assets/buildings/water-agriculture/hydroponic-farm.png",
+    "images": "assets/buildings/water-agriculture/hydroponic-farm.png",
     "sid": 128,
     "category": "water-agriculture",
     "only": "underground",
@@ -330,7 +330,7 @@
   },
   {
     "id": "hydro-fertilizer",
-    "images": "/assets/buildings/water-agriculture/hydro-fertilizer.png",
+    "images": "assets/buildings/water-agriculture/hydro-fertilizer.png",
     "sid": 129,
     "category": "water-agriculture",
     "only": "underground",
@@ -339,7 +339,7 @@
   },
   {
     "id": "base",
-    "images": "/assets/buildings/habitats/base.png",
+    "images": "assets/buildings/habitats/base.png",
     "sid": 130,
     "category": "habitats",
     "only": "ground",
@@ -373,7 +373,7 @@
   },
   {
     "id": "basic-house",
-    "images": "/assets/buildings/habitats/basic-house.png",
+    "images": "assets/buildings/habitats/basic-house.png",
     "sid": 131,
     "category": "habitats",
     "only": "ground",
@@ -394,7 +394,7 @@
   },
   {
     "id": "house",
-    "images": "/assets/buildings/habitats/house.png",
+    "images": "assets/buildings/habitats/house.png",
     "sid": 132,
     "category": "habitats",
     "only": "ground",
@@ -416,7 +416,7 @@
   },
   {
     "id": "luxury-house",
-    "images": "/assets/buildings/habitats/luxury-house.png",
+    "images": "assets/buildings/habitats/luxury-house.png",
     "sid": 133,
     "category": "habitats",
     "only": "ground",
@@ -439,7 +439,7 @@
   },
   {
     "id": "underground-house",
-    "images": "/assets/buildings/habitats/underground-house.png",
+    "images": "assets/buildings/habitats/underground-house.png",
     "sid": 134,
     "category": "habitats",
     "only": "underground",
@@ -448,7 +448,7 @@
   },
   {
     "id": "lanterns",
-    "images": "/assets/buildings/habitats/lanterns.png",
+    "images": "assets/buildings/habitats/lanterns.png",
     "sid": 135,
     "category": "habitats",
     "only": "underground",
@@ -457,7 +457,7 @@
   },
   {
     "id": "community-center",
-    "images": "/assets/buildings/habitats/community-center.png",
+    "images": "assets/buildings/habitats/community-center.png",
     "sid": 136,
     "category": "habitats",
     "title": "Community center",
@@ -477,7 +477,7 @@
   },
   {
     "id": "restaurant",
-    "images": "/assets/buildings/habitats/restaurant.png",
+    "images": "assets/buildings/habitats/restaurant.png",
     "sid": 137,
     "category": "habitats",
     "title": "Restaurant",
@@ -503,7 +503,7 @@
   },
   {
     "id": "park",
-    "images": "/assets/buildings/habitats/park.png",
+    "images": "assets/buildings/habitats/park.png",
     "sid": 138,
     "category": "habitats",
     "only": "ground",
@@ -532,7 +532,7 @@
   },
   {
     "id": "statue",
-    "images": "/assets/buildings/habitats/statue.png",
+    "images": "assets/buildings/habitats/statue.png",
     "sid": 139,
     "category": "habitats",
     "only": "ground",
@@ -553,7 +553,7 @@
   },
   {
     "id": "swimming-pool",
-    "images": "/assets/buildings/habitats/swimming-pool.png",
+    "images": "assets/buildings/habitats/swimming-pool.png",
     "sid": 140,
     "category": "habitats",
     "title": "Swimming pool",
@@ -574,7 +574,7 @@
   },
   {
     "id": "robotics-gallery",
-    "images": "/assets/buildings/habitats/robotics-gallery.png",
+    "images": "assets/buildings/habitats/robotics-gallery.png",
     "sid": 141,
     "category": "habitats",
     "only": "underground",
@@ -583,7 +583,7 @@
   },
   {
     "id": "factory",
-    "images": "/assets/buildings/production/factory.png",
+    "images": "assets/buildings/production/factory.png",
     "sid": 150,
     "category": "production",
     "title": "Factory",
@@ -604,7 +604,7 @@
   },
   {
     "id": "mineral-deposit",
-    "images": "/assets/buildings/production/mineral-deposit.png",
+    "images": "assets/buildings/production/mineral-deposit.png",
     "sid": 151,
     "category": "production",
     "title": "Mineral deposit",
@@ -622,7 +622,7 @@
   },
   {
     "id": "glass-refinery",
-    "images": "/assets/buildings/production/glass-refinery.png",
+    "images": "assets/buildings/production/glass-refinery.png",
     "sid": 152,
     "category": "production",
     "title": "Glass refinery",
@@ -643,7 +643,7 @@
   },
   {
     "id": "glass-deposit",
-    "images": "/assets/buildings/production/glass-deposit.png",
+    "images": "assets/buildings/production/glass-deposit.png",
     "sid": 153,
     "category": "production",
     "title": "Glass deposit",
@@ -661,7 +661,7 @@
   },
   {
     "id": "electronics-fabricator",
-    "images": "/assets/buildings/production/electronics-fabricator.png",
+    "images": "assets/buildings/production/electronics-fabricator.png",
     "sid": 154,
     "category": "production",
     "title": "Electronics fabricator",
@@ -683,7 +683,7 @@
   },
   {
     "id": "landing-platform",
-    "images": "/assets/buildings/expansion/landing-platform.png",
+    "images": "assets/buildings/expansion/landing-platform.png",
     "sid": 160,
     "category": "expansion",
     "only": "ground",
@@ -698,7 +698,7 @@
   },
   {
     "id": "scanner",
-    "images": "/assets/buildings/expansion/scanner.png",
+    "images": "assets/buildings/expansion/scanner.png",
     "sid": 161,
     "category": "expansion",
     "title": "Scanner",
@@ -717,7 +717,7 @@
   },
   {
     "id": "anomaly-research-camp",
-    "images": "/assets/buildings/expansion/anomaly-research-camp.png",
+    "images": "assets/buildings/expansion/anomaly-research-camp.png",
     "sid": 162,
     "category": "expansion",
     "title": "Anomaly research camp",
@@ -738,7 +738,7 @@
   },
   {
     "id": "spaceport",
-    "images": "/assets/buildings/expansion/spaceport.png",
+    "images": "assets/buildings/expansion/spaceport.png",
     "sid": 163,
     "category": "expansion",
     "only": "ground",
@@ -758,7 +758,7 @@
   },
   {
     "id": "elevator",
-    "images": "/assets/buildings/expansion/elevator.png",
+    "images": "assets/buildings/expansion/elevator.png",
     "sid": 164,
     "category": "expansion",
     "title": "Elevator",
@@ -777,7 +777,7 @@
   },
   {
     "id": "ground-stabilizer",
-    "images": "/assets/buildings/terraformation/ground-stabilizer.png",
+    "images": "assets/buildings/terraformation/ground-stabilizer.png",
     "sid": 170,
     "category": "terraformation",
     "only": "ground",
@@ -799,7 +799,7 @@
   },
   {
     "id": "ice-drill",
-    "images": "/assets/buildings/terraformation/ice-drill.png",
+    "images": "assets/buildings/terraformation/ice-drill.png",
     "sid": 171,
     "category": "terraformation",
     "title": "Ice drill",
@@ -820,7 +820,7 @@
   },
   {
     "id": "explosives",
-    "images": "/assets/buildings/terraformation/explosives.png",
+    "images": "assets/buildings/terraformation/explosives.png",
     "sid": 172,
     "category": "terraformation",
     "title": "Explosives",
@@ -836,7 +836,7 @@
   },
   {
     "id": "drill",
-    "images": "/assets/buildings/terraformation/drill.png",
+    "images": "assets/buildings/terraformation/drill.png",
     "sid": 173,
     "category": "terraformation",
     "only": "underground",
@@ -850,7 +850,7 @@
   },
   {
     "id": "bio-storehouse",
-    "images": "/assets/buildings/biomatter/bio-storehouse.png",
+    "images": "assets/buildings/biomatter/bio-storehouse.png",
     "sid": 180,
     "category": "biomatter",
     "title": "Bio storehouse",
@@ -870,7 +870,7 @@
   },
   {
     "id": "bacteria",
-    "images": "/assets/buildings/biomatter/bacteria.png",
+    "images": "assets/buildings/biomatter/bacteria.png",
     "sid": 181,
     "category": "biomatter",
     "only": "ground",
@@ -891,7 +891,7 @@
   },
   {
     "id": "moss",
-    "images": "/assets/buildings/biomatter/moss.png",
+    "images": "assets/buildings/biomatter/moss.png",
     "sid": 182,
     "category": "biomatter",
     "only": "ground",
@@ -916,7 +916,7 @@
   },
   {
     "id": "grass",
-    "images": "/assets/buildings/biomatter/grass.png",
+    "images": "assets/buildings/biomatter/grass.png",
     "sid": 183,
     "category": "biomatter",
     "only": "ground",
@@ -942,7 +942,7 @@
   },
   {
     "id": "aquatic-ecosystem",
-    "images": "/assets/buildings/biomatter/aquatic-ecosystem.png",
+    "images": "assets/buildings/biomatter/aquatic-ecosystem.png",
     "sid": 184,
     "category": "biomatter",
     "only": "ground",
@@ -967,7 +967,7 @@
   },
   {
     "id": "fungi",
-    "images": "/assets/buildings/biomatter/fungi.png",
+    "images": "assets/buildings/biomatter/fungi.png",
     "sid": 185,
     "category": "biomatter",
     "only": "underground",

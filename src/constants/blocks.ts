@@ -9,10 +9,16 @@ import rawBuildingBlocks from "../data/building-blocks.json";
 import rawBuildingCategories from "../data/buildings-categories.json";
 import rawLandBlocks from "../data/land-blocks.json";
 
-export const DISABLED_BLOCK_URL = "/assets/disabled.png";
-export const BUILDABLE_BLOCK_URL = "/assets/buildable.png";
-export const HYDRATED_BLOCK_URL = "/assets/natural/land/fertile-soil1.png";
-export const RESOURCE_PATH = "/assets/resources/";
+export const DISABLED_BLOCK_URL = `${
+  import.meta.env.BASE_URL
+}assets/disabled.png`;
+export const BUILDABLE_BLOCK_URL = `${
+  import.meta.env.BASE_URL
+}assets/buildable.png`;
+export const HYDRATED_BLOCK_URL = `${
+  import.meta.env.BASE_URL
+}assets/natural/land/fertile-soil1.png`;
+export const RESOURCE_PATH = `${import.meta.env.BASE_URL}assets/resources/`;
 
 export const BLOCK_SIZE = 64;
 
@@ -34,9 +40,18 @@ export const DRYERS = [150, 152, 154];
 export const SPACEPORTS = [BASE_SID, 163];
 export const BIO_STOREHOUSE_SID = 180;
 
-export const landBlocks = rawLandBlocks as IBlocks;
-export const buildingBlocks = rawBuildingBlocks as IBuildingBlocks;
-export const categories = rawBuildingCategories as IBlockCategories;
+export const landBlocks = rawLandBlocks.map((block) => ({
+  ...block,
+  images: import.meta.env.BASE_URL + block.images,
+})) as IBlocks;
+export const buildingBlocks = rawBuildingBlocks.map((block) => ({
+  ...block,
+  images: import.meta.env.BASE_URL + block.images,
+})) as IBuildingBlocks;
+export const categories = rawBuildingCategories.map((block) => ({
+  ...block,
+  images: import.meta.env.BASE_URL + block.images,
+})) as IBlockCategories;
 export const blocks = landBlocks.concat(buildingBlocks);
 
 export const landBlockMap = new Map(

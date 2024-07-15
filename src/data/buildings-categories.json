@@ -1,42 +1,42 @@
 [
   {
     "id": "utilities",
-    "images": "/assets/categories/utilities.png",
+    "images": "assets/categories/utilities.png",
     "title": "Utilities"
   },
   {
     "id": "energy",
-    "images": "/assets/categories/energy.png",
+    "images": "assets/categories/energy.png",
     "title": "Energy"
   },
   {
     "id": "water-agriculture",
-    "images": "/assets/categories/water-agriculture.png",
+    "images": "assets/categories/water-agriculture.png",
     "title": "Water and agriculture"
   },
   {
     "id": "habitats",
-    "images": "/assets/categories/habitats.png",
+    "images": "assets/categories/habitats.png",
     "title": "Habitats"
   },
   {
     "id": "production",
-    "images": "/assets/categories/production.png",
+    "images": "assets/categories/production.png",
     "title": "Production"
   },
   {
     "id": "expansion",
-    "images": "/assets/categories/expansion.png",
+    "images": "assets/categories/expansion.png",
     "title": "Expansion"
   },
   {
     "id": "terraformation",
-    "images": "/assets/categories/terraformation.png",
+    "images": "assets/categories/terraformation.png",
     "title": "Terraformation"
   },
   {
     "id": "biomatter",
-    "images": "/assets/categories/biomatter.png",
+    "images": "assets/categories/biomatter.png",
     "title": "Biomatter"
   }
 ]
